@@ -643,3 +643,208 @@ body.home-page .hero-proof-stat:last-child {
         border-bottom: 0;
     }
 }
+
+/* Refinamento comercial: hierarquia mais serena, contraste e movimento discreto. */
+:root {
+    --soul-transition: 220ms cubic-bezier(.2, .7, .25, 1);
+}
+
+body {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.section-heading h2,
+.page-hero h1,
+.detail-hero h1,
+.final-cta-panel h2 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.018em;
+}
+
+.section-heading p,
+.page-hero p,
+.detail-hero p,
+.final-cta-panel p {
+    max-width: 66ch;
+    font-size: clamp(1rem, 1.2vw, 1.12rem);
+    line-height: 1.7;
+}
+
+header {
+    min-height: 76px;
+    padding: 10px 24px;
+    border-radius: 16px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+header.scrolled {
+    min-height: 68px;
+    padding: 8px 22px;
+    border-color: rgba(199, 161, 90, 0.3);
+}
+
+.header-cta {
+    width: auto !important;
+    min-height: 42px;
+    height: 42px !important;
+    padding: 0 16px;
+    border-radius: 10px !important;
+    border-color: var(--color-gold) !important;
+    background: var(--color-gold) !important;
+    color: var(--color-navy-950) !important;
+    font-family: "Inter", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.header-cta:hover,
+.header-cta:focus-visible {
+    background: var(--color-gold-soft) !important;
+    transform: translateY(-1px);
+}
+
+body.home-page .social-icons > a:not(.header-cta) {
+    display: none;
+}
+
+.btn-v2 {
+    min-height: 50px;
+    border-radius: 12px;
+    font-family: "Inter", sans-serif;
+    letter-spacing: -0.01em;
+}
+
+.btn-v2-primary,
+.btn-v2-whatsapp {
+    color: var(--color-navy-950);
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    box-shadow: 0 14px 30px rgba(199, 161, 90, 0.2);
+}
+
+.btn-v2-primary:hover,
+.btn-v2-whatsapp:hover {
+    background: var(--color-gold-soft);
+    border-color: var(--color-gold-soft);
+    color: var(--color-navy-950);
+}
+
+.btn-v2-secondary {
+    border-color: rgba(247, 244, 238, 0.3);
+    background: transparent;
+}
+
+.btn-v2:focus-visible,
+.header-cta:focus-visible,
+.text-link-v2:focus-visible,
+summary:focus-visible {
+    outline: 3px solid var(--color-gold-soft);
+    outline-offset: 3px;
+}
+
+.text-link-v2 {
+    text-underline-offset: 5px;
+    text-decoration-color: rgba(199, 161, 90, 0.45);
+    transition: color var(--soul-transition), text-decoration-color var(--soul-transition);
+}
+
+.text-link-v2:hover {
+    color: var(--color-gold-soft);
+    text-decoration-color: currentColor;
+}
+
+body.home-page .audience-fusion-panel,
+body.home-page .services-home-panel {
+    border-radius: 22px;
+}
+
+body.home-page .audience-track-bar,
+body.home-page .proof-support-bar {
+    opacity: 0.62;
+}
+
+.soul-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 560ms ease, transform 560ms cubic-bezier(.2, .7, .25, 1);
+    transition-delay: var(--soul-reveal-delay, 0ms);
+}
+
+.soul-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+details > summary {
+    transition: color var(--soul-transition);
+}
+
+details[open] > summary {
+    color: var(--color-gold-soft);
+}
+
+@media (max-width: 980px) {
+    header {
+        min-height: 68px;
+        padding: 9px 18px;
+    }
+
+    .header-cta {
+        display: none !important;
+    }
+
+    body.home-page .hero-home-copy {
+        padding-bottom: 22px;
+    }
+
+    body.home-page .hero-responsible-line {
+        margin-top: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    body.home-page .hero-home-copy {
+        padding-top: 32px;
+        padding-bottom: 18px;
+    }
+
+    body.home-page .hero-eyebrow-stack .eyebrow-label {
+        min-height: 32px;
+        padding: 0 11px;
+        font-size: 0.65rem;
+    }
+
+    body.home-page .hero-home-copy h1 {
+        font-size: clamp(2.45rem, 11.3vw, 3.12rem);
+    }
+
+    body.home-page .hero-home-copy p {
+        font-size: 0.98rem;
+        line-height: 1.58;
+    }
+
+    body.home-page .hero-actions-v2 {
+        margin-top: 18px;
+    }
+
+    .soul-reveal {
+        transform: none;
+        transition-duration: 260ms;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .soul-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+    }
+}

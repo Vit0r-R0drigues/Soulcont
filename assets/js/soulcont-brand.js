@@ -59,10 +59,69 @@
         });
     }
 
+    function initEditorialReveals() {
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const candidates = document.querySelectorAll(
+            '.section-block .section-panel, .section-block .soulcont-feature-story, .section-block .final-cta-panel, .section-block .proof-strip'
+        );
+
+        candidates.forEach((element, index) => {
+            if (element.closest('.hero-section')) return;
+            element.classList.add('soul-reveal');
+            element.style.setProperty('--soul-reveal-delay', `${Math.min(index % 3, 2) * 70}ms`);
+        });
+
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+            candidates.forEach((element) => element.classList.add('is-visible'));
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+        candidates.forEach((element) => observer.observe(element));
+    }
+
+    function initFaqBehavior() {
+        document.querySelectorAll('.soulcont-faq__grid, .faq-details').forEach((group) => {
+            const items = Array.from(group.querySelectorAll('details'));
+            items.forEach((item) => {
+                const summary = item.querySelector('summary');
+                if (!summary) return;
+
+                summary.setAttribute('aria-expanded', String(item.open));
+                item.addEventListener('toggle', () => {
+                    summary.setAttribute('aria-expanded', String(item.open));
+                    if (!item.open) return;
+                    items.forEach((other) => {
+                        if (other !== item) other.open = false;
+                    });
+                });
+            });
+        });
+    }
+
+    function initHeaderState() {
+        const header = document.querySelector('header');
+        if (!header) return;
+
+        const update = () => header.classList.toggle('scrolled', window.scrollY > 16);
+        update();
+        window.addEventListener('scroll', update, { passive: true });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         installWordmark();
         installHomePortraits();
         installLeonardoProfile();
         installSecondWhatsApp();
+        initEditorialReveals();
+        initFaqBehavior();
+        initHeaderState();
     });
 }());
