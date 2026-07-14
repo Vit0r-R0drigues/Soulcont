@@ -15,19 +15,15 @@
         if (!card) return;
 
         card.innerHTML = `
-            <div class="soulcont-team-hero">
-                <span class="soulcont-team-hero__label">Pessoas por trás dos números</span>
-                <div class="soulcont-team-hero__photos">
-                    <figure class="soulcont-team-hero__person">
-                        <img src="/assets/img/soulcont/vitor-rodrigues-perfil-3x4.webp" alt="Vitor Rodrigues de Lima, contador responsável da SoulCont" width="720" height="960">
-                        <figcaption class="soulcont-team-hero__caption">Vitor Rodrigues de Lima<span>Contador responsavel · CRC SP353836</span></figcaption>
-                    </figure>
-                    <figure class="soulcont-team-hero__person">
-                        <img src="/assets/img/soulcont/leonardo-silva-retrato-3x4.webp" alt="Leonardo Silva de Sousa, contador responsável da SoulCont" width="720" height="960">
-                        <figcaption class="soulcont-team-hero__caption">Leonardo Silva de Sousa<span>Contador · CRCCE 024206/O5</span></figcaption>
-                    </figure>
-                </div>
-                <p class="soulcont-team-hero__copy">Dois contadores responsáveis para conectar rotina, tributos e decisões empresariais com clareza.</p>
+            <div class="soulcont-editorial-portraits">
+                <figure class="soulcont-editorial-portrait soulcont-editorial-portrait--vitor">
+                    <img src="/assets/img/soulcont/vitor-rodrigues-hero.webp" alt="Vitor Rodrigues de Lima, contador responsável da SoulCont" width="2048" height="1152">
+                    <figcaption><strong>Vitor Rodrigues de Lima</strong><span>Contador responsável · CRC SP353836</span></figcaption>
+                </figure>
+                <figure class="soulcont-editorial-portrait soulcont-editorial-portrait--leonardo">
+                    <img src="/assets/img/soulcont/leonardo-silva-hero.webp" alt="Leonardo Silva de Sousa, contador responsável da SoulCont" width="2048" height="1152">
+                    <figcaption><strong>Leonardo Silva de Sousa</strong><span>Contador responsável · CRCCE 024206/O5</span></figcaption>
+                </figure>
             </div>`;
     }
 
