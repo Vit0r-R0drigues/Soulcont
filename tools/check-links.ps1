@@ -3,7 +3,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$htmlFiles = Get-ChildItem -Path $Root -Recurse -File -Filter *.html
+$htmlFiles = Get-ChildItem -Path $Root -Recurse -File -Filter *.html | Where-Object {
+    $_.FullName -notmatch '[\\/](node_modules|\.git|\.playwright-cli)[\\/]'
+}
 $pattern = '(?i)(?<attr>href|src)\s*=\s*[''"](?<path>[^''"]+)[''"]'
 $missing = @()
 

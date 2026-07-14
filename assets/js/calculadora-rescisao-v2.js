@@ -1,6 +1,6 @@
 /**
  * Calculadora de Rescisão Trabalhista v2
- * VL Contabilidade Empresarial
+ * SoulCont
  *
  * Lógica jurídica/fiscal:
  *  - 7 cenários CLT (sem justa causa, pedido, justa causa, acordo 484-A,
@@ -780,7 +780,7 @@ function limpar() {
   });
 
   const defaults = {
-    r_empresa: 'VL Contabilidade Empresarial',
+    r_empresa: 'SoulCont',
     r_variavel: '0', r_dependentes: '0',
     r_irrf_modo: 'melhor', r_motivo: 'sem_justa_causa',
     r_aviso_tipo: 'nenhum', r_aviso_dias: '0',

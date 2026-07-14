@@ -17,4 +17,4 @@ Ajudar o prestador de serviço a entender se a empresa está organizada, se o en
 
 ## CTA central
 
-Quer entender se sua empresa está no caminho certo? Chame a VL Contabilidade e solicite um diagnóstico inicial.
+Quer entender se sua empresa está no caminho certo? Chame a SoulCont e solicite um diagnóstico inicial.

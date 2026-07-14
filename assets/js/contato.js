@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const linhas = [
-            'Ola! Quero falar com a VL Contabilidade Empresarial.',
+            'Olá! Quero falar com a SoulCont.',
             campos.nome ? `Nome: ${campos.nome}` : '',
             campos.telefone ? `Telefone: ${campos.telefone}` : '',
             campos.email ? `Email: ${campos.email}` : '',
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             campos.momento ? `Momento atual: ${campos.momento}` : '',
             campos.mensagem ? `Contexto: ${campos.mensagem}` : '',
             '',
-            'Gostaria de entender o melhor proximo passo com a VL.'
+            'Gostaria de entender o melhor próximo passo com a SoulCont.'
         ].filter(Boolean);
 
         const url = `https://wa.me/${telefoneDestino}?text=${encodeURIComponent(linhas.join('\n'))}`;

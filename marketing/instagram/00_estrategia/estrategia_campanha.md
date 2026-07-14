@@ -1,6 +1,6 @@
 # Estratégia da campanha
 
-Marca: **VL Contabilidade Empresarial**
+Marca: **SoulCont**
 
 Oferta central: **Diagnóstico Contábil para Prestadores de Serviço**
 

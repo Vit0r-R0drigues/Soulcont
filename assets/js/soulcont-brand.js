@@ -42,8 +42,8 @@
                 <img src="/assets/img/soulcont/leonardo-silva-retrato-3x4.webp" alt="Leonardo Silva de Sousa">
                 <div>
                     <strong>Leonardo Silva de Sousa</strong>
-                    <span>Contador · CRCCE 024206/O5</span>
-                    <p class="copy-muted">Atendimento proximo e orientacao pratica para que cada cliente saiba qual e o proximo passo.</p>
+                    <span>Contador responsável · Registro profissional: CRCCE 024206/O5</span>
+                    <p class="copy-muted">Atendimento próximo e orientação prática, em pé de igualdade com Vitor, para que cada cliente saiba qual é o próximo passo.</p>
                 </div>
             </div>`);
     }

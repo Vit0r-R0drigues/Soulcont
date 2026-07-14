@@ -105,7 +105,7 @@
         if (el.calcDescription) el.calcDescription.textContent = definition.pageDescription;
         renderBadges(definition.badges);
         if (el.calcular) el.calcular.textContent = definition.calculateLabel || 'Calcular';
-        document.title = `${definition.pageTitle} - VL Contabilidade`;
+        document.title = `${definition.pageTitle} - SoulCont`;
         const metaDescription = document.querySelector('meta[name="description"]');
         if (metaDescription) metaDescription.setAttribute('content', definition.pageDescription);
     }
@@ -311,7 +311,7 @@
 
         if (el.ctaEspecialista) {
             const message = [
-                'Oi, VL! Fiz uma simulacao no site e quero analisar meu caso.',
+                'Olá, SoulCont! Fiz uma simulação no site e quero analisar meu caso.',
                 `Calculadora: ${definition.pageTitle}.`,
                 summary
             ].join('\n');

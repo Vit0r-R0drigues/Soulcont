@@ -1,6 +1,6 @@
-# VL Contabilidade Empresarial - Website
+# SoulCont - Website
 
-Este é o repositório oficial do website da VL Contabilidade Empresarial, um escritório de contabilidade digital especializado em soluções empresariais completas.
+Este é o repositório oficial do website da SoulCont, um escritório de contabilidade digital especializado em soluções empresariais completas.
 
 ## 📚 Estrutura do Projeto
 
@@ -134,9 +134,9 @@ Para contribuir com o projeto:
 
 ## 📫 Contato
 
-- Email: contato@vlcontabilidadeempresarial.com.br
+- Email: contato@soulcont.com
 - WhatsApp: (11) 91653-9680
-- Instagram: [@vl_contabilidade_empresarial](https://www.instagram.com/vl_contabilidade_empresarial/)
+- Instagram: [@soulcontt](https://www.instagram.com/soulcontt/)
 - YouTube: [@contabilidadeempresarial](https://www.youtube.com/@contabilidadeempresarial)
 
 ## 📄 Licença

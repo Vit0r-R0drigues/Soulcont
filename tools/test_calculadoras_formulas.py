@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression tests for calculator formulas used in VL Contabilidade pages."""
+"""Regression tests for calculator formulas used in SoulCont pages."""
 
 from __future__ import annotations
 

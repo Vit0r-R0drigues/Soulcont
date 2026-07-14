@@ -3,6 +3,17 @@
     --soul-navy: #0f2233;
     --soul-gold: #c8a86b;
     --soul-ivory: #f4f1ea;
+    --color-navy-950: #071b2e;
+    --color-navy-800: #0d2e4a;
+    --color-cream: #f7f4ee;
+    --color-gold: #c7a15a;
+    --color-gold-soft: #e8d4a7;
+    --color-ink: #182431;
+    --color-muted: #66727e;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --container: 1200px;
 }
 
 header .logo a.soulcont-wordmark,
@@ -95,6 +106,37 @@ header .logo a.soulcont-wordmark,
     line-height: 1.6;
 }
 
+.hero-responsible-line {
+    max-width: 530px;
+    margin: 20px 0 0;
+    color: var(--vl-text-soft);
+    font-size: 0.78rem;
+    line-height: 1.55;
+}
+
+.hero-actions-v2 .btn-v2-primary {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-navy-950);
+}
+
+.hero-actions-v2 .btn-v2-secondary {
+    border-color: rgba(232, 212, 167, 0.72);
+    background: transparent;
+    color: var(--soul-ivory);
+}
+
+.hero-proof-stat strong {
+    min-height: 0;
+    color: var(--soul-ivory);
+    font-size: clamp(1rem, 1.45vw, 1.25rem);
+    line-height: 1.35;
+}
+
+.hero-proof-stat p {
+    margin-top: 7px;
+}
+
 .soulcont-faq__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -137,8 +179,63 @@ header .logo a.soulcont-wordmark,
     object-fit: cover;
 }
 
+.soulcont-feature-section {
+    padding-top: 28px;
+}
+
+.soulcont-feature-story {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: clamp(28px, 6vw, 84px);
+}
+
+.soulcont-feature-story--reverse {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+}
+
+.soulcont-feature-story__image {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--color-navy-950);
+}
+
+.soulcont-feature-story__image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+}
+
+.soulcont-feature-story__copy h2 {
+    max-width: 18ch;
+    margin: 16px 0;
+    color: var(--vl-navy);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 3.5vw, 3.35rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+}
+
+.soulcont-feature-story__copy p {
+    max-width: 58ch;
+    color: var(--vl-text-soft);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.soulcont-feature-story__copy .text-link-v2 {
+    display: inline-flex;
+    margin-top: 8px;
+}
+
 @media (max-width: 860px) {
     .soulcont-faq__grid { grid-template-columns: 1fr; }
+    .soulcont-feature-story,
+    .soulcont-feature-story--reverse { grid-template-columns: 1fr; gap: 28px; }
+    .soulcont-feature-story--reverse .soulcont-feature-story__copy { order: 2; }
     .soulcont-team-member { grid-template-columns: 1fr; text-align: center; }
     .soulcont-team-member img { margin: 0 auto; }
 }
