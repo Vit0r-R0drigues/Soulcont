@@ -1,0 +1,24 @@
+# Banco de CTAs
+
+- Chame a VL no WhatsApp e entenda os próximos passos.
+- Solicite um diagnóstico contábil inicial.
+- Antes de abrir empresa, fale com quem entende do processo.
+- Quer trocar de contador com segurança? Fale com a VL.
+- Sua empresa cresceu? Vamos analisar o melhor caminho.
+- Prestador de serviço, sua tributação merece atenção.
+- Organize sua empresa com orientação contábil clara.
+- Peça uma análise inicial antes de decidir no achismo.
+- Quer revisar o enquadramento da empresa? Converse com a VL.
+- Fale com a VL e veja como organizar sua rotina contábil.
+- Conte com uma contabilidade consultiva para a próxima fase.
+- Chame no WhatsApp e explique o momento da sua empresa.
+- Vamos avaliar se sua empresa está no caminho certo.
+- Abra seu CNPJ com mais clareza desde o começo.
+- Receba orientação para emitir notas com mais segurança.
+- Entenda quais documentos sua contabilidade precisa acompanhar.
+- Planeje a saída do MEI antes que vire urgência.
+- Peça apoio para separar finanças pessoais e empresariais.
+- Converse com a VL antes de mudar seu regime ou enquadramento.
+- Transforme dúvida contábil em decisão mais segura.
+- Fale com a VL para entender sua situação sem compromisso de publicação.
+- Leve sua dúvida para uma análise responsável e individualizada.
