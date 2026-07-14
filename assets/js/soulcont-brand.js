@@ -16,23 +16,23 @@
 
         card.innerHTML = `
             <div class="soulcont-team-hero">
-                <span class="soulcont-team-hero__label">Pessoas por tras dos numeros</span>
+                <span class="soulcont-team-hero__label">Pessoas por trás dos números</span>
                 <div class="soulcont-team-hero__photos">
                     <figure class="soulcont-team-hero__person">
-                        <img src="/assets/img/soulcont/vitor-rodrigues-hero.webp" alt="Vitor Rodrigues de Lima, contador responsavel da SoulCont">
+                        <img src="/assets/img/soulcont/vitor-rodrigues-perfil-3x4.webp" alt="Vitor Rodrigues de Lima, contador responsável da SoulCont" width="720" height="960">
                         <figcaption class="soulcont-team-hero__caption">Vitor Rodrigues de Lima<span>Contador responsavel · CRC SP353836</span></figcaption>
                     </figure>
                     <figure class="soulcont-team-hero__person">
-                        <img src="/assets/img/soulcont/leonardo-silva-hero.webp" alt="Leonardo Silva de Sousa, profissional da SoulCont">
+                        <img src="/assets/img/soulcont/leonardo-silva-retrato-3x4.webp" alt="Leonardo Silva de Sousa, contador responsável da SoulCont" width="720" height="960">
                         <figcaption class="soulcont-team-hero__caption">Leonardo Silva de Sousa<span>Contador · CRCCE 024206/O5</span></figcaption>
                     </figure>
                 </div>
-                <p class="soulcont-team-hero__copy">Uma equipe presente para conectar rotina contabil, tributos e decisao empresarial com clareza.</p>
+                <p class="soulcont-team-hero__copy">Dois contadores responsáveis para conectar rotina, tributos e decisões empresariais com clareza.</p>
             </div>`;
     }
 
     function installLeonardoProfile() {
-        if (document.body.dataset.page !== 'about') return;
+        if (document.body.dataset.page !== 'about' && document.body.dataset.page !== 'home') return;
 
         const profile = document.querySelector('.responsible-card .founder-profile');
         if (!profile || document.querySelector('.soulcont-team-member')) return;
