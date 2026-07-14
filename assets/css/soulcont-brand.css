@@ -1,0 +1,124 @@
+/* Camada de marca SoulCont: adicionada sobre a interface existente sem alterar componentes funcionais. */
+:root {
+    --soul-navy: #0f2233;
+    --soul-gold: #c8a86b;
+    --soul-ivory: #f4f1ea;
+}
+
+header .logo a.soulcont-wordmark,
+.footer-brand-v2 a.soulcont-wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.08em;
+    color: var(--soul-ivory);
+    font-family: "Syne", "Inter", sans-serif;
+    font-size: clamp(1.15rem, 2.4vw, 1.65rem);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.footer-brand-v2 a.soulcont-wordmark {
+    margin-bottom: 16px;
+}
+
+.soulcont-wordmark strong {
+    color: var(--soul-gold);
+    font-weight: 800;
+}
+
+.soulcont-team-hero {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 16px;
+    min-height: 100%;
+}
+
+.soulcont-team-hero__label {
+    color: var(--soul-gold);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.soulcont-team-hero__photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    min-height: 355px;
+}
+
+.soulcont-team-hero__person {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(200, 168, 107, 0.26);
+    border-radius: 18px;
+    background: #122940;
+}
+
+.soulcont-team-hero__person img {
+    width: 100%;
+    height: 100%;
+    min-height: 355px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.soulcont-team-hero__person:first-child img { object-position: 41% center; }
+.soulcont-team-hero__person:last-child img { object-position: 58% center; }
+
+.soulcont-team-hero__caption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 34px 13px 13px;
+    background: linear-gradient(transparent, rgba(8, 20, 32, 0.96));
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.soulcont-team-hero__caption span {
+    display: block;
+    margin-top: 4px;
+    color: var(--soul-gold);
+    font-size: 0.68rem;
+    font-weight: 500;
+}
+
+.soulcont-team-hero__copy {
+    margin: 0;
+    color: var(--vl-text-soft);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.soulcont-team-member {
+    grid-template-columns: 120px minmax(0, 1fr);
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--vl-line);
+}
+
+.soulcont-team-member img {
+    width: 120px;
+    height: 120px;
+    border-radius: 28px;
+    object-fit: cover;
+}
+
+@media (max-width: 860px) {
+    .soulcont-team-hero__photos { min-height: 300px; }
+    .soulcont-team-hero__person img { min-height: 300px; }
+    .soulcont-team-member { grid-template-columns: 1fr; text-align: center; }
+    .soulcont-team-member img { margin: 0 auto; }
+}
+
+@media (max-width: 480px) {
+    .soulcont-team-hero__photos { min-height: 250px; gap: 7px; }
+    .soulcont-team-hero__person { border-radius: 14px; }
+    .soulcont-team-hero__person img { min-height: 250px; }
+    .soulcont-team-hero__caption { font-size: 0.7rem; padding: 28px 9px 9px; }
+}

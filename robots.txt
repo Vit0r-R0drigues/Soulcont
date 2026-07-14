@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://vlcontabilidadeempresarial.com.br/sitemap.xml
+Sitemap: https://soulcontt.com.br/sitemap.xml
 
 Disallow: /admin/
 Disallow: /includes/ 
