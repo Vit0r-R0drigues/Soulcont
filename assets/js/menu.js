@@ -22,6 +22,7 @@ class MobileMenu {
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
         this.handleLinkClick = this.handleLinkClick.bind(this);
         this.handleEscape = this.handleEscape.bind(this);
+        this.handleFocusTrap = this.handleFocusTrap.bind(this);
 
         this.init();
         MobileMenu.instance = this;
@@ -46,13 +47,36 @@ class MobileMenu {
         }
 
         this.setButtonGlyph(false);
+        this.ensureAccessibleStructure();
         this.menuBtn.addEventListener('click', this.toggleMenu);
         document.addEventListener('click', this.handleDocumentClick);
         document.addEventListener('keydown', this.handleEscape);
+        document.addEventListener('keydown', this.handleFocusTrap);
 
         this.navMenu.querySelectorAll('a').forEach((link) => {
             link.addEventListener('click', this.handleLinkClick);
         });
+    }
+
+    ensureAccessibleStructure() {
+        if (!this.navMenu.id) {
+            this.navMenu.id = 'navegacao-principal';
+        }
+
+        this.menuBtn.setAttribute('aria-controls', this.navMenu.id);
+
+        const main = document.querySelector('main');
+        if (main && !main.id) {
+            main.id = 'conteudo-principal';
+        }
+
+        if (main && !document.querySelector('.skip-link')) {
+            const skipLink = document.createElement('a');
+            skipLink.className = 'skip-link';
+            skipLink.href = `#${main.id}`;
+            skipLink.textContent = 'Pular para o conteúdo principal';
+            document.body.prepend(skipLink);
+        }
     }
 
     toggleMenu(event) {
@@ -67,9 +91,15 @@ class MobileMenu {
 
         this.menuBtn.setAttribute('aria-expanded', String(isActive));
         document.body.style.overflow = isActive ? 'hidden' : '';
+        this.setBackgroundInert(isActive);
+
+        if (isActive) {
+            const firstLink = this.navMenu.querySelector('a');
+            firstLink?.focus();
+        }
     }
 
-    closeMenu() {
+    closeMenu(restoreFocus = true) {
         if (!this.navMenu.classList.contains('active')) {
             return;
         }
@@ -79,6 +109,20 @@ class MobileMenu {
         this.setButtonGlyph(false);
         this.menuBtn?.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        this.setBackgroundInert(false);
+
+        if (restoreFocus) {
+            this.menuBtn?.focus();
+        }
+    }
+
+    setBackgroundInert(isInert) {
+        document.querySelectorAll('main, footer, .social-icons, .whatsapp-float').forEach((element) => {
+            if ('inert' in element) {
+                element.inert = isInert;
+            }
+            element.toggleAttribute('aria-hidden', isInert);
+        });
     }
 
     setButtonGlyph(isActive) {
@@ -121,6 +165,32 @@ class MobileMenu {
         }
     }
 
+    handleFocusTrap(event) {
+        if (event.key !== 'Tab' || !this.navMenu.classList.contains('active')) {
+            return;
+        }
+
+        const focusable = Array.from(this.navMenu.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])'))
+            .filter((element) => !element.hasAttribute('disabled'));
+
+        if (focusable.length === 0) {
+            event.preventDefault();
+            this.menuBtn?.focus();
+            return;
+        }
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
+    }
+
     destroy() {
         this.closeMenu();
 
@@ -130,6 +200,7 @@ class MobileMenu {
 
         document.removeEventListener('click', this.handleDocumentClick);
         document.removeEventListener('keydown', this.handleEscape);
+        document.removeEventListener('keydown', this.handleFocusTrap);
 
         this.navMenu?.querySelectorAll('a').forEach((link) => {
             link.removeEventListener('click', this.handleLinkClick);
@@ -146,6 +217,32 @@ function initMobileMenu() {
         }
     } else if (MobileMenu.instance) {
         MobileMenu.instance.destroy();
+    }
+}
+
+function ensureGlobalAccessibility() {
+    const navMenu = document.querySelector('header nav, .site-header nav');
+    const menuBtn = document.getElementById('btn-mobile');
+    const main = document.querySelector('main');
+
+    if (navMenu && !navMenu.id) {
+        navMenu.id = 'navegacao-principal';
+    }
+
+    if (menuBtn && navMenu) {
+        menuBtn.setAttribute('aria-controls', navMenu.id);
+    }
+
+    if (main && !main.id) {
+        main.id = 'conteudo-principal';
+    }
+
+    if (main && !document.querySelector('.skip-link')) {
+        const skipLink = document.createElement('a');
+        skipLink.className = 'skip-link';
+        skipLink.href = `#${main.id}`;
+        skipLink.textContent = 'Pular para o conteúdo principal';
+        document.body.prepend(skipLink);
     }
 }
 
@@ -178,6 +275,41 @@ function enhanceExternalLinks() {
         relValues.add('noopener');
         relValues.add('noreferrer');
         link.setAttribute('rel', Array.from(relValues).join(' '));
+    });
+}
+
+function routeGenericWhatsAppLinks() {
+    const chooserUrl = '/HTML/contatos.html#escolher-whatsapp';
+    const directContactPattern = /vitor|leonardo|são paulo|ceará|\(11\)|\(88\)|91653|92179/i;
+
+    document.querySelectorAll('a[href*="wa.me/"]').forEach((link) => {
+        const context = `${link.textContent || ''} ${link.getAttribute('title') || ''} ${link.getAttribute('aria-label') || ''}`;
+
+        if (directContactPattern.test(context)) {
+            return;
+        }
+
+        link.href = chooserUrl;
+        link.removeAttribute('target');
+        link.removeAttribute('rel');
+        link.setAttribute('aria-label', 'Escolher WhatsApp da SoulCont');
+        link.setAttribute('title', 'Escolher WhatsApp da SoulCont');
+    });
+}
+
+function tagDirectWhatsAppLinks() {
+    const originLine = 'Origem: Site SoulCont (soulcontt.com.br)';
+
+    document.querySelectorAll('a[href*="wa.me/"]').forEach((link) => {
+        const url = new URL(link.href);
+        const existingText = url.searchParams.get('text') || 'Olá! Quero falar com a SoulCont.';
+
+        if (existingText.includes('Origem: Site SoulCont')) {
+            return;
+        }
+
+        url.searchParams.set('text', `${existingText}\n\n${originLine}\nPágina: ${document.title}`);
+        link.href = url.toString();
     });
 }
 
@@ -227,9 +359,12 @@ window.addEventListener('resize', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    ensureGlobalAccessibility();
     initMobileMenu();
     setLogoLink();
     markActiveLinks();
+    routeGenericWhatsAppLinks();
+    tagDirectWhatsAppLinks();
     enhanceExternalLinks();
     initHeaderScroll();
     initCalculatorHeader();

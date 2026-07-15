@@ -5,7 +5,7 @@ Este é o repositório oficial do website da SoulCont, um escritório de contabi
 ## 📚 Estrutura do Projeto
 
 ```
-VLcontabilidadeempresarial/
+SoulCont/
 ├── ESTILOS/
 │   ├── style.css         # Estilos principais
 │   ├── mediaquery.css    # Estilos responsivos

@@ -2,15 +2,15 @@
 const COOKIE_CONFIG = {
     expiryDays: 365,
     names: {
-        consent: 'vlcont_cookie_consent',
-        analytics: 'vlcont_analytics_cookies',
-        marketing: 'vlcont_marketing_cookies'
+        consent: 'soulcont_cookie_consent',
+        analytics: 'soulcont_analytics_cookies',
+        marketing: 'soulcont_marketing_cookies'
     }
 };
 
 const ANALYTICS_CONFIG = {
     measurementId: 'G-5TQ0YTWHK9',
-    scriptId: 'vl-analytics-script'
+    scriptId: 'soulcont-analytics-script'
 };
 
 function getCookie(name) {
@@ -35,6 +35,7 @@ function hideCookieBanner() {
     const banner = document.querySelector('.cookie-banner');
     if (!banner) return;
     banner.classList.remove('show');
+    document.body.classList.remove('has-cookie-banner');
     setTimeout(() => banner.remove(), 300);
 }
 
@@ -71,6 +72,7 @@ function showCookieBanner() {
     `;
 
     document.body.appendChild(banner);
+    document.body.classList.add('has-cookie-banner');
     requestAnimationFrame(() => banner.classList.add('show'));
 }
 

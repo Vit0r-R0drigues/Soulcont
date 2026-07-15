@@ -3,4 +3,4 @@ Allow: /
 Sitemap: https://soulcontt.com.br/sitemap.xml
 
 Disallow: /admin/
-Disallow: /includes/ 
+Disallow: /includes/
