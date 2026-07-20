@@ -1,3 +1,5 @@
 analise_tecnica_relatorio.html
 .env
+__pycache__/
+*.py[cod]
 .cursor/plans/análise_design_e_ux_site_vl_bed5a0ad.plan.md
