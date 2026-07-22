@@ -127,7 +127,8 @@
             return;
         }
 
-        var headings = Array.from(content.querySelectorAll('h2, h3'));
+        var headingSelector = tocList.getAttribute('data-toc-headings') || 'h2, h3';
+        var headings = Array.from(content.querySelectorAll(headingSelector));
         if (headings.length === 0) {
             return;
         }
