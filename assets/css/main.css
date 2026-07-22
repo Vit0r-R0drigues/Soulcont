@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap');
-
 /* Fontes carregadas via Google Fonts no HTML */
 
 
@@ -11,6 +9,16 @@
     box-sizing: border-box;
 }
 
+/* Reserva o espaço dos ícones enquanto a fonte decorativa carrega sem bloquear a página. */
+i.fi {
+    display: inline-block;
+    width: 1em;
+    min-width: 1em;
+    height: 1em;
+    line-height: 1;
+    vertical-align: -0.125em;
+}
+
 /* Fontes carregadas via <link> no HTML para melhor performance */
 
 :root {
@@ -18,7 +26,7 @@
     --fonte-destaque: 'Cormorant Garamond', serif;
     --fonte-padrao: 'Inter', sans-serif;
     --fonte-legendas: 'Cormorant Garamond', serif;
-    --fonte-botoes: 'Poppins', sans-serif;
+    --fonte-botoes: 'Inter', sans-serif;
 
     /* Paleta de cores para o site */
     --cor-fundo: #0F2233;

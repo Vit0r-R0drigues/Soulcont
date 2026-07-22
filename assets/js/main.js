@@ -25,8 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (page === 'home') {
         revealConfigs.push(
-            { container: '.hero-home-grid', itemSelector: ':scope > *', step: 120 },
-            '.hero-home-copy > *',
             '.hero-visual-card > *',
             { container: '.hero-direct-links, .audience-track-list, .audience-callout-actions, .proof-support-list', itemSelector: ':scope > *', step: 70 },
             '.proof-support-header > *',

@@ -28,25 +28,26 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn-uicons.flaticon.com">
-    <link rel="preload" as="image" href="/assets/img/soulcont/vitor-rodrigues-retrato-3x4.webp" fetchpriority="high">
-    <link rel="preload" as="image" href="/assets/img/soulcont/leonardo-silva-retrato-3x4.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/assets/img/soulcont/vitor-rodrigues-retrato-3x4-320w.webp"
+        imagesrcset="/assets/img/soulcont/vitor-rodrigues-retrato-3x4-320w.webp 320w, /assets/img/soulcont/vitor-rodrigues-retrato-3x4-640w.webp 640w, /assets/img/soulcont/vitor-rodrigues-retrato-3x4.webp 1086w"
+        imagesizes="(max-width: 360px) calc(100vw - 40px), (max-width: 980px) 320px, 360px"
+        type="image/webp" fetchpriority="high">
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
         rel="stylesheet">
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
-    <link rel='stylesheet'
-        href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css"
+        media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css">
+        <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    </noscript>
     <link rel="icon" href="/assets/img/soulcont/favicon.svg?v=2" type="image/svg+xml">
     <link rel="alternate icon" href="/assets/img/soulcont/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="/assets/img/soulcont/apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/assets/css/main.css?v=3.7">
-    <link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7">
-    <link rel="stylesheet" href="/assets/css/cookies.css?v=3.7">
-    <link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0">
-    <link rel="stylesheet" href="/assets/css/motion.css?v=1.0">
-    <link rel="stylesheet" href="/assets/css/hero-background.css?v=1.0">
+    <link rel="stylesheet" href="/assets/css/home.bundle.css?v=1.0">
     <script src="/assets/js/menu.js?v=4.1" defer></script>
     <script src="/assets/js/cookies.js?v=3.8" defer></script>
 
@@ -117,7 +118,6 @@
         ]
     }
     </script>
-    <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.3">
 </head>
 
 <body class="home-page" data-page="home">
@@ -151,46 +151,6 @@
     </header>
 
     <main class="site-main-v2 home-main-premium">
-        <div class="hero-bg-interactive" aria-hidden="true" data-hero-background>
-                    <canvas class="hero-bg-canvas" data-hero-bg-canvas></canvas>
-                    <div class="hero-bg-panels">
-                        <div class="hero-bg-panel hero-bg-panel--flow">
-                            <span class="hero-bg-panel-label">Fluxo contabil</span>
-                            <div class="hero-bg-lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                        <div class="hero-bg-panel hero-bg-panel--dre">
-                            <span class="hero-bg-panel-label">DRE resumida</span>
-                            <div class="hero-bg-bars">
-                                <span style="--bar-height: 44%;"></span>
-                                <span style="--bar-height: 62%;"></span>
-                                <span style="--bar-height: 88%;"></span>
-                                <span style="--bar-height: 58%;"></span>
-                            </div>
-                        </div>
-                        <div class="hero-bg-panel hero-bg-panel--tax">
-                            <span class="hero-bg-panel-label">Base e tributo</span>
-                            <div class="hero-bg-indicators">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                        <div class="hero-bg-panel hero-bg-panel--trust">
-                            <span class="hero-bg-panel-label">Rotina validada</span>
-                            <div class="hero-bg-lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hero-bg-overlay"></div>
-                    <div class="hero-bg-fade"></div>
-        </div>
         <section class="hero-section hero-home-premium">
             <div class="hero-main">
                 <div class="section-shell hero-content">
@@ -208,85 +168,24 @@
                         <p class="hero-responsible-line">Atendimento conduzido por Vitor e Leonardo · CRC SP353836 · CRCCE 024206/O5</p>
                     </div>
 
-                    <aside class="hero-side-card legacy-analyst-scene" aria-hidden="true">
-                        <div class="hero-visual-top">
-                            <span class="hero-visual-chip">Assistente analitico SoulCont</span>
-                            <span class="hero-visual-chip hero-visual-chip--soft">Leitura contabil em tempo real</span>
-                        </div>
-                        <div class="analyst-scene" data-hero-scene>
-                            <div class="hero-analyst-figure" aria-hidden="true">
-                                <svg viewBox="0 0 320 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Assistente inteligente analisando um painel contabil">
-                                    <defs>
-                                        <linearGradient id="robotBodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#1f4d73"/>
-                                            <stop offset="100%" stop-color="#0d2135"/>
-                                        </linearGradient>
-                                        <linearGradient id="robotGlowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" stop-color="#7da7ff"/>
-                                            <stop offset="100%" stop-color="#8ff2b6"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <ellipse cx="140" cy="314" rx="92" ry="18" fill="rgba(6, 14, 22, 0.34)"/>
-                                    <rect x="76" y="192" width="128" height="112" rx="34" fill="url(#robotBodyGradient)"/>
-                                    <path d="M115 194C115 164 137 138 168 138C198 138 222 162 222 194V212H115V194Z" fill="#0b1a2a"/>
-                                    <circle cx="168" cy="136" r="74" fill="url(#robotBodyGradient)"/>
-                                    <circle cx="168" cy="136" r="70" fill="rgba(16, 40, 62, 0.92)" stroke="rgba(125, 167, 255, 0.26)" stroke-width="2"/>
-                                    <rect class="hero-visor-glow" x="118" y="116" width="100" height="38" rx="18" fill="rgba(12, 22, 35, 0.92)" stroke="rgba(125, 167, 255, 0.26)" stroke-width="2"/>
-                                    <circle class="hero-eye" cx="151" cy="135" r="5.6" fill="url(#robotGlowGradient)"/>
-                                    <circle class="hero-eye hero-eye--delay" cx="185" cy="135" r="5.6" fill="url(#robotGlowGradient)"/>
-                                    <path d="M123 164C137 174 152 179 168 179C184 179 198 174 212 164" stroke="rgba(143, 242, 182, 0.66)" stroke-width="3" stroke-linecap="round"/>
-                                    <path d="M217 218C247 214 260 226 272 254" fill="none" stroke="rgba(125, 167, 255, 0.74)" stroke-width="12" stroke-linecap="round"/>
-                                    <path d="M98 226C80 232 68 246 58 270" fill="none" stroke="rgba(125, 167, 255, 0.32)" stroke-width="9" stroke-linecap="round"/>
-                                    <circle cx="278" cy="262" r="16" fill="#0b1c2f" stroke="rgba(125, 167, 255, 0.24)" stroke-width="2"/>
-                                </svg>
-                            </div>
-
-                            <div class="report-surface" aria-hidden="true">
-                                <div class="report-scanner"></div>
-                                <div class="report-topline">
-                                    <span class="report-tag">Relatorio em leitura</span>
-                                    <span class="report-score">Status validado</span>
-                                </div>
-                                <div class="report-lines">
-                                    <div class="report-line" style="--line-fill: 78%; --line-delay: 0ms;">
-                                        <span>Receita consolidada</span>
-                                        <strong data-swap-values="R$ 184.200|R$ 185.000|R$ 185.640">R$ 184.200</strong>
-                                    </div>
-                                    <div class="report-line" style="--line-fill: 46%; --line-delay: 280ms;">
-                                        <span>Tributos projetados</span>
-                                        <strong data-swap-values="R$ 18.100|R$ 18.500|R$ 18.240">R$ 18.100</strong>
-                                    </div>
-                                    <div class="report-line" style="--line-fill: 68%; --line-delay: 520ms;">
-                                        <span>Margem operacional</span>
-                                        <strong data-swap-values="36,2%|36,8%|37,1%">36,2%</strong>
-                                    </div>
-                                </div>
-                                <div class="report-bottom">
-                                    <div class="report-metric">
-                                        <span>Lucro liquido</span>
-                                        <strong data-swap-values="R$ 60.880|R$ 61.480|R$ 61.920">R$ 60.880</strong>
-                                    </div>
-                                    <div class="report-metric">
-                                        <span>Cenario fiscal</span>
-                                        <strong data-swap-values="Estavel|Ajuste fino|Validado">Estavel</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="hero-scene-caption">Relatorios, tributos e margem sendo lidos em uma unica camada de decisao, com mais criterio e menos improviso para a empresa.</p>
-                    </aside>
                     <section class="hero-team" aria-labelledby="hero-team-title">
                         <p class="hero-team__eyebrow" id="hero-team-title">Contadores responsáveis</p>
                         <div class="hero-team__stage">
                             <figure class="hero-team__portrait hero-team__portrait--vitor">
-                                <img src="/assets/img/soulcont/vitor-rodrigues-retrato-3x4.webp" alt="Vitor Rodrigues de Lima, contador responsável da SoulCont" width="1200" height="1600" fetchpriority="high" decoding="async">
+                                <img src="/assets/img/soulcont/vitor-rodrigues-retrato-3x4-640w.webp"
+                                    srcset="/assets/img/soulcont/vitor-rodrigues-retrato-3x4-320w.webp 320w, /assets/img/soulcont/vitor-rodrigues-retrato-3x4-640w.webp 640w, /assets/img/soulcont/vitor-rodrigues-retrato-3x4.webp 1086w"
+                                    sizes="(max-width: 360px) calc(100vw - 40px), (max-width: 980px) 320px, 360px"
+                                    alt="Vitor Rodrigues de Lima, contador responsável da SoulCont" width="1086" height="1448" fetchpriority="high" decoding="async">
                                 <figcaption>
                                     <strong>Vitor Rodrigues de Lima</strong>
                                     <span>Contador responsável · CRC SP353836</span>
                                 </figcaption>
                             </figure>
                             <figure class="hero-team__portrait hero-team__portrait--leonardo">
-                                <img src="/assets/img/soulcont/leonardo-silva-retrato-3x4.webp" alt="Leonardo Silva de Sousa, contador responsável da SoulCont" width="1200" height="1600" fetchpriority="high" decoding="async">
+                                <img src="/assets/img/soulcont/leonardo-silva-retrato-3x4-640w.webp"
+                                    srcset="/assets/img/soulcont/leonardo-silva-retrato-3x4-320w.webp 320w, /assets/img/soulcont/leonardo-silva-retrato-3x4-640w.webp 640w, /assets/img/soulcont/leonardo-silva-retrato-3x4.webp 1200w"
+                                    sizes="(max-width: 360px) calc(100vw - 40px), (max-width: 980px) 320px, 360px"
+                                    alt="Leonardo Silva de Sousa, contador responsável da SoulCont" width="1200" height="1600" decoding="async">
                                 <figcaption>
                                     <strong>Leonardo Silva de Sousa</strong>
                                     <span>Contador responsável · CRCCE 024206/O5</span>
@@ -392,7 +291,10 @@
         <section class="section-block soulcont-feature-section">
             <div class="section-shell soulcont-feature-story">
                 <figure class="soulcont-feature-story__image">
-                    <img src="/assets/img/soulcont/vitor-rodrigues-trabalho.webp" alt="Vitor Rodrigues de Lima analisando informações para orientar uma empresa" loading="lazy" decoding="async">
+                    <img src="/assets/img/soulcont/vitor-rodrigues-trabalho-960w.webp"
+                        srcset="/assets/img/soulcont/vitor-rodrigues-trabalho-640w.webp 640w, /assets/img/soulcont/vitor-rodrigues-trabalho-960w.webp 960w, /assets/img/soulcont/vitor-rodrigues-trabalho.webp 1536w"
+                        sizes="(max-width: 768px) calc(100vw - 40px), 50vw"
+                        alt="Vitor Rodrigues de Lima analisando informações para orientar uma empresa" width="1536" height="1024" loading="lazy" decoding="async">
                 </figure>
                 <div class="soulcont-feature-story__copy">
                     <span class="eyebrow-label"><i class="fi fi-rr-chart-pie"></i> Serviços com pessoas</span>
@@ -558,7 +460,8 @@
                         <div class="responsible-card">
                             <span class="eyebrow-label"><i class="fi fi-rr-shield-check"></i> Por que confiar em nos?</span>
                             <div class="founder-profile">
-                                <img src="/assets/img/soulcont/vitor-rodrigues-perfil-3x4.webp" alt="Vitor Rodrigues de Lima">
+                                <img src="/assets/img/soulcont/vitor-rodrigues-perfil-3x4-320w.webp"
+                                    alt="Vitor Rodrigues de Lima" width="320" height="427" loading="lazy" decoding="async">
                                 <div>
                                     <strong>Vitor Rodrigues de Lima</strong>
                                     <span>Contador responsável · Registro profissional: CRC SP353836</span>
@@ -566,7 +469,8 @@
                                 </div>
                             </div>
                             <div class="founder-profile soulcont-team-member">
-                                <img src="/assets/img/soulcont/leonardo-silva-retrato-3x4.webp" alt="Leonardo Silva de Sousa">
+                                <img src="/assets/img/soulcont/leonardo-silva-retrato-3x4-320w.webp"
+                                    alt="Leonardo Silva de Sousa" width="320" height="427" loading="lazy" decoding="async">
                                 <div>
                                     <strong>Leonardo Silva de Sousa</strong>
                                     <span>Contador responsável · Registro profissional: CRCCE 024206/O5</span>
@@ -732,7 +636,6 @@
     <script src="/assets/js/footer.js?v=3.7" defer></script>
     <script src="/assets/js/motion.js?v=1.0" defer></script>
     <script src="/assets/js/main.js?v=1.0" defer></script>
-    <script src="/assets/js/hero-background.js?v=1.0" defer></script>
     <script src="/assets/js/soulcont-brand.js?v=1.1" defer></script>
 </body>
 
