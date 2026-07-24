@@ -4,6 +4,14 @@ import html
 import json
 from pathlib import Path
 
+from cidades_config import (
+    PROFESSIONALS,
+    REGIONS,
+    SITE,
+    regionalize_city,
+    validate_city_dataset,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "cidades"
@@ -471,7 +479,58 @@ CITIES = [
         "faq_q": "A SoulCont atende empresas de profissionais em Barbalha?",
         "faq_a": "Sim. O atendimento pode incluir análise de enquadramento, retirada, distribuição de lucros, folha e rotina fiscal da empresa profissional.",
     },
+    {
+        "slug": "sao-paulo",
+        "name": "São Paulo",
+        "region": "sao-paulo",
+        "attendance_mode": "service_area",
+        "service_areas": [
+            "São Paulo",
+            "Guarulhos",
+            "Osasco",
+            "Barueri",
+            "Santo André",
+            "São Bernardo do Campo",
+        ],
+        "context_title": (
+            "Contabilidade consultiva para empresas de serviços em São Paulo"
+        ),
+        "context": (
+            "O atendimento combina processos digitais, contato direto com o contador "
+            "e análise da atividade, do faturamento, da folha e da forma de retirada. "
+            "Reuniões presenciais externas podem ser combinadas mediante agendamento."
+        ),
+        "focus": "Prestadores de serviços e pequenas empresas",
+        "focus_text": (
+            "Abertura, troca de contador, revisão tributária e organização da rotina "
+            "para empresas paulistanas."
+        ),
+        "audiences": [
+            "Prestadores de serviços que precisam revisar regime, impostos e retirada",
+            "Pequenas empresas que desejam trocar de contador com transição organizada",
+            "Profissionais liberais que pretendem estruturar ou desenvolver seu CNPJ",
+            "Empresas com equipe que precisam organizar folha e obrigações trabalhistas",
+        ],
+        "decisions": [
+            "Planejar atividade, CNAE, natureza jurídica e tributação antes da abertura",
+            "Comparar Simples Nacional e Lucro Presumido com dados da empresa",
+            "Organizar pró-labore, distribuição de lucros, folha e calendário fiscal",
+            "Trocar de contador com diagnóstico, documentos e responsáveis definidos",
+        ],
+        "faq_q": "A SoulCont possui escritório aberto ao público em São Paulo?",
+        "faq_a": (
+            "Não. O atendimento em São Paulo é prioritariamente on-line. Reuniões "
+            "presenciais externas podem ser combinadas mediante agendamento e disponibilidade."
+        ),
+        "page_description": (
+            "Contabilidade em São Paulo para prestadores de serviços e pequenas empresas. "
+            "Abertura, troca de contador e gestão tributária com atendimento digital e humano."
+        ),
+    },
 ]
+
+CITIES = [regionalize_city(city) for city in CITIES]
+validate_city_dataset(CITIES)
 
 
 def esc(value: str) -> str:
@@ -489,28 +548,148 @@ def json_script(payload: dict) -> str:
     return json.dumps(payload, ensure_ascii=False, indent=8)
 
 
-def page_schema(city: dict) -> dict:
+def city_url(city: dict) -> str:
+    return f"{SITE['base_url']}/cidades/{city['slug']}/"
+
+
+def page_description(city: dict) -> str:
+    return city.get(
+        "page_description",
+        (
+            f"Contabilidade consultiva para empresas de {city['name']}, "
+            f"{city['base_description']}."
+        ),
+    )
+
+
+def professionals_for(city: dict) -> list[dict]:
+    return [PROFESSIONALS[key] for key in city["professionals"]]
+
+
+def address_text(address: dict) -> str:
+    parts = [
+        address.get("streetAddress"),
+        address.get("addressLocality"),
+        address.get("addressRegion"),
+    ]
+    return " · ".join(str(part) for part in parts if part)
+
+
+def attendance_copy(city: dict) -> dict[str, str]:
+    name = city["name"]
+    mode = city["attendance_mode"]
+    if mode == "public_location":
+        return {
+            "title": city.get("presence_title", f"Atendimento presencial em {name}"),
+            "text": city.get("presence_text", address_text(city["address"])),
+            "hero": city.get(
+                "hero_text",
+                (
+                    "A SoulCont conecta contabilidade, tributos e leitura financeira "
+                    f"para empresas de {name}, com atendimento presencial e processos digitais."
+                ),
+            ),
+            "faq": city.get(
+                "attendance_faq",
+                (
+                    f"Sim. A SoulCont atende presencialmente em {name} e a rotina "
+                    "também pode continuar por canais digitais."
+                ),
+            ),
+            "note": city.get(
+                "presence_note",
+                (
+                    f"A SoulCont possui atendimento presencial em {name} no endereço "
+                    "informado nesta página, além de manter processos digitais."
+                ),
+            ),
+        }
+    if mode == "service_area":
+        return {
+            "title": city.get(
+                "presence_title", f"Atendimento on-line e externo em {name}"
+            ),
+            "text": city.get(
+                "presence_text",
+                "Reuniões on-line e encontros presenciais externos mediante agendamento.",
+            ),
+            "hero": city.get(
+                "hero_text",
+                (
+                    f"A SoulCont atende empresas de {name} on-line e pode realizar "
+                    "encontros presenciais externos mediante agendamento."
+                ),
+            ),
+            "faq": city.get(
+                "attendance_faq",
+                (
+                    f"Sim. O atendimento para {name} acontece on-line, com possibilidade "
+                    "de encontro presencial externo mediante agendamento."
+                ),
+            ),
+            "note": city.get(
+                "presence_note",
+                (
+                    f"A SoulCont atende empresas de {name} como prestadora de área de "
+                    "atendimento e não divulga uma unidade aberta ao público na cidade."
+                ),
+            ),
+        }
     return {
+        "title": city.get("presence_title", f"Atendimento digital em {name}"),
+        "text": city.get(
+            "presence_text",
+            f"Reuniões, documentos e acompanhamento digital, {city['base_description']}.",
+        ),
+        "hero": city.get(
+            "hero_text",
+            (
+                f"A SoulCont atende empresas de {name} por processos digitais, com "
+                f"orientação dos contadores responsáveis e {city['base_description']}."
+            ),
+        ),
+        "faq": city.get(
+            "attendance_faq",
+            (
+                f"Sim. O atendimento para {name} é digital e conduzido pela equipe "
+                f"da SoulCont, {city['base_description']}."
+            ),
+        ),
+        "note": city.get(
+            "presence_note",
+            (
+                f"Esta página descreve o atendimento destinado a empresas de {name}. "
+                f"A SoulCont não possui unidade física na cidade e atua {city['base_description']}."
+            ),
+        ),
+    }
+
+
+def page_schema(city: dict) -> dict:
+    url = city_url(city)
+    payload = {
         "@context": "https://schema.org",
         "@type": "AccountingService",
-        "@id": "https://soulcontt.com.br/#accounting-service",
-        "name": "SoulCont",
-        "url": f"https://soulcontt.com.br/cidades/{city['slug']}/",
-        "logo": "https://soulcontt.com.br/assets/img/soulcont/og.png",
-        "image": "https://soulcontt.com.br/assets/img/soulcont/og.png",
-        "description": f"Contabilidade consultiva para empresas de {city['name']}, com atendimento conduzido pela SoulCont a partir de Icó.",
-        "telephone": "+55-88-92179-1670",
-        "email": "contato@soulcont.com",
-        "taxID": "63.937.299/0001-25",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Rua São José, 1245 - Novo Centro",
-            "addressLocality": "Icó",
-            "addressRegion": "CE",
-            "postalCode": "63430-000",
-            "addressCountry": "BR",
-        },
-        "areaServed": {"@type": "City", "name": city["name"]},
+        "@id": f"{url}#accounting-service",
+        "name": SITE["name"],
+        "url": url,
+        "logo": SITE["logo"],
+        "image": SITE["logo"],
+        "description": page_description(city),
+        "telephone": city["phone_e164"],
+        "email": SITE["email"],
+        "taxID": SITE["tax_id"],
+        "areaServed": [
+            {
+                "@type": "City",
+                "name": area,
+                "containedInPlace": {
+                    "@type": "State",
+                    "name": city["state_name"],
+                },
+            }
+            for area in city["service_areas"]
+        ],
         "openingHoursSpecification": [
             {
                 "@type": "OpeningHoursSpecification",
@@ -525,28 +704,24 @@ def page_schema(city: dict) -> dict:
                 "closes": "15:00",
             },
         ],
-        "sameAs": [
-            "https://www.instagram.com/soulcontt/",
-            "https://www.youtube.com/@contabilidadeempresarial",
-        ],
+        "sameAs": SITE["same_as"],
         "employee": [
             {
                 "@type": "Person",
-                "name": "Vitor Rodrigues de Lima",
-                "jobTitle": "Contador responsável",
-                "identifier": "CRC SP353836",
-            },
-            {
-                "@type": "Person",
-                "name": "Leonardo Silva de Sousa",
-                "jobTitle": "Contador responsável",
-                "identifier": "CRCCE 024206/O5",
-            },
+                "name": professional["name"],
+                "jobTitle": professional["job_title"],
+                "identifier": professional["registration"],
+            }
+            for professional in professionals_for(city)
         ],
     }
+    if city.get("address"):
+        payload["address"] = city["address"]
+    return payload
 
 
 def faq_schema(city: dict) -> dict:
+    copy = attendance_copy(city)
     return {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -561,11 +736,7 @@ def faq_schema(city: dict) -> dict:
                 "name": f"A SoulCont atende empresas de {city['name']}?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": (
-                        "Sim. O atendimento é presencial e digital, a partir da sede da SoulCont em Icó."
-                        if city["mode"] == "presencial"
-                        else f"Sim. Empresas de {city['name']} são atendidas digitalmente pela equipe da SoulCont, cuja base fica em Icó."
-                    ),
+                    "text": copy["faq"],
                 },
             },
             {
@@ -585,30 +756,41 @@ PAGE_CSS = """
 """.strip()
 
 
+def render_professionals(city: dict) -> str:
+    return "\n".join(
+        (
+            f'                <article class="city-person"><img src="{esc(professional["image"])}" '
+            f'alt="{esc(professional["name"])}, {esc(professional["job_title"])} da SoulCont" '
+            'width="1200" height="1600" loading="lazy"><div>'
+            f'<strong>{esc(professional["name"])}</strong>'
+            f'<span>{esc(professional["job_title"])}<br>{esc(professional["registration"])}</span>'
+            "</div></article>"
+        )
+        for professional in professionals_for(city)
+    )
+
+
 def render_city(city: dict) -> str:
     name = esc(city["name"])
     slug = city["slug"]
-    is_ico = city["mode"] == "presencial"
-    presence_title = "Atendimento presencial em Icó" if is_ico else f"Atendimento digital em {name}"
-    presence_text = (
-        "Rua São José, 1245, Novo Centro · Icó/CE"
-        if is_ico
-        else "Reuniões, documentos e acompanhamento digital, com base da SoulCont em Icó."
+    copy = attendance_copy(city)
+    presence_title = esc(copy["title"])
+    presence_text = esc(copy["text"])
+    hero_text = esc(copy["hero"])
+    attendance_faq = esc(copy["faq"])
+    presence_note = esc(copy["note"])
+    description = esc(page_description(city))
+    phone_e164 = esc(city["phone_e164"])
+    phone_display = esc(city["phone_display"])
+    state_name = esc(city["state_name"])
+    professional_summary = " · ".join(
+        f"{professional['name']} · {professional['registration']}"
+        for professional in professionals_for(city)
     )
-    hero_text = (
-        "A SoulCont conecta contabilidade, tributos e leitura financeira para apoiar empresas, prestadores de serviços, profissionais liberais e MEIs em crescimento. Atendimento presencial em Icó e digital."
-        if is_ico
-        else f"A SoulCont atende empresas de {name} por processos digitais, com orientação dos contadores responsáveis e base operacional em Icó, Ceará."
-    )
-    attendance_faq = (
-        "Sim. Além do atendimento presencial em Icó, a rotina pode continuar por canais digitais."
-        if is_ico
-        else f"Sim. O atendimento para {name} é digital e conduzido pela equipe da SoulCont a partir de Icó."
-    )
-    presence_note = (
-        "A SoulCont possui sede e atendimento presencial em Icó, além de manter processos digitais para a rotina dos clientes."
-        if is_ico
-        else f"Esta página descreve o atendimento destinado a empresas de {name}. A SoulCont não possui unidade física na cidade; sua sede está em Icó."
+    professional_heading = (
+        "Profissional responsável pelo atendimento"
+        if len(city["professionals"]) == 1
+        else "Profissionais responsáveis pelo atendimento"
     )
     return f'''<!DOCTYPE html>
 <html lang="pt-BR">
@@ -616,16 +798,16 @@ def render_city(city: dict) -> str:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0F2233">
-    <meta name="description" content="Contador em {name} para abertura de empresa, troca de contador, impostos, folha e consultoria. Atendimento pela SoulCont, com base em Icó.">
+    <meta name="description" content="{description}">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SoulCont">
-    <link rel="canonical" href="https://soulcontt.com.br/cidades/{slug}/">
+    <link rel="canonical" href="{city_url(city)}">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="pt_BR">
     <meta property="og:title" content="Contador em {name} | SoulCont">
-    <meta property="og:description" content="Contabilidade consultiva para empresas de {name}, com atendimento conduzido pela SoulCont a partir de Icó.">
-    <meta property="og:image" content="https://soulcontt.com.br/assets/img/soulcont/og.png">
-    <meta property="og:url" content="https://soulcontt.com.br/cidades/{slug}/">
+    <meta property="og:description" content="{description}">
+    <meta property="og:image" content="{SITE['logo']}">
+    <meta property="og:url" content="{city_url(city)}">
     <meta name="twitter:card" content="summary_large_image">
     <title>Contador em {name} | Contabilidade consultiva | SoulCont</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -639,6 +821,7 @@ def render_city(city: dict) -> str:
     <link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0">
     <link rel="stylesheet" href="/assets/css/motion.css?v=1.0">
     <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.3">
+    <link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
     <style>{PAGE_CSS}</style>
     <script type="application/ld+json">
 {json_script(page_schema(city))}
@@ -662,16 +845,16 @@ def render_city(city: dict) -> str:
         <section class="section-shell">
             <div class="detail-hero">
                 <div class="city-breadcrumb"><a href="/cidades/">Cidades atendidas</a><span>/</span><strong>{name}</strong></div>
-                <span class="eyebrow-label"><i class="fi fi-rr-marker"></i> Contabilidade em {name}, Ceará</span>
+                <span class="eyebrow-label"><i class="fi fi-rr-marker"></i> Contabilidade em {name}, {state_name}</span>
                 <h1>Contador em {name} para decisões empresariais mais claras e seguras</h1>
                 <p>{hero_text}</p>
-                <div class="cta-actions-v2"><a href="tel:+5588921791670" class="btn-v2 btn-v2-primary">Ligar para a SoulCont</a><a href="#servicos" class="btn-v2 btn-v2-secondary">Ver como podemos ajudar</a></div>
-                <p class="hero-responsible-line">Atendimento conduzido por Vitor e Leonardo · CRC SP353836 · CRCCE 024206/O5</p>
+                <div class="cta-actions-v2"><a href="tel:{phone_e164}" class="btn-v2 btn-v2-primary">Ligar para a SoulCont</a><a href="#servicos" class="btn-v2 btn-v2-secondary">Ver como podemos ajudar</a></div>
+                <p class="hero-responsible-line">Atendimento conduzido por {esc(professional_summary)}</p>
             </div>
         </section>
         <section class="section-block"><div class="section-shell"><div class="detail-grid">
             <article class="detail-card"><span class="card-icon"><i class="fi fi-rr-marker"></i></span><h3>{presence_title}</h3><p>{presence_text}</p></article>
-            <article class="detail-card"><span class="card-icon"><i class="fi fi-rr-phone-call"></i></span><h3>Telefone oficial</h3><p><a class="city-link" href="tel:+5588921791670">(88) 92179-1670</a></p></article>
+            <article class="detail-card"><span class="card-icon"><i class="fi fi-rr-phone-call"></i></span><h3>Telefone oficial</h3><p><a class="city-link" href="tel:{phone_e164}">{phone_display}</a></p></article>
             <article class="detail-card"><span class="card-icon"><i class="fi fi-rr-bulb"></i></span><h3>{esc(city['focus'])}</h3><p>{esc(city['focus_text'])}</p></article>
         </div></div></section>
         <section class="section-block"><div class="section-shell"><div class="section-panel">
@@ -699,10 +882,9 @@ def render_city(city: dict) -> str:
             <div class="city-note"><p>{presence_note}</p></div>
         </div></div></section>
         <section class="section-block"><div class="section-shell"><div class="section-panel">
-            <div class="section-heading"><span class="eyebrow-label"><i class="fi fi-rr-shield-check"></i> Responsáveis pelo atendimento</span><h2>Dois contadores identificados, com orientação e contexto</h2><p>O acompanhamento é conduzido por Vitor e Leonardo, com processos digitais e análise do momento de cada empresa.</p></div>
+            <div class="section-heading"><span class="eyebrow-label"><i class="fi fi-rr-shield-check"></i> Responsáveis pelo atendimento</span><h2>{professional_heading}</h2><p>O acompanhamento é conduzido por profissionais identificados, com processos digitais e análise do momento de cada empresa.</p></div>
             <div class="city-team-grid">
-                <article class="city-person"><img src="/assets/img/soulcont/vitor-rodrigues-retrato-3x4.webp" alt="Vitor Rodrigues de Lima, contador responsável da SoulCont" width="1200" height="1600" loading="lazy"><div><strong>Vitor Rodrigues de Lima</strong><span>Contador responsável<br>CRC SP353836</span></div></article>
-                <article class="city-person"><img src="/assets/img/soulcont/leonardo-silva-retrato-3x4.webp" alt="Leonardo Silva de Sousa, contador responsável da SoulCont" width="1200" height="1600" loading="lazy"><div><strong>Leonardo Silva de Sousa</strong><span>Contador responsável<br>CRCCE 024206/O5</span></div></article>
+{render_professionals(city)}
             </div>
         </div></div></section>
         <section class="section-block"><div class="section-shell"><div class="detail-grid">
@@ -720,24 +902,48 @@ def render_city(city: dict) -> str:
         </div></div></section>
         <section class="section-block"><div class="section-shell"><div class="final-cta-panel">
             <span class="eyebrow-label"><i class="fi fi-rr-headset"></i> Próximo passo</span><h2>Precisa de um contador para sua empresa em {name}?</h2><p>Converse com a SoulCont e explique o momento atual do negócio. A primeira orientação começa pelo seu contexto.</p>
-            <div class="cta-actions-v2"><a href="tel:+5588921791670" class="btn-v2 btn-v2-primary">Ligar para (88) 92179-1670</a><a href="/HTML/contatos.html" class="btn-v2 btn-v2-secondary">Outras formas de contato</a></div>
+            <div class="cta-actions-v2"><a href="tel:{phone_e164}" class="btn-v2 btn-v2-primary">Ligar para {phone_display}</a><a href="/HTML/contatos.html" class="btn-v2 btn-v2-secondary">Outras formas de contato</a></div>
         </div></div></section>
     </main>
     <footer class="site-footer-v2"><div class="footer-panel-v2"><div class="footer-grid-v2">
-        <div class="footer-brand-v2"><strong>SoulCont</strong><p>Contabilidade consultiva com sede em Icó e atendimento digital para empresas do Ceará.</p></div>
+        <div class="footer-brand-v2"><strong>SoulCont</strong><p>{esc(city['footer_description'])}</p></div>
         <div class="footer-group-v2"><h3>Navegação</h3><ul><li><a href="/cidades/">Cidades atendidas</a></li><li><a href="/HTML/servicos.html">Serviços</a></li><li><a href="/HTML/ferramentas.html">Ferramentas</a></li><li><a href="/BLOG/">Conteúdos</a></li></ul></div>
-        <div class="footer-group-v2"><h3>Contato</h3><ul><li><a href="tel:+5588921791670">(88) 92179-1670</a></li><li><a href="mailto:contato@soulcont.com">contato@soulcont.com</a></li><li><a href="/HTML/contatos.html">Página de contato</a></li></ul></div>
-    </div><div class="footer-meta-v2"><p>&copy; <span id="current-year">2026</span> SoulCont.</p><p>Vitor Rodrigues de Lima · CRC SP353836<br>Leonardo Silva de Sousa · CRCCE 024206/O5</p></div></div></footer>
+        <div class="footer-group-v2"><h3>Contato</h3><ul><li><a href="tel:{phone_e164}">{phone_display}</a></li><li><a href="mailto:{SITE['email']}">{SITE['email']}</a></li><li><a href="/HTML/contatos.html">Página de contato</a></li></ul></div>
+    </div><div class="footer-meta-v2"><p>&copy; <span id="current-year">2026</span> SoulCont.</p><p>{esc(professional_summary)}</p></div></div></footer>
     <script src="/assets/js/menu.js?v=4.1" defer></script><script src="/assets/js/footer.js?v=3.7" defer></script><script src="/assets/js/motion.js?v=1.0" defer></script><script src="/assets/js/main.js?v=1.0" defer></script><script src="/assets/js/soulcont-brand.js?v=1.0" defer></script>
+    <script src="/assets/js/cookies.js?v=4.0" defer></script>
 </body>
 </html>
 '''
 
 
 def render_hub() -> str:
-    cards = "\n".join(
-        f'''                <article class="detail-card"><span class="card-icon"><i class="fi fi-rr-marker"></i></span><h3>Contador em {esc(city['name'])}</h3><p>{esc(city['focus_text'])}</p><a class="text-link-v2" href="/cidades/{city['slug']}/">Ver atendimento em {esc(city['name'])} <i class="fi fi-rr-arrow-right"></i></a></article>'''
-        for city in CITIES
+    region_sections = []
+    active_region_keys: list[str] = []
+    for region_key, region in REGIONS.items():
+        region_cities = [city for city in CITIES if city["region"] == region_key]
+        if not region_cities:
+            continue
+        active_region_keys.append(region_key)
+        cards = "\n".join(
+            f'''                    <article class="detail-card"><span class="card-icon"><i class="fi fi-rr-marker"></i></span><h3>Contador em {esc(city['name'])}</h3><p>{esc(city['focus_text'])}</p><a class="text-link-v2" href="/cidades/{city['slug']}/">Ver atendimento em {esc(city['name'])} <i class="fi fi-rr-arrow-right"></i></a></article>'''
+            for city in region_cities
+        )
+        region_sections.append(
+            (
+                '<section class="city-region" '
+                f'aria-labelledby="region-{esc(region_key)}">'
+                f'<h3 id="region-{esc(region_key)}">{esc(region["state_name"])}</h3>'
+                f'<div class="cities-grid">\n{cards}\n                </div></section>'
+            )
+        )
+    grouped_cards = "\n".join(region_sections)
+    regional_contacts = "".join(
+        (
+            f'<li><a href="tel:{esc(REGIONS[key]["phone_e164"])}">'
+            f'{esc(REGIONS[key]["state_code"])} · {esc(REGIONS[key]["phone_display"])}</a></li>'
+        )
+        for key in active_region_keys
     )
     item_list = {
         "@context": "https://schema.org",
@@ -748,7 +954,7 @@ def render_hub() -> str:
                 "@type": "ListItem",
                 "position": index,
                 "name": city["name"],
-                "url": f"https://soulcontt.com.br/cidades/{city['slug']}/",
+                "url": city_url(city),
             }
             for index, city in enumerate(CITIES, 1)
         ],
@@ -757,13 +963,13 @@ def render_hub() -> str:
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0F2233">
-    <meta name="description" content="Conheça as cidades atendidas pela SoulCont a partir de Icó. Contabilidade consultiva para empresas do Centro-Sul, Cariri e outras regiões do Ceará.">
+    <meta name="description" content="Conheça as cidades atendidas pela SoulCont. Contabilidade consultiva com atendimento presencial, externo ou on-line conforme a região.">
     <meta name="robots" content="index, follow"><meta name="author" content="SoulCont"><link rel="canonical" href="https://soulcontt.com.br/cidades/">
-    <meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Cidades atendidas | SoulCont"><meta property="og:description" content="Contabilidade com sede em Icó e atendimento digital para empresas de cidades do Ceará."><meta property="og:image" content="https://soulcontt.com.br/assets/img/soulcont/og.png"><meta property="og:url" content="https://soulcontt.com.br/cidades/">
-    <title>Cidades atendidas | Contabilidade no Ceará | SoulCont</title>
+    <meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Cidades atendidas | SoulCont"><meta property="og:description" content="Contabilidade consultiva com formas de atendimento transparentes para cada região."><meta property="og:image" content="https://soulcontt.com.br/assets/img/soulcont/og.png"><meta property="og:url" content="https://soulcontt.com.br/cidades/">
+    <title>Cidades atendidas | Contabilidade consultiva | SoulCont</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
-    <link rel="icon" href="/assets/img/soulcont/favicon.svg?v=2" type="image/svg+xml"><link rel="stylesheet" href="/assets/css/main.css?v=3.7"><link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7"><link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0"><link rel="stylesheet" href="/assets/css/motion.css?v=1.0"><link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.3">
-    <style>html,body{{max-width:100%;overflow-x:hidden}}.cities-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px}}.cities-grid .detail-card{{height:100%;display:flex;flex-direction:column}}.cities-grid .text-link-v2{{margin-top:auto;padding-top:18px}}.hub-note{{margin-top:24px;padding:20px;border-left:4px solid #2c6b57;background:rgba(44,107,87,.07);border-radius:0 14px 14px 0}}.hub-note p{{margin:0}}@media(max-width:640px){{.cta-actions-v2>*{{width:100%;justify-content:center;text-align:center}}}}</style>
+    <link rel="icon" href="/assets/img/soulcont/favicon.svg?v=2" type="image/svg+xml"><link rel="stylesheet" href="/assets/css/main.css?v=3.7"><link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7"><link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0"><link rel="stylesheet" href="/assets/css/motion.css?v=1.0"><link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.3"><link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
+    <style>html,body{{max-width:100%;overflow-x:hidden}}.city-region+.city-region{{margin-top:36px}}.city-region>h3{{margin:0 0 16px;color:#0f2233;font-family:Syne,sans-serif}}.cities-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px}}.cities-grid .detail-card{{height:100%;display:flex;flex-direction:column}}.cities-grid .text-link-v2{{margin-top:auto;padding-top:18px}}.hub-note{{margin-top:24px;padding:20px;border-left:4px solid #2c6b57;background:rgba(44,107,87,.07);border-radius:0 14px 14px 0}}.hub-note p{{margin:0}}@media(max-width:640px){{.cta-actions-v2>*{{width:100%;justify-content:center;text-align:center}}}}</style>
     <script type="application/ld+json">
 {json_script(item_list)}
     </script>
@@ -771,14 +977,14 @@ def render_hub() -> str:
 <body>
     <header><div class="logo"><a href="/index.html"><img src="/assets/img/soulcont/wordmark.svg?v=2" alt="Logo SoulCont"></a></div><nav role="navigation" aria-label="Menu principal"><ul class="menu"><li><a href="/index.html"><i class="fi fi-rr-home"></i> Home</a></li><li><a href="/HTML/servicos.html"><i class="fi fi-rr-briefcase"></i> Serviços</a></li><li><a href="/HTML/ferramentas.html"><i class="fi fi-rr-calculator"></i> Ferramentas</a></li><li><a href="/HTML/contatos.html"><i class="fi fi-rr-phone-call"></i> Contato</a></li></ul></nav><div class="menu-mobile"><button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" id="btn-mobile"><i class="fi fi-rr-menu-burger"></i></button></div></header>
     <main class="site-main-v2">
-        <section class="section-shell"><div class="detail-hero"><span class="eyebrow-label"><i class="fi fi-rr-marker"></i> Presença regional</span><h1>Contabilidade com base em Icó e atendimento para empresas do Ceará</h1><p>A SoulCont possui sede em Icó e atende digitalmente empresas de diferentes municípios. Cada página abaixo explica o foco do atendimento sem afirmar escritórios ou endereços que não existem.</p><div class="cta-actions-v2"><a href="/cidades/ico/" class="btn-v2 btn-v2-primary">Conhecer a sede em Icó</a><a href="/HTML/contatos.html" class="btn-v2 btn-v2-secondary">Falar com a SoulCont</a></div></div></section>
-        <section class="section-block"><div class="section-shell"><div class="section-panel"><div class="section-heading"><span class="eyebrow-label"><i class="fi fi-rr-map"></i> Cidades atendidas</span><h2>Escolha a cidade da sua empresa</h2><p>As páginas apresentam situações e prioridades comuns ao atendimento em cada localidade. O diagnóstico final sempre depende dos dados reais da empresa.</p></div><div class="cities-grid">
-{cards}
-            </div><div class="hub-note"><p>Estar nesta lista não significa que a SoulCont possui unidade física em cada cidade. O endereço presencial permanece em Icó; nos demais municípios, o atendimento é digital.</p></div></div></div></section>
-        <section class="section-block"><div class="section-shell"><div class="final-cta-panel"><span class="eyebrow-label"><i class="fi fi-rr-headset"></i> Atendimento consultivo</span><h2>Sua cidade não está na lista?</h2><p>A SoulCont também pode avaliar atendimento digital para empresas de outras localidades. O primeiro passo é entender a atividade e a necessidade do negócio.</p><div class="cta-actions-v2"><a href="/HTML/contatos.html" class="btn-v2 btn-v2-primary">Consultar atendimento</a><a href="tel:+5588921791670" class="btn-v2 btn-v2-secondary">Ligar para (88) 92179-1670</a></div></div></div></section>
+        <section class="section-shell"><div class="detail-hero"><span class="eyebrow-label"><i class="fi fi-rr-marker"></i> Presença regional</span><h1>Contabilidade consultiva para empresas em diferentes regiões</h1><p>A SoulCont informa em cada página se o atendimento é presencial em endereço público, externo mediante agendamento ou inteiramente on-line.</p><div class="cta-actions-v2"><a href="/HTML/contatos.html" class="btn-v2 btn-v2-primary">Falar com a SoulCont</a><a href="#cidades" class="btn-v2 btn-v2-secondary">Ver cidades atendidas</a></div></div></section>
+        <section class="section-block" id="cidades"><div class="section-shell"><div class="section-panel"><div class="section-heading"><span class="eyebrow-label"><i class="fi fi-rr-map"></i> Cidades atendidas</span><h2>Escolha a cidade da sua empresa</h2><p>As páginas apresentam situações e prioridades comuns ao atendimento em cada localidade. O diagnóstico final sempre depende dos dados reais da empresa.</p></div>
+{grouped_cards}
+            <div class="hub-note"><p>A presença de uma cidade nesta lista não significa que exista uma unidade física no local. Consulte a página da cidade para conhecer a forma de atendimento disponível.</p></div></div></div></section>
+        <section class="section-block"><div class="section-shell"><div class="final-cta-panel"><span class="eyebrow-label"><i class="fi fi-rr-headset"></i> Atendimento consultivo</span><h2>Sua cidade não está na lista?</h2><p>A SoulCont pode avaliar atendimento on-line para empresas de outras localidades. O primeiro passo é entender a atividade e a necessidade do negócio.</p><div class="cta-actions-v2"><a href="/HTML/contatos.html" class="btn-v2 btn-v2-primary">Consultar atendimento</a></div></div></div></section>
     </main>
-    <footer class="site-footer-v2"><div class="footer-panel-v2"><div class="footer-grid-v2"><div class="footer-brand-v2"><strong>SoulCont</strong><p>Contabilidade consultiva com sede em Icó e atendimento digital.</p></div><div class="footer-group-v2"><h3>Navegação</h3><ul><li><a href="/HTML/servicos.html">Serviços</a></li><li><a href="/HTML/ferramentas.html">Ferramentas</a></li><li><a href="/BLOG/">Conteúdos</a></li></ul></div><div class="footer-group-v2"><h3>Contato</h3><ul><li><a href="tel:+5588921791670">(88) 92179-1670</a></li><li><a href="mailto:contato@soulcont.com">contato@soulcont.com</a></li><li><a href="/HTML/contatos.html">Página de contato</a></li></ul></div></div><div class="footer-meta-v2"><p>&copy; <span id="current-year">2026</span> SoulCont.</p><p>Vitor Rodrigues de Lima · CRC SP353836<br>Leonardo Silva de Sousa · CRCCE 024206/O5</p></div></div></footer>
-    <script src="/assets/js/menu.js?v=4.1" defer></script><script src="/assets/js/footer.js?v=3.7" defer></script><script src="/assets/js/motion.js?v=1.0" defer></script><script src="/assets/js/main.js?v=1.0" defer></script><script src="/assets/js/soulcont-brand.js?v=1.0" defer></script>
+    <footer class="site-footer-v2"><div class="footer-panel-v2"><div class="footer-grid-v2"><div class="footer-brand-v2"><strong>SoulCont</strong><p>Contabilidade consultiva com atendimento humano e processos digitais.</p></div><div class="footer-group-v2"><h3>Navegação</h3><ul><li><a href="/HTML/servicos.html">Serviços</a></li><li><a href="/HTML/ferramentas.html">Ferramentas</a></li><li><a href="/BLOG/">Conteúdos</a></li></ul></div><div class="footer-group-v2"><h3>Contato</h3><ul>{regional_contacts}<li><a href="mailto:{SITE['email']}">{SITE['email']}</a></li><li><a href="/HTML/contatos.html">Página de contato</a></li></ul></div></div><div class="footer-meta-v2"><p>&copy; <span id="current-year">2026</span> SoulCont.</p><p>Vitor Rodrigues de Lima · CRC SP353836<br>Leonardo Silva de Sousa · CRCCE 024206/O5</p></div></div></footer>
+    <script src="/assets/js/menu.js?v=4.1" defer></script><script src="/assets/js/footer.js?v=3.7" defer></script><script src="/assets/js/motion.js?v=1.0" defer></script><script src="/assets/js/main.js?v=1.0" defer></script><script src="/assets/js/soulcont-brand.js?v=1.0" defer></script><script src="/assets/js/cookies.js?v=4.0" defer></script>
 </body>
 </html>
 '''

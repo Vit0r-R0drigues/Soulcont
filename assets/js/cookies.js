@@ -203,6 +203,33 @@ function getContactMethod(link) {
     return null;
 }
 
+function getPageTrackingContext(element = null) {
+    const cityMatch = window.location.pathname.match(/\/cidades\/([^/]+)\//i);
+    const serviceMatch = window.location.pathname.match(/\/servicos\/([^/]+)\//i);
+    const legacyServiceMatch = window.location.pathname.match(
+        /\/HTML\/(abertura-de-empresa|troca-de-contador|diagnostico-tributario|contabilidade-prestadores-servico)\.html/i
+    );
+    const trackedElement = element instanceof HTMLElement ? element : null;
+    const submittedCity = element instanceof HTMLFormElement
+        ? element.elements.namedItem('cidade')?.value?.trim()
+        : '';
+
+    return {
+        city: trackedElement?.dataset.trackCity
+            || document.body.dataset.trackCity
+            || submittedCity
+            || cityMatch?.[1]
+            || 'nao_informada',
+        service: trackedElement?.dataset.trackService
+            || document.body.dataset.trackService
+            || serviceMatch?.[1]
+            || legacyServiceMatch?.[1]
+            || 'geral',
+        page_type: document.body.dataset.pageType
+            || (cityMatch ? 'cidade' : serviceMatch || legacyServiceMatch ? 'servico' : 'institucional')
+    };
+}
+
 function initializeContactTracking() {
     if (window.soulcontContactTrackingInitialized) return;
 
@@ -214,24 +241,36 @@ function initializeContactTracking() {
         const contactMethod = getContactMethod(link);
         if (!contactMethod) return;
 
-        trackAnalyticsEvent('contact_click', {
-            contact_method: contactMethod
-        });
-        trackAnalyticsEvent('generate_lead', {
-            contact_method: contactMethod
-        });
+        const eventParameters = {
+            contact_method: contactMethod,
+            cta_position: link.dataset.trackPosition || 'nao_informada',
+            cta_label: (link.textContent || link.getAttribute('aria-label') || 'contato').trim().slice(0, 100),
+            ...getPageTrackingContext(link)
+        };
+
+        const methodEventName = {
+            telefone: 'phone_click',
+            email: 'email_click',
+            whatsapp: 'whatsapp_click'
+        }[contactMethod];
+
+        trackAnalyticsEvent('contact_click', eventParameters);
+        if (methodEventName) trackAnalyticsEvent(methodEventName, eventParameters);
+        trackAnalyticsEvent('generate_lead', eventParameters);
     }, true);
 
     document.addEventListener('submit', (event) => {
         const form = event.target;
         if (!(form instanceof HTMLFormElement)) return;
 
-        trackAnalyticsEvent('form_submit', {
-            form_id: form.id || 'formulario_sem_id'
-        });
-        trackAnalyticsEvent('generate_lead', {
-            contact_method: 'formulario'
-        });
+        const eventParameters = {
+            form_id: form.id || 'formulario_sem_id',
+            contact_method: 'formulario',
+            ...getPageTrackingContext(form)
+        };
+
+        trackAnalyticsEvent('form_submit', eventParameters);
+        trackAnalyticsEvent('generate_lead', eventParameters);
     }, true);
 
     window.soulcontContactTrackingInitialized = true;

@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             telefone: document.getElementById('telefone')?.value.trim() || '',
             email: document.getElementById('email')?.value.trim() || '',
             empresa: document.getElementById('empresa')?.value.trim() || '',
+            cidade: document.getElementById('cidade')?.value.trim() || '',
             objetivo: document.getElementById('objetivo')?.value.trim() || '',
             momento: document.getElementById('momento')?.value.trim() || '',
             mensagem: document.getElementById('mensagem')?.value.trim() || ''
@@ -58,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             campos.telefone ? `Telefone: ${campos.telefone}` : '',
             campos.email ? `E-mail: ${campos.email}` : '',
             campos.empresa ? `Empresa ou atividade: ${campos.empresa}` : '',
+            campos.cidade ? `Cidade de atuação: ${campos.cidade}` : '',
             campos.objetivo ? `Objetivo principal: ${campos.objetivo}` : '',
             campos.momento ? `Momento atual: ${campos.momento}` : '',
             campos.mensagem ? `Contexto: ${campos.mensagem}` : '',

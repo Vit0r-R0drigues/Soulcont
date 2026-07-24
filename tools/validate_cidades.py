@@ -7,6 +7,7 @@ import sys
 from difflib import SequenceMatcher
 from pathlib import Path
 
+from cidades_config import validate_city_dataset
 from generate_cidades import CITIES
 
 
@@ -35,6 +36,7 @@ def validate() -> None:
     h1s: dict[str, Path] = {}
     texts: dict[str, str] = {}
     expected_urls = {"https://soulcontt.com.br/cidades/"}
+    validate_city_dataset(CITIES)
 
     hub = CITY_ROOT / "index.html"
     if not hub.exists():
@@ -77,6 +79,13 @@ def validate() -> None:
             for block in blocks:
                 json.loads(block)
 
+            if "/assets/css/cookies.css" not in source:
+                errors.append(f"{path.relative_to(ROOT)}: missing cookie consent CSS")
+            if "/assets/js/cookies.js" not in source:
+                errors.append(
+                    f"{path.relative_to(ROOT)}: missing cookie consent/Analytics loader"
+                )
+
             refs = set(re.findall(r'(?:href|src)="(/[^"?#]+)', source, flags=re.I))
             for ref in refs:
                 target = ROOT / ref.lstrip("/")
@@ -87,9 +96,26 @@ def validate() -> None:
 
             if f'/cidades/{city["slug"]}/' not in hub_source:
                 errors.append(f"Hub missing link to {city['name']}")
-            if city["slug"] == "ico":
-                if "Rua São José, 1245" not in source:
-                    errors.append("Icó page is missing the physical address")
+            if city["attendance_mode"] == "public_location":
+                expected_street = city["address"]["streetAddress"]
+                if expected_street not in source:
+                    errors.append(
+                        f"{city['name']}: public location is missing its configured address"
+                    )
+            elif city["attendance_mode"] == "service_area":
+                service_area_disclosures = (
+                    "não divulga escritório aberto ao público",
+                    "não possui escritório aberto ao público",
+                    "não divulga uma unidade aberta ao público",
+                )
+                if not any(marker in source.lower() for marker in service_area_disclosures):
+                    errors.append(
+                        f"{city['name']}: missing service-area location disclosure"
+                    )
+                if city.get("address"):
+                    errors.append(
+                        f"{city['name']}: service-area dataset unexpectedly exposes an address"
+                    )
             elif "não possui unidade física na cidade" not in source:
                 errors.append(f"{city['name']}: missing digital-only location disclosure")
 

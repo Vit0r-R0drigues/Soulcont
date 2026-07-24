@@ -287,7 +287,10 @@ function routeGenericWhatsAppLinks() {
     document.querySelectorAll('a[href*="wa.me/"]').forEach((link) => {
         const context = `${link.textContent || ''} ${link.getAttribute('title') || ''} ${link.getAttribute('aria-label') || ''}`;
 
-        if (directContactPattern.test(context)) {
+        if (
+            link.matches('[data-direct-whatsapp="true"], .sp-whatsapp')
+            || directContactPattern.test(context)
+        ) {
             return;
         }
 
