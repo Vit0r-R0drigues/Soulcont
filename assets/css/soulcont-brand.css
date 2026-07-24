@@ -253,7 +253,7 @@ header .logo a.soulcont-wordmark::before,
 .soulcont-feature-story__copy h2 {
     max-width: 18ch;
     margin: 16px 0;
-    color: var(--soul-ui-navy);
+    color: var(--soul-ivory);
     font-family: Georgia, "Times New Roman", serif;
     font-size: clamp(2rem, 3.5vw, 3.35rem);
     font-weight: 500;
