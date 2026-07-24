@@ -235,6 +235,7 @@ body.hub-js .hub-reveal.is-revealed {
 }
 
 .hub-filter-btn {
+    flex: 0 0 auto;
     white-space: nowrap;
     border: 1px solid rgba(200, 168, 107, 0.22);
     background: #faf5ed;
@@ -501,6 +502,19 @@ body.hub-js .hub-card.is-filtered-in {
     margin-top: 0.9rem;
 }
 
+.tools-commercial-band .insight-card {
+    background: rgba(244, 241, 234, 0.07);
+    border-color: rgba(200, 168, 107, 0.24);
+}
+
+.tools-commercial-band .insight-card h3 {
+    color: #f4f1ea;
+}
+
+.tools-commercial-band .insight-card p {
+    color: rgba(244, 241, 234, 0.88);
+}
+
 @media (min-width: 760px) {
     .ferramentas-page.hub-page {
         padding: 7.7rem 1.2rem 3.2rem;
@@ -534,6 +548,12 @@ body.hub-js .hub-card.is-filtered-in {
 @media (max-width: 768px) {
     .ferramentas-page.hub-page {
         padding-top: 6rem;
+    }
+
+    .hub-filters {
+        flex-wrap: wrap;
+        overflow-x: visible;
+        padding-top: 0.8rem;
     }
 }
 

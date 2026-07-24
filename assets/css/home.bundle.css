@@ -8794,6 +8794,13 @@ details[open] > summary {
         line-height: 1.55;
     }
 
+    body.home-page .hero-home-copy > p:not(.hero-responsible-line) {
+        text-align: justify;
+        text-align-last: left;
+        text-justify: inter-word;
+        hyphens: auto;
+    }
+
     body.home-page .hero-actions-v2 {
         margin-top: 16px;
     }

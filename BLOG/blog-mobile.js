@@ -17,6 +17,64 @@
         }
     }
 
+    function setupMobileMenu() {
+        var header = document.querySelector('.site-header');
+        var headerInner = header && header.querySelector('.header-inner');
+        var nav = headerInner && headerInner.querySelector('.header-nav');
+
+        if (!headerInner || !nav || headerInner.querySelector('.blog-menu-toggle')) {
+            return;
+        }
+
+        if (!nav.id) {
+            nav.id = 'blog-primary-navigation';
+        }
+
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'blog-menu-toggle';
+        button.setAttribute('aria-label', 'Abrir menu');
+        button.setAttribute('aria-expanded', 'false');
+        button.setAttribute('aria-controls', nav.id);
+        button.innerHTML = '<i class="fi fi-rr-menu-burger" aria-hidden="true"></i>';
+        headerInner.insertBefore(button, nav);
+
+        function setOpen(open) {
+            nav.classList.toggle('is-open', open);
+            button.setAttribute('aria-expanded', String(open));
+            button.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+        }
+
+        button.addEventListener('click', function () {
+            setOpen(button.getAttribute('aria-expanded') !== 'true');
+        });
+
+        nav.addEventListener('click', function (event) {
+            if (event.target.closest('a')) {
+                setOpen(false);
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                setOpen(false);
+                button.focus();
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!header.contains(event.target)) {
+                setOpen(false);
+            }
+        });
+
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 760) {
+                setOpen(false);
+            }
+        });
+    }
+
     function setupBlogHub() {
         var searchInput = document.getElementById('postSearch');
         var filters = Array.from(document.querySelectorAll('.filter-btn[data-filter]'));
@@ -217,6 +275,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         setCurrentYear();
+        setupMobileMenu();
         setupBlogHub();
         setupReadingTime();
         setupReadingProgress();
