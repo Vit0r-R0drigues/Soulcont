@@ -130,6 +130,8 @@ class MobileMenu {
             return;
         }
 
+        this.menuBtn.setAttribute('aria-label', isActive ? 'Fechar menu' : 'Abrir menu');
+
         let glyph = this.menuBtn.querySelector('.menu-toggle-glyph');
         if (!glyph) {
             glyph = document.createElement('span');

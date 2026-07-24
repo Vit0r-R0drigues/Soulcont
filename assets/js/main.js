@@ -1,4 +1,134 @@
 document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-reviews-carousel]').forEach((carousel) => {
+        const viewport = carousel.querySelector('[data-reviews-viewport]');
+        const track = carousel.querySelector('.reviews-carousel__track');
+        const previousButton = carousel.querySelector('[data-reviews-prev]');
+        const autoplayButton = carousel.querySelector('[data-reviews-toggle]');
+        const nextButton = carousel.querySelector('[data-reviews-next]');
+
+        if (!viewport || !track || !previousButton || !autoplayButton || !nextButton) {
+            return;
+        }
+
+        const reducedMotionQuery = window.matchMedia
+            ? window.matchMedia('(prefers-reduced-motion: reduce)')
+            : null;
+        const autoplayDelay = 6500;
+        let autoplayTimer = null;
+        let autoplayPaused = !!reducedMotionQuery?.matches;
+        let focusWithinCarousel = false;
+
+        const updateControls = () => {
+            const maximumScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+            previousButton.disabled = viewport.scrollLeft <= 2;
+            nextButton.disabled = viewport.scrollLeft >= maximumScroll - 2;
+        };
+
+        const moveCarousel = (direction) => {
+            const firstCard = track.querySelector('.review-card');
+            if (!firstCard) {
+                return;
+            }
+
+            const trackStyles = window.getComputedStyle(track);
+            const gap = Number.parseFloat(trackStyles.columnGap || trackStyles.gap || '0');
+            const cardWidth = firstCard.getBoundingClientRect().width;
+
+            viewport.scrollBy({
+                left: direction * (cardWidth + gap),
+                behavior: reducedMotionQuery?.matches ? 'auto' : 'smooth'
+            });
+        };
+
+        const stopAutoplay = () => {
+            if (autoplayTimer !== null) {
+                window.clearTimeout(autoplayTimer);
+                autoplayTimer = null;
+            }
+        };
+
+        const updateAutoplayButton = () => {
+            const buttonIcon = autoplayButton.querySelector('span');
+            autoplayButton.setAttribute('aria-pressed', String(autoplayPaused));
+            autoplayButton.setAttribute(
+                'aria-label',
+                autoplayPaused ? 'Retomar rotação automática' : 'Pausar rotação automática'
+            );
+
+            if (buttonIcon) {
+                buttonIcon.textContent = autoplayPaused ? '▶' : 'Ⅱ';
+            }
+        };
+
+        const advanceAutomatically = () => {
+            const maximumScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+            const behavior = reducedMotionQuery?.matches ? 'auto' : 'smooth';
+
+            if (viewport.scrollLeft >= maximumScroll - 2) {
+                viewport.scrollTo({ left: 0, behavior });
+            } else {
+                moveCarousel(1);
+            }
+        };
+
+        const scheduleAutoplay = () => {
+            stopAutoplay();
+
+            if (autoplayPaused || focusWithinCarousel || document.hidden) {
+                return;
+            }
+
+            autoplayTimer = window.setTimeout(() => {
+                advanceAutomatically();
+                scheduleAutoplay();
+            }, autoplayDelay);
+        };
+
+        previousButton.addEventListener('click', () => {
+            moveCarousel(-1);
+            scheduleAutoplay();
+        });
+        nextButton.addEventListener('click', () => {
+            moveCarousel(1);
+            scheduleAutoplay();
+        });
+        autoplayButton.addEventListener('click', () => {
+            autoplayPaused = !autoplayPaused;
+            updateAutoplayButton();
+            scheduleAutoplay();
+        });
+        viewport.addEventListener('scroll', updateControls, { passive: true });
+        viewport.addEventListener('pointerdown', stopAutoplay);
+        viewport.addEventListener('pointerup', scheduleAutoplay);
+        viewport.addEventListener('pointercancel', scheduleAutoplay);
+        carousel.addEventListener('focusin', () => {
+            focusWithinCarousel = true;
+            stopAutoplay();
+        });
+        carousel.addEventListener('focusout', (event) => {
+            if (event.relatedTarget && carousel.contains(event.relatedTarget)) {
+                return;
+            }
+
+            focusWithinCarousel = false;
+            scheduleAutoplay();
+        });
+        document.addEventListener('visibilitychange', scheduleAutoplay);
+        window.addEventListener('resize', updateControls);
+
+        if (typeof reducedMotionQuery?.addEventListener === 'function') {
+            reducedMotionQuery.addEventListener('change', (event) => {
+                autoplayPaused = event.matches;
+                updateAutoplayButton();
+                scheduleAutoplay();
+            });
+        }
+
+        updateControls();
+        updateAutoplayButton();
+        scheduleAutoplay();
+    });
+
     if (!window.VLMotion) {
         return;
     }

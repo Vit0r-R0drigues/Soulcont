@@ -32,9 +32,13 @@
         imagesrcset="/assets/img/soulcont/vitor-rodrigues-retrato-3x4-320w.webp 320w, /assets/img/soulcont/vitor-rodrigues-retrato-3x4-640w.webp 640w, /assets/img/soulcont/vitor-rodrigues-retrato-3x4.webp 1086w"
         imagesizes="(max-width: 360px) calc(100vw - 40px), (max-width: 980px) 320px, 360px"
         type="image/webp" fetchpriority="high">
-    <link
+    <link rel="preload" as="style"
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
-        rel="stylesheet">
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap">
+    </noscript>
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css"
         media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css"
@@ -47,9 +51,9 @@
     <link rel="alternate icon" href="/assets/img/soulcont/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="/assets/img/soulcont/apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="/assets/css/home.bundle.css?v=1.0">
-    <script src="/assets/js/menu.js?v=4.1" defer></script>
-    <script src="/assets/js/cookies.js?v=3.8" defer></script>
+    <link rel="stylesheet" href="/assets/css/home.bundle.css?v=1.3">
+    <script src="/assets/js/menu.js?v=4.2" defer></script>
+    <script src="/assets/js/cookies.js?v=4.0" defer></script>
 
     <script type="application/ld+json">
     {
@@ -546,6 +550,97 @@
             </div>
         </section>
 
+        <section class="section-block soulcont-reviews" id="avaliacoes">
+            <div class="section-shell">
+                <div class="section-panel reviews-panel" data-reviews-carousel>
+                    <div class="reviews-heading-row">
+                        <div class="section-heading">
+                            <span class="eyebrow-label"><i class="fi fi-brands-google"></i> Avaliações no Google</span>
+                            <h2>A confiança de quem já conta com a SoulCont</h2>
+                            <p>Experiências publicadas por clientes no Perfil da Empresa no Google.</p>
+                        </div>
+                        <a class="google-rating-summary" href="https://www.google.com/search?q=SOULCONT+Ic%C3%B3&amp;ludocid=10447930526667927822" target="_blank" rel="noopener noreferrer" aria-label="Ver o perfil da SoulCont e suas 24 avaliações no Google">
+                            <span class="google-rating-summary__brand"><i class="fi fi-brands-google" aria-hidden="true"></i> Google</span>
+                            <span class="google-rating-summary__score">5,0</span>
+                            <span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span>
+                            <span class="google-rating-summary__count">24 avaliações</span>
+                        </a>
+                    </div>
+
+                    <div class="reviews-carousel" role="region" aria-roledescription="carrossel" aria-label="Avaliações de clientes da SoulCont">
+                        <div class="reviews-carousel__viewport" data-reviews-viewport tabindex="0">
+                            <ul class="reviews-carousel__track">
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“Excelente atendimento! A equipe é muito atenciosa, sempre explica tudo de forma clara e tira todas as dúvidas com paciência. Conseguem transformar toda a burocracia da contabilidade em algo simples e fácil de entender. Passam muita confiança e demonstram profissionalismo em cada atendimento. Recomendo!”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">VV</span><strong>Victor Ventura</strong></div>
+                                </li>
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“Um ótimo profissional, qualificado, capacitado no que faz ! Super educado e gentil . Seu espaço de trabalho muito confortável e acessível para todos . 👏🏽👏🏽🥰”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">AS</span><strong>Ana nery Soares</strong></div>
+                                </li>
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“A melhor e mais confiável empresa de contabilidade”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">KF</span><strong>Karina Ferraz</strong></div>
+                                </li>
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“Melhor contador da região. Altamente atualizado das novas legislações e extremamente responsável!”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">MT</span><strong>Monick Teixeira</strong></div>
+                                </li>
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“Ambiente organizado, atendimento de alta qualidade e trabalho realizado com excelência! Indico sempre!!”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">L</span><strong>Livia</strong></div>
+                                </li>
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“A melhor empresa de contabilidade do Ceará. Nunca me preocupei com nada que apareceu da minha empresa. Pessoas competentes e com agilidade em resolver qualquer problema.”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">VG</span><strong>Vitoria Gomes</strong></div>
+                                </li>
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“Trabalho sério, compromisso é ótimo atendimento !”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">EG</span><strong>Erlim Griffin</strong></div>
+                                </li>
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“Qualidade, segurança e um ótimo atendimento!”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">HP</span><strong>Henrique pereira</strong></div>
+                                </li>
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“Sempre indico porque confio! Um trabalho essencial pra quem é micro empreendedor e empresário!”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">BR</span><strong>Brizza Roza</strong></div>
+                                </li>
+                                <li class="review-card">
+                                    <div class="review-card__top"><span class="review-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>Google</span></div>
+                                    <blockquote>“Lugar aconchegante excelentes profissionais 😍”</blockquote>
+                                    <div class="review-card__author"><span class="review-card__avatar" aria-hidden="true">SS</span><strong>Silvia Soares</strong></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="reviews-carousel__footer">
+                            <div class="reviews-carousel__controls" aria-label="Controles do carrossel">
+                                <button type="button" class="reviews-carousel__button" data-reviews-prev aria-label="Mostrar avaliações anteriores">
+                                    <span aria-hidden="true">←</span>
+                                </button>
+                                <button type="button" class="reviews-carousel__button" data-reviews-toggle aria-label="Pausar rotação automática" aria-pressed="false">
+                                    <span aria-hidden="true">Ⅱ</span>
+                                </button>
+                                <button type="button" class="reviews-carousel__button" data-reviews-next aria-label="Mostrar próximas avaliações">
+                                    <span aria-hidden="true">→</span>
+                                </button>
+                            </div>
+                            <a class="text-link-v2 reviews-google-link" href="https://www.google.com/search?q=SOULCONT+Ic%C3%B3&amp;ludocid=10447930526667927822" target="_blank" rel="noopener noreferrer">Ver todas as avaliações no Google <i class="fi fi-rr-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="section-block soulcont-faq" id="duvidas-frequentes">
             <div class="section-shell">
                 <div class="section-panel">
@@ -635,7 +730,7 @@
 
     <script src="/assets/js/footer.js?v=3.7" defer></script>
     <script src="/assets/js/motion.js?v=1.0" defer></script>
-    <script src="/assets/js/main.js?v=1.0" defer></script>
+    <script src="/assets/js/main.js?v=1.2" defer></script>
     <script src="/assets/js/soulcont-brand.js?v=1.1" defer></script>
 </body>
 

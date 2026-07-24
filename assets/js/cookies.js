@@ -9,7 +9,7 @@ const COOKIE_CONFIG = {
 };
 
 const ANALYTICS_CONFIG = {
-    measurementId: 'G-5TQ0YTWHK9',
+    measurementId: 'G-V68TNXMWT5',
     scriptId: 'soulcont-analytics-script'
 };
 
@@ -66,6 +66,7 @@ function showCookieBanner() {
             </p>
             <div class="cookie-buttons">
                 <button type="button" class="cookie-btn settings-btn" onclick="showCookieSettings()">Configurar Preferencias</button>
+                <button type="button" class="cookie-btn settings-btn" onclick="rejectOptionalCookies()">Recusar Opcionais</button>
                 <button type="button" class="cookie-btn accept-btn" onclick="acceptAllCookies()">Aceitar Todos</button>
             </div>
         </div>
@@ -150,6 +151,15 @@ function acceptAllCookies() {
     initializeServices();
 }
 
+function rejectOptionalCookies() {
+    setCookie(COOKIE_CONFIG.names.consent, 'true');
+    setCookie(COOKIE_CONFIG.names.analytics, 'false');
+    setCookie(COOKIE_CONFIG.names.marketing, 'false');
+    closeCookieSettings();
+    hideCookieBanner();
+    updateGoogleConsent(false, false);
+}
+
 function saveSettings() {
     const analyticsEnabled = document.getElementById('analyticsCookies')?.checked ?? false;
     const marketingEnabled = document.getElementById('marketingCookies')?.checked ?? false;
@@ -160,11 +170,75 @@ function saveSettings() {
 
     closeCookieSettings();
     hideCookieBanner();
+    updateGoogleConsent(analyticsEnabled, marketingEnabled);
     initializeServices();
 }
 
+function updateGoogleConsent(analyticsEnabled, marketingEnabled) {
+    if (typeof window.gtag !== 'function') return;
+
+    window.gtag('consent', 'update', {
+        analytics_storage: analyticsEnabled ? 'granted' : 'denied',
+        ad_storage: marketingEnabled ? 'granted' : 'denied',
+        ad_user_data: marketingEnabled ? 'granted' : 'denied',
+        ad_personalization: marketingEnabled ? 'granted' : 'denied'
+    });
+}
+
+function trackAnalyticsEvent(eventName, parameters = {}) {
+    if (getCookie(COOKIE_CONFIG.names.analytics) !== 'true') return;
+    if (typeof window.gtag !== 'function') return;
+
+    window.gtag('event', eventName, {
+        page_path: window.location.pathname,
+        ...parameters
+    });
+}
+
+function getContactMethod(link) {
+    const href = link.getAttribute('href') || '';
+    if (/^tel:/i.test(href)) return 'telefone';
+    if (/^mailto:/i.test(href)) return 'email';
+    if (/wa\.me|api\.whatsapp\.com|whatsapp\.com/i.test(href)) return 'whatsapp';
+    return null;
+}
+
+function initializeContactTracking() {
+    if (window.soulcontContactTrackingInitialized) return;
+
+    document.addEventListener('click', (event) => {
+        if (!(event.target instanceof Element)) return;
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+
+        const contactMethod = getContactMethod(link);
+        if (!contactMethod) return;
+
+        trackAnalyticsEvent('contact_click', {
+            contact_method: contactMethod
+        });
+        trackAnalyticsEvent('generate_lead', {
+            contact_method: contactMethod
+        });
+    }, true);
+
+    document.addEventListener('submit', (event) => {
+        const form = event.target;
+        if (!(form instanceof HTMLFormElement)) return;
+
+        trackAnalyticsEvent('form_submit', {
+            form_id: form.id || 'formulario_sem_id'
+        });
+        trackAnalyticsEvent('generate_lead', {
+            contact_method: 'formulario'
+        });
+    }, true);
+
+    window.soulcontContactTrackingInitialized = true;
+}
+
 function initializeAnalytics() {
-    if (window.vlAnalyticsInitialized) {
+    if (window.soulcontAnalyticsInitialized) {
         return Promise.resolve();
     }
 
@@ -192,7 +266,9 @@ function initializeAnalytics() {
             window.gtag('config', ANALYTICS_CONFIG.measurementId, {
                 anonymize_ip: true
             });
-            window.vlAnalyticsInitialized = true;
+            updateGoogleConsent(true, getCookie(COOKIE_CONFIG.names.marketing) === 'true');
+            initializeContactTracking();
+            window.soulcontAnalyticsInitialized = true;
             resolve();
         }, { once: true });
 
@@ -216,6 +292,7 @@ function initializeServices() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    initializeContactTracking();
     showCookieBanner();
     if (getCookie(COOKIE_CONFIG.names.consent) === 'true') {
         initializeServices();
