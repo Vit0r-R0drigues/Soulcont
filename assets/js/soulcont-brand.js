@@ -4,7 +4,7 @@
             if (!anchor.querySelector('img')) return;
             anchor.classList.add('soulcont-wordmark');
             anchor.setAttribute('aria-label', 'SoulCont - pagina inicial');
-            anchor.innerHTML = '<span>SOUL</span><strong>CONT</strong>';
+            anchor.innerHTML = '<img class="soulcont-wordmark__mark" src="/assets/img/soulcont/brand-mark-growth-transparent.png?v=1" alt="" width="26" height="32" aria-hidden="true"><span>SOUL</span><strong>CONT</strong>';
         });
     }
 

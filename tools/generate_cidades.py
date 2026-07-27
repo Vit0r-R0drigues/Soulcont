@@ -527,6 +527,224 @@ CITIES = [
             "Abertura, troca de contador e gestão tributária com atendimento digital e humano."
         ),
     },
+    {
+        "slug": "guarulhos",
+        "name": "Guarulhos",
+        "region": "sao-paulo",
+        "attendance_mode": "service_area",
+        "address": None,
+        "context_title": (
+            "Contabilidade para empresas de Guarulhos que precisam organizar "
+            "tributos, equipe e crescimento"
+        ),
+        "context": (
+            "A SoulCont atende empresas de Guarulhos por canais digitais, com contato "
+            "direto com o contador e encontros externos mediante agendamento e "
+            "disponibilidade. O trabalho parte da atividade, do faturamento, da folha "
+            "e das rotinas já existentes, sem indicar unidade física no município."
+        ),
+        "focus": "Serviços, comércio e empresas com equipe",
+        "focus_text": (
+            "Organização fiscal, trabalhista e financeira para negócios que precisam "
+            "acompanhar o crescimento sem perder previsibilidade."
+        ),
+        "audiences": [
+            "Prestadores de serviços de Guarulhos com faturamento recorrente",
+            "Pequenas empresas com admissões, folha e encargos mensais",
+            "Comércios que precisam separar rotina fiscal e controle financeiro",
+            "Empresas que desejam trocar de contador com pendências mapeadas",
+        ],
+        "decisions": [
+            "Revisar regime tributário conforme atividade, receita e folha",
+            "Planejar contratação, pró-labore e distribuição de lucros",
+            "Organizar notas, documentos e calendário de obrigações",
+            "Conduzir a troca de contador com responsáveis e prazos definidos",
+        ],
+        "faq_q": "A SoulCont possui escritório aberto ao público em Guarulhos?",
+        "faq_a": (
+            "Não. O atendimento em Guarulhos é realizado on-line. Encontros presenciais "
+            "externos podem ser avaliados mediante agendamento e disponibilidade."
+        ),
+        "page_description": (
+            "Contabilidade em Guarulhos para prestadores de serviços, comércios e "
+            "pequenas empresas. Atendimento on-line e encontros externos agendados."
+        ),
+    },
+    {
+        "slug": "osasco",
+        "name": "Osasco",
+        "region": "sao-paulo",
+        "attendance_mode": "service_area",
+        "address": None,
+        "context_title": (
+            "Contabilidade consultiva para empresas de Osasco em fase de organização "
+            "ou mudança"
+        ),
+        "context": (
+            "Empresas de Osasco podem contratar a SoulCont por um processo digital que "
+            "centraliza documentos, dúvidas e decisões. A análise considera regime, "
+            "retirada, equipe e situação cadastral para estruturar a rotina ou preparar "
+            "uma troca de contador sem prometer endereço comercial na cidade."
+        ),
+        "focus": "Troca de contador e rotina mensal",
+        "focus_text": (
+            "Diagnóstico, transição documental e implantação de um fluxo contábil mais "
+            "claro para pequenas empresas e prestadores."
+        ),
+        "audiences": [
+            "Empresas de Osasco insatisfeitas com falta de retorno ou acompanhamento",
+            "Prestadores de serviços que precisam revisar impostos e retirada",
+            "Pequenos negócios com documentos e obrigações descentralizados",
+            "Profissionais liberais que pretendem abrir ou regularizar seu CNPJ",
+        ],
+        "decisions": [
+            "Levantar pendências antes de trocar de contador",
+            "Definir checklist para notas, extratos, folha e impostos",
+            "Avaliar Simples Nacional ou Lucro Presumido com dados reais",
+            "Estruturar pró-labore e distribuição de resultados com documentação",
+        ],
+        "faq_q": "Como uma empresa de Osasco pode trocar de contador para a SoulCont?",
+        "faq_a": (
+            "A transição começa com um diagnóstico e um checklist de documentos e "
+            "pendências. O processo é conduzido on-line, com definição de responsáveis "
+            "e continuidade das obrigações."
+        ),
+        "page_description": (
+            "Contabilidade em Osasco para trocar de contador, abrir empresa e organizar "
+            "tributos. Atendimento consultivo on-line para pequenas empresas."
+        ),
+    },
+    {
+        "slug": "barueri",
+        "name": "Barueri",
+        "region": "sao-paulo",
+        "attendance_mode": "service_area",
+        "address": None,
+        "context_title": (
+            "Contabilidade para empresas de serviços e profissionais de Barueri"
+        ),
+        "context": (
+            "O atendimento da SoulCont para Barueri conecta a rotina fiscal à leitura de "
+            "margem, retirada e estrutura da operação. É indicado para empresas de "
+            "serviços e profissionais que precisam comparar cenários antes de abrir, "
+            "crescer ou rever o enquadramento, com atendimento on-line."
+        ),
+        "focus": "Serviços profissionais e análise tributária",
+        "focus_text": (
+            "Acompanhamento para operações baseadas em conhecimento que precisam alinhar "
+            "tributação, pró-labore, distribuição e indicadores."
+        ),
+        "audiences": [
+            "Consultorias e empresas de serviços empresariais de Barueri",
+            "Profissionais liberais que atuam por pessoa jurídica",
+            "Prestadores com faturamento crescente e estrutura enxuta",
+            "Empresas que desejam integrar contabilidade e leitura financeira",
+        ],
+        "decisions": [
+            "Escolher CNAE e estrutura tributária antes da abertura",
+            "Comparar regimes conforme faturamento, atividade e folha",
+            "Organizar pró-labore e distribuição de lucros",
+            "Acompanhar margem, caixa e ponto de equilíbrio",
+        ],
+        "faq_q": "A SoulCont atende empresas de serviços estabelecidas em Barueri?",
+        "faq_a": (
+            "Sim. O atendimento é feito on-line e pode incluir abertura, rotina contábil, "
+            "diagnóstico tributário, folha e apoio financeiro. Não há unidade física da "
+            "SoulCont aberta ao público em Barueri."
+        ),
+        "page_description": (
+            "Contabilidade em Barueri para consultorias, profissionais e empresas de "
+            "serviços. Regime tributário, pró-labore e gestão com atendimento on-line."
+        ),
+    },
+    {
+        "slug": "santo-andre",
+        "name": "Santo André",
+        "region": "sao-paulo",
+        "attendance_mode": "service_area",
+        "address": None,
+        "context_title": (
+            "Contabilidade para prestadores e pequenas empresas de Santo André"
+        ),
+        "context": (
+            "A SoulCont atende empresas de Santo André digitalmente, organizando "
+            "documentos, tributos, retirada e obrigações trabalhistas em um fluxo "
+            "acompanhado. As orientações são definidas a partir dos dados da empresa e "
+            "das exigências aplicáveis à sua atividade."
+        ),
+        "focus": "Formalização, tributos e organização",
+        "focus_text": (
+            "Estrutura para quem vai abrir empresa, regularizar a rotina ou transformar "
+            "informações contábeis em decisões práticas."
+        ),
+        "audiences": [
+            "Prestadores de serviços de Santo André preparando a abertura do CNPJ",
+            "Profissionais liberais com dúvidas sobre regime e retirada",
+            "Pequenas empresas que precisam organizar notas e obrigações",
+            "Negócios com equipe que desejam revisar folha e encargos",
+        ],
+        "decisions": [
+            "Validar atividade, CNAE e regime antes de abrir a empresa",
+            "Criar uma rotina para emissão de notas e envio de documentos",
+            "Revisar pró-labore, impostos e distribuição de resultados",
+            "Planejar admissões, férias e custo da equipe",
+        ],
+        "faq_q": "O atendimento contábil em Santo André é presencial?",
+        "faq_a": (
+            "O atendimento é prioritariamente on-line e a SoulCont não mantém escritório "
+            "aberto ao público em Santo André. Encontros externos podem ser avaliados "
+            "mediante agendamento e disponibilidade."
+        ),
+        "page_description": (
+            "Contabilidade em Santo André para abrir empresa, organizar tributos e folha. "
+            "Atendimento on-line para prestadores e pequenas empresas."
+        ),
+    },
+    {
+        "slug": "sao-bernardo-do-campo",
+        "name": "São Bernardo do Campo",
+        "region": "sao-paulo",
+        "attendance_mode": "service_area",
+        "address": None,
+        "context_title": (
+            "Contabilidade para empresas de São Bernardo do Campo com operação e equipe"
+        ),
+        "context": (
+            "Empresas de São Bernardo do Campo podem ser acompanhadas pela SoulCont por "
+            "processos digitais e contato direto com o contador. A análise reúne impacto "
+            "tributário, folha, retiradas e visão financeira para apoiar decisões de "
+            "contratação, reorganização ou crescimento."
+        ),
+        "focus": "Folha, tributação e visão financeira",
+        "focus_text": (
+            "Apoio para pequenas empresas que precisam compreender o custo da estrutura "
+            "e manter as obrigações sob controle."
+        ),
+        "audiences": [
+            "Empresas de serviços de São Bernardo do Campo com equipe própria",
+            "Pequenos negócios avaliando contratação ou reorganização",
+            "Prestadores que precisam revisar regime, margem e retirada",
+            "Empresas que querem trocar de contador com continuidade operacional",
+        ],
+        "decisions": [
+            "Calcular o custo de admissões, férias, encargos e rescisões",
+            "Comparar carga tributária junto com margem e fluxo de caixa",
+            "Organizar pró-labore, distribuição e documentos societários",
+            "Planejar a transição contábil sem interromper obrigações",
+        ],
+        "faq_q": (
+            "A SoulCont atende empresas com funcionários em São Bernardo do Campo?"
+        ),
+        "faq_a": (
+            "Sim. Conforme o escopo contratado, o atendimento pode incluir folha, "
+            "admissões, férias, rescisões e encargos. O processo é on-line e não indica "
+            "uma unidade física da SoulCont no município."
+        ),
+        "page_description": (
+            "Contabilidade em São Bernardo do Campo para empresas com equipe. Tributos, "
+            "folha, troca de contador e gestão com atendimento consultivo on-line."
+        ),
+    },
 ]
 
 CITIES = [regionalize_city(city) for city in CITIES]

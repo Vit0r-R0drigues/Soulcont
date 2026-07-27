@@ -51,15 +51,16 @@ header .logo a.soulcont-wordmark,
     text-decoration: none;
 }
 
-header .logo a.soulcont-wordmark::before,
-.footer-brand-v2 a.soulcont-wordmark::before {
-    content: "";
-    width: 30px;
-    height: 30px;
-    flex: 0 0 30px;
+header .logo a.soulcont-wordmark img.soulcont-wordmark__mark,
+.footer-brand-v2 a.soulcont-wordmark img.soulcont-wordmark__mark {
+    display: block;
+    width: 36px !important;
+    height: 44px !important;
+    max-width: 36px !important;
+    max-height: 44px !important;
+    flex: 0 0 36px;
     margin-right: 0.18em;
-    border-radius: 9px;
-    background: url("/assets/img/soulcont/brand-mark.svg?v=2") center / contain no-repeat;
+    object-fit: contain;
 }
 
 .footer-brand-v2 a.soulcont-wordmark {
@@ -72,11 +73,12 @@ header .logo a.soulcont-wordmark::before,
 }
 
 @media (max-width: 640px) {
-    header .logo a.soulcont-wordmark::before {
-        width: 26px;
-        height: 26px;
-        flex-basis: 26px;
-        border-radius: 8px;
+    header .logo a.soulcont-wordmark img.soulcont-wordmark__mark {
+        width: 30px !important;
+        height: 38px !important;
+        max-width: 30px !important;
+        max-height: 38px !important;
+        flex-basis: 30px;
     }
 }
 

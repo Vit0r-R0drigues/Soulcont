@@ -1,12 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
   <title id="title">SoulCont</title>
-  <defs>
-    <linearGradient id="gold" x1="0" x2="1">
-      <stop stop-color="#E8D4A7"/><stop offset=".56" stop-color="#C7A15A"/><stop offset="1" stop-color="#A97B31"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="17" fill="#071B2E"/>
-  <rect x="1.25" y="1.25" width="61.5" height="61.5" rx="15.75" fill="none" stroke="#C7A15A" stroke-opacity=".8" stroke-width="2.5"/>
-  <path d="M45.2 18.3c-3.8-3.2-8.4-4.8-13.5-4.8-9.5 0-16.5 6.1-16.5 14.7 0 6.3 3.9 10.8 11.4 13.5l5.4 1.9c2.4.9 3.6 1.9 3.6 3.3 0 1.8-1.9 3-4.8 3-3.5 0-6.6-1.5-9.2-4.4L16 51c3.7 4.1 8.7 6.2 14.8 6.2 9.7 0 16.7-5.5 16.7-14.3 0-6.3-3.8-10.9-11.4-13.6l-5.6-2c-2.2-.8-3.3-1.8-3.3-3.1 0-1.8 1.7-2.9 4.4-2.9 2.6 0 5.1 1.1 7.5 3.3z" fill="url(#gold)"/>
-  <circle cx="48.5" cy="15.5" r="2.8" fill="#F7F4EE"/>
+  <desc id="desc">Monograma SoulCont em branco e dourado sobre fundo azul-marinho.</desc>
+  <rect width="512" height="512" rx="112" fill="#071B2E"/>
+  <g transform="translate(26 28) scale(.9)">
+    <path d="M354 112C201 45 74 143 82 300c6 111 93 181 226 174" fill="none" stroke="#D5AE63" stroke-width="29" stroke-linecap="round"/>
+    <path d="M363 148c-31-26-68-39-110-39-78 0-135 50-135 121 0 52 31 88 93 111l43 16c20 7 30 16 30 28 0 16-16 26-43 26-35 0-66-15-93-45l-44 44c35 42 82 63 139 63 79 0 136-46 136-117 0-52-31-89-93-112l-45-17c-18-7-28-16-28-27 0-15 14-25 37-25 23 0 45 10 65 29z" fill="#F7F4EE"/>
+    <path d="M83 431C210 399 328 306 438 185" fill="none" stroke="#E0B45F" stroke-width="24" stroke-linecap="round"/>
+    <path d="M420 181l48-24-17 50z" fill="#E0B45F"/>
+    <path d="M184 472C267 506 362 489 424 434" fill="none" stroke="#D5AE63" stroke-width="24" stroke-linecap="round"/>
+    <path d="M262 374h36v78h-36zm57-43h36v121h-36zm57-54h36v175h-36z" fill="#D5AE63"/>
+  </g>
 </svg>

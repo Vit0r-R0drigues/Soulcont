@@ -1,13 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
   <title id="title">Monograma SoulCont</title>
-  <desc id="desc">Monograma dourado S em fundo azul profundo.</desc>
-  <defs>
-    <linearGradient id="gold" x1="0" x2="1">
-      <stop stop-color="#E8D4A7"/><stop offset=".56" stop-color="#C7A15A"/><stop offset="1" stop-color="#A97B31"/>
-    </linearGradient>
-  </defs>
-  <rect width="512" height="512" rx="132" fill="#071B2E"/>
-  <rect x="12" y="12" width="488" height="488" rx="120" fill="none" stroke="#C7A15A" stroke-opacity=".8" stroke-width="18"/>
-  <path d="M363 148c-31-26-68-39-110-39-78 0-135 50-135 121 0 52 31 88 93 111l43 16c20 7 30 16 30 28 0 16-16 26-43 26-35 0-66-15-93-45l-44 44c35 42 82 63 139 63 79 0 136-46 136-117 0-52-31-89-93-112l-45-17c-18-7-28-16-28-27 0-15 14-25 37-25 23 0 45 10 65 29z" fill="url(#gold)"/>
-  <circle cx="388" cy="126" r="21" fill="#F7F4EE"/>
+  <desc id="desc">Monograma SoulCont em branco e dourado, sem fundo.</desc>
+  <path d="M354 112C201 45 74 143 82 300c6 111 93 181 226 174" fill="none" stroke="#D5AE63" stroke-width="29" stroke-linecap="round"/>
+  <path d="M363 148c-31-26-68-39-110-39-78 0-135 50-135 121 0 52 31 88 93 111l43 16c20 7 30 16 30 28 0 16-16 26-43 26-35 0-66-15-93-45l-44 44c35 42 82 63 139 63 79 0 136-46 136-117 0-52-31-89-93-112l-45-17c-18-7-28-16-28-27 0-15 14-25 37-25 23 0 45 10 65 29z" fill="#F7F4EE"/>
+  <path d="M83 431C210 399 328 306 438 185" fill="none" stroke="#E0B45F" stroke-width="24" stroke-linecap="round"/>
+  <path d="M420 181l48-24-17 50z" fill="#E0B45F"/>
+  <path d="M184 472C267 506 362 489 424 434" fill="none" stroke="#D5AE63" stroke-width="24" stroke-linecap="round"/>
+  <path d="M262 374h36v78h-36zm57-43h36v121h-36zm57-54h36v175h-36z" fill="#D5AE63"/>
 </svg>

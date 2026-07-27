@@ -31,6 +31,26 @@ class CityDatasetTests(unittest.TestCase):
     def test_current_dataset_is_valid(self) -> None:
         validate_city_dataset(CITIES)
 
+    def test_sao_paulo_municipal_pages_are_service_areas_without_addresses(self) -> None:
+        expected_slugs = {
+            "guarulhos",
+            "osasco",
+            "barueri",
+            "santo-andre",
+            "sao-bernardo-do-campo",
+        }
+        municipal_pages = {
+            city["slug"]: city for city in CITIES if city["slug"] in expected_slugs
+        }
+
+        self.assertEqual(set(municipal_pages), expected_slugs)
+        for city in municipal_pages.values():
+            self.assertEqual(city["region"], "sao-paulo")
+            self.assertEqual(city["attendance_mode"], "service_area")
+            self.assertEqual(city["phone_e164"], "+5511916539680")
+            self.assertIsNone(city["address"])
+            self.assertEqual(city["service_areas"], [city["name"]])
+
     def test_service_area_cannot_publish_an_address(self) -> None:
         city = sample_city(address={"streetAddress": "Endereço indevido"})
         self.assertIsNone(city["address"])
