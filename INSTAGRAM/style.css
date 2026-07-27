@@ -99,15 +99,38 @@ svg {
 }
 
 .brand {
-    display: inline-block;
-    width: min(220px, 62vw);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
     margin-bottom: 26px;
+    padding: 4px;
     border-radius: 12px;
+    text-decoration: none;
 }
 
-.brand img {
-    width: 100%;
+.brand__mark {
+    width: clamp(58px, 16vw, 72px);
     height: auto;
+    flex: 0 0 auto;
+    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.26));
+}
+
+.brand__name {
+    display: inline-flex;
+    align-items: baseline;
+    color: var(--ivory);
+    font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    font-size: clamp(1.7rem, 7vw, 2.35rem);
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.brand__name strong {
+    color: var(--gold);
+    font-weight: 700;
 }
 
 .brand:focus-visible,
@@ -394,7 +417,17 @@ h1 span {
     }
 
     .brand {
+        gap: 9px;
         margin-bottom: 20px;
+    }
+
+    .brand__mark {
+        width: 56px;
+    }
+
+    .brand__name {
+        font-size: 1.65rem;
+        letter-spacing: 0.085em;
     }
 
     .portrait-pair {
