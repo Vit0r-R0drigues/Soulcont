@@ -1,133 +1,165 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071b2e">
     <meta name="robots" content="noindex,follow">
-    <title>SoulCont | Soluções Estratégicas</title>
-    
-    <!-- Fonts -->
+    <meta name="description" content="Acesse os serviços, ferramentas e canais oficiais da SoulCont Contabilidade.">
+    <title>SoulCont | Contabilidade consultiva</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <link rel="icon" href="../assets/img/soulcont/favicon.svg?v=2" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="../assets/img/soulcont/favicon.svg?v=2" type="image/svg+xml">
     <link rel="apple-touch-icon" href="../assets/img/soulcont/favicon.svg?v=2">
-    
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- Background Elements -->
-    <div class="bg-mesh"></div>
-    <div class="bg-overlay"></div>
+    <a class="skip-link" href="#atalhos">Ir para os atalhos</a>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <header class="hero">
-            <div class="logo-container">
-                <img src="../assets/img/LOGO (2).png" alt="SoulCont" class="logo">
+    <div class="page-glow page-glow--top" aria-hidden="true"></div>
+    <div class="page-glow page-glow--bottom" aria-hidden="true"></div>
+
+    <div class="page-shell">
+        <header class="profile">
+            <a class="brand" href="../index.html" aria-label="Ir para o site oficial da SoulCont">
+                <img src="../assets/img/soulcont/wordmark.svg?v=2" alt="SoulCont" width="280" height="56">
+            </a>
+
+            <div class="portrait-pair" aria-label="Contadores responsáveis pela SoulCont">
+                <picture class="portrait">
+                    <source
+                        srcset="../assets/img/soulcont/vitor-rodrigues-retrato-3x4-320w.webp 320w, ../assets/img/soulcont/vitor-rodrigues-retrato-3x4-640w.webp 640w"
+                        sizes="(max-width: 520px) 43vw, 220px"
+                        type="image/webp">
+                    <img
+                        src="../assets/img/soulcont/vitor-rodrigues-retrato-3x4.jpg"
+                        alt="Vitor Rodrigues, contador da SoulCont"
+                        width="640"
+                        height="853"
+                        fetchpriority="high"
+                        decoding="async">
+                </picture>
+                <picture class="portrait">
+                    <source
+                        srcset="../assets/img/soulcont/leonardo-silva-retrato-3x4-320w.webp 320w, ../assets/img/soulcont/leonardo-silva-retrato-3x4-640w.webp 640w"
+                        sizes="(max-width: 520px) 43vw, 220px"
+                        type="image/webp">
+                    <img
+                        src="../assets/img/soulcont/leonardo-silva-retrato-3x4.jpg"
+                        alt="Leonardo Silva, contador da SoulCont"
+                        width="640"
+                        height="853"
+                        fetchpriority="high"
+                        decoding="async">
+                </picture>
             </div>
-            <h1 class="headline">Sua empresa merece uma gestão de <span>alto nível</span>.</h1>
-            <p class="subline">Contabilidade Estratégica e Consultiva para impulsionar o seu crescimento com segurança e inovação.</p>
-            
-            <div class="hero-ctas">
-                <a href="https://wa.me/5511916539680?text=Ol%C3%A1%21%20Quero%20falar%20com%20a%20SoulCont.%0A%0AOrigem%3A%20Site%20SoulCont%20%28soulcontt.com.br%29" class="btn btn-primary">
-                    <i class="fi fi-brands-whatsapp"></i>
-                    Falar com Especialista
-                </a>
-                <a href="../HTML/ferramentas.html" class="btn btn-secondary">
-                    <i class="fi fi-rr-calculator"></i>
-                    Calculadoras
-                </a>
-            </div>
+
+            <p class="eyebrow">Contabilidade consultiva para empresas e profissionais</p>
+            <h1>Decisões mais claras. <span>Uma empresa mais saudável.</span></h1>
+            <p class="intro">Contabilidade, tributos e gestão traduzidos em orientação prática para o momento da sua empresa.</p>
+
+            <a class="primary-cta" href="https://wa.me/5511916539680?text=Ol%C3%A1%21%20Vim%20pelo%20Instagram%20e%20quero%20falar%20com%20a%20SoulCont." target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.5 0 .2 5.3.2 11.9c0 2.1.6 4.2 1.6 6L.1 24l6.3-1.7a12 12 0 0 0 5.7 1.5h.1c6.5 0 11.8-5.3 11.8-11.9 0-3.2-1.2-6.2-3.5-8.4Zm-8.4 18.3a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 0 1-1.5-5.3 9.8 9.8 0 1 1 19.6 0 9.8 9.8 0 0 1-9.8 9.9Zm5.4-7.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 8.8 8.8 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.6.3-.5c.1-.2 0-.4 0-.6l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9s1.3 3.4 1.5 3.6c.2.2 2.5 3.8 6 5.3.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4Z"/>
+                </svg>
+                Falar com a SoulCont
+            </a>
         </header>
 
-        <!-- Links Hub -->
-        <section class="links-grid">
-            <h2 class="section-title">Acesso Rápido</h2>
-            
-            <a href="../landingpages/irrf2026.html" class="glass-card highlight-card" style="--i:1">
-                <div class="card-icon"><i class="fi fi-rr-document-signed"></i></div>
-                <div class="card-content">
-                    <h3>IRRF 2026 <span class="badge">Novo</span></h3>
-                    <p>Consultoria e Declaração de Imposto de Renda</p>
+        <main id="atalhos">
+            <section class="links-section" aria-labelledby="links-title">
+                <div class="section-heading">
+                    <p>Encontre o que precisa</p>
+                    <h2 id="links-title">Acessos rápidos</h2>
                 </div>
-                <i class="fi fi-rr-angle-small-right arrow"></i>
-            </a>
 
-            <a href="../HTML/servicos.html" class="glass-card" style="--i:2">
-                <div class="card-icon"><i class="fi fi-rr-briefcase"></i></div>
-                <div class="card-content">
-                    <h3>Nossos Serviços</h3>
-                    <p>Conheça nossas soluções contábeis</p>
+                <div class="links-list">
+                    <a class="link-card link-card--featured" href="../HTML/diagnostico-tributario.html">
+                        <span class="link-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9Zm0 15a6 6 0 1 1 6-6 6 6 0 0 1-6 6Zm1-10h-2v5.4l4.1 2.5 1-1.7-3.1-1.8Z"/></svg>
+                        </span>
+                        <span class="link-copy">
+                            <strong>Diagnóstico contábil e tributário</strong>
+                            <small>Identifique riscos e oportunidades para sua empresa</small>
+                        </span>
+                        <span class="link-arrow" aria-hidden="true">→</span>
+                    </a>
+
+                    <a class="link-card" href="../HTML/servicos.html">
+                        <span class="link-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M20 6h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V8a2 2 0 0 0-2-2Zm-10-2h4v2h-4Zm10 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6h7v1h2v-1h7Zm0-8H4V8h16Z"/></svg>
+                        </span>
+                        <span class="link-copy">
+                            <strong>Serviços para empresas</strong>
+                            <small>Contabilidade, fiscal, folha e gestão financeira</small>
+                        </span>
+                        <span class="link-arrow" aria-hidden="true">→</span>
+                    </a>
+
+                    <a class="link-card" href="../HTML/abertura-de-empresa.html">
+                        <span class="link-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M21 11h-8V3a1 1 0 0 0-2 0v8H3a1 1 0 0 0 0 2h8v8a1 1 0 0 0 2 0v-8h8a1 1 0 0 0 0-2Z"/></svg>
+                        </span>
+                        <span class="link-copy">
+                            <strong>Abrir uma empresa</strong>
+                            <small>Comece com o enquadramento certo e mais segurança</small>
+                        </span>
+                        <span class="link-arrow" aria-hidden="true">→</span>
+                    </a>
+
+                    <a class="link-card" href="../HTML/ferramentas.html">
+                        <span class="link-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M18 2H6a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9h14ZM5 7V5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v2Zm3 5H6v2h2Zm5 0h-2v2h2Zm5 0h-2v2h2ZM8 16H6v2h2Zm5 0h-2v2h2Zm5 0h-2v2h2Z"/></svg>
+                        </span>
+                        <span class="link-copy">
+                            <strong>Ferramentas e simuladores</strong>
+                            <small>Faça cálculos e compare cenários com facilidade</small>
+                        </span>
+                        <span class="link-arrow" aria-hidden="true">→</span>
+                    </a>
+
+                    <a class="link-card" href="../blog/index.html">
+                        <span class="link-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h14ZM7 7h10v2H7Zm0 4h10v2H7Zm0 4h7v2H7Z"/></svg>
+                        </span>
+                        <span class="link-copy">
+                            <strong>Conteúdos para sua empresa</strong>
+                            <small>Informação contábil aplicada às decisões do negócio</small>
+                        </span>
+                        <span class="link-arrow" aria-hidden="true">→</span>
+                    </a>
+
+                    <a class="link-card" href="../index.html">
+                        <span class="link-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm7.9 9h-3a15.8 15.8 0 0 0-1.3-6A8 8 0 0 1 19.9 11ZM12 4c1.2 1.4 2.4 3.8 2.8 7H9.2c.4-3.2 1.6-5.6 2.8-7ZM8.4 5a15.8 15.8 0 0 0-1.3 6h-3A8 8 0 0 1 8.4 5ZM4.1 13h3a15.8 15.8 0 0 0 1.3 6A8 8 0 0 1 4.1 13Zm7.9 7c-1.2-1.4-2.4-3.8-2.8-7h5.6c-.4 3.2-1.6 5.6-2.8 7Zm3.6-1a15.8 15.8 0 0 0 1.3-6h3a8 8 0 0 1-4.3 6Z"/></svg>
+                        </span>
+                        <span class="link-copy">
+                            <strong>Site oficial</strong>
+                            <small>Conheça a SoulCont, nossa equipe e nossa atuação</small>
+                        </span>
+                        <span class="link-arrow" aria-hidden="true">→</span>
+                    </a>
                 </div>
-                <i class="fi fi-rr-angle-small-right arrow"></i>
-            </a>
+            </section>
 
-            <a href="../index.html" class="glass-card" style="--i:3">
-                <div class="card-icon"><i class="fi fi-rr-browser"></i></div>
-                <div class="card-content">
-                    <h3>Site Oficial</h3>
-                    <p>Explore nosso portal institucional</p>
-                </div>
-                <i class="fi fi-rr-angle-small-right arrow"></i>
-            </a>
+            <section class="service-strip" aria-label="Diferenciais da SoulCont">
+                <span>Atendimento consultivo</span>
+                <span>Icó e São Paulo</span>
+                <span>Presencial e online</span>
+            </section>
+        </main>
 
-            <a href="https://www.instagram.com/soulcontt/" class="glass-card" style="--i:4">
-                <div class="card-icon"><i class="fi fi-brands-instagram"></i></div>
-                <div class="card-content">
-                    <h3>Siga no Instagram</h3>
-                    <p>Dicas diárias de gestão e negócios</p>
-                </div>
-                <i class="fi fi-rr-angle-small-right arrow"></i>
-            </a>
-
-            <a href="https://www.youtube.com/@contabilidadeempresarial" class="glass-card" style="--i:5">
-                <div class="card-icon"><i class="fi fi-brands-youtube"></i></div>
-                <div class="card-content">
-                    <h3>Canal do YouTube</h3>
-                    <p>Conteúdo educativo empresarial</p>
-                </div>
-                <i class="fi fi-rr-angle-small-right arrow"></i>
-            </a>
-        </section>
-
-        <!-- Credibility Block -->
-        <section class="trust-block">
-            <div class="trust-item">
-                <i class="fi fi-rr-shield-check"></i>
-                <span>100% Digital & Seguro</span>
-            </div>
-            <div class="trust-item">
-                <i class="fi fi-rr-comment-user"></i>
-                <span>Atendimento Humanizado</span>
-            </div>
-            <div class="trust-item">
-                <i class="fi fi-rr-chart-line-up"></i>
-                <span>Visão Consultiva</span>
-            </div>
-        </section>
-
-        <!-- Social Bar -->
         <footer class="footer">
-            <div class="social-links">
-                <a href="https://www.google.com/search?q=SoulCont+Contabilidade" target="_blank" rel="noopener noreferrer"><i class="fi fi-brands-google"></i></a>
-                <a rel="noopener noreferrer" href="https://www.instagram.com/soulcontt/" target="_blank"><i class="fi fi-brands-instagram"></i></a>
-                <a rel="noopener noreferrer" href="https://wa.me/5511916539680?text=Ol%C3%A1%21%20Quero%20falar%20com%20a%20SoulCont.%0A%0AOrigem%3A%20Site%20SoulCont%20%28soulcontt.com.br%29" target="_blank"><i class="fi fi-brands-whatsapp"></i></a>
-            </div>
-            <p class="copyright">&copy; 2026 SoulCont. Todos os direitos reservados.</p>
+            <nav class="social-links" aria-label="Canais da SoulCont">
+                <a href="https://www.instagram.com/soulcontt/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="https://www.youtube.com/@contabilidadeempresarial" target="_blank" rel="noopener noreferrer">YouTube</a>
+                <a href="https://www.google.com/search?q=SoulCont+Contabilidade" target="_blank" rel="noopener noreferrer">Google</a>
+            </nav>
+            <p>© 2026 SoulCont. Contabilidade com contexto e direção.</p>
         </footer>
     </div>
-
-    <!-- Floating Background Elements -->
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-    </div>
 </body>
-</html> 
+</html>
