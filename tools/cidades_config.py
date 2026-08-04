@@ -72,6 +72,30 @@ REGIONS = {
         # este valor nulo evita publicar um endereço de área de atendimento.
         "address": None,
         "professionals": ["vitor"],
+        "related_services": [
+            {
+                "label": "Abrir empresa em São Paulo",
+                "url": "/servicos/abrir-empresa-em-sao-paulo/",
+            },
+            {
+                "label": "Trocar de contador em São Paulo",
+                "url": "/servicos/trocar-de-contador-em-sao-paulo/",
+            },
+            {
+                "label": "Contabilidade para prestadores de serviço",
+                "url": "/servicos/contador-para-prestadores-de-servico-em-sao-paulo/",
+            },
+        ],
+        "related_articles": [
+            {
+                "label": "Como abrir uma empresa em São Paulo",
+                "url": "/BLOG/posts/abrir-empresa-em-sao-paulo.html",
+            },
+            {
+                "label": "Como trocar de contador em São Paulo",
+                "url": "/BLOG/posts/trocar-de-contador-em-sao-paulo.html",
+            },
+        ],
     },
 }
 

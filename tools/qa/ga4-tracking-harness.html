@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>QA - GA4 dedup harness</title>
+</head>
+<body>
+<h1>Harness de mensuracao GA4 (assets/js/cookies.js)</h1>
+<p>Abra este arquivo direto no navegador (file:// ou via preview local). Ele carrega o
+<code>cookies.js</code> real, simula interacoes e verifica se cada acao real gera no maximo
+um <code>generate_lead</code>, sem depender de rede nem do GA4 de producao.</p>
+<div id="log"></div>
+
+<a id="tel-link" href="tel:+5511999999999" data-track-position="hero">Ligar agora</a>
+<a id="wa-link" href="https://wa.me/5511999999999" data-track-position="footer">WhatsApp</a>
+<form id="contato-form"><input name="cidade" value="Teste"><button type="submit">Enviar</button></form>
+
+<script>
+    // Consentimento de analytics pre-aceito apenas para o teste, sem aceitar o
+    // banner geral (consent), para nunca disparar initializeAnalytics() nem
+    // carregar o gtag.js real do Google.
+    document.cookie = 'soulcont_analytics_cookies=true; path=/';
+    window.dataLayer = [];
+    window.__gtagCalls = [];
+    window.gtag = function () { window.__gtagCalls.push(Array.prototype.slice.call(arguments)); };
+
+    document.getElementById('tel-link').addEventListener('click', function (e) { e.preventDefault(); });
+    document.getElementById('wa-link').addEventListener('click', function (e) { e.preventDefault(); });
+    document.getElementById('contato-form').addEventListener('submit', function (e) { e.preventDefault(); });
+</script>
+<script src="/assets/js/cookies.js"></script>
+<script>
+    var failures = 0;
+
+    function countEvents(name) {
+        return window.__gtagCalls.filter(function (call) {
+            return call[0] === 'event' && call[1] === name;
+        }).length;
+    }
+
+    function check(message, passed) {
+        var p = document.createElement('p');
+        p.textContent = (passed ? 'PASS - ' : 'FAIL - ') + message;
+        p.style.color = passed ? 'green' : 'crimson';
+        p.style.fontFamily = 'monospace';
+        document.getElementById('log').appendChild(p);
+        if (!passed) failures += 1;
+    }
+
+    function finish() {
+        document.title = (failures === 0 ? 'ALL PASS' : failures + ' FAILURE(S)') + ' - GA4 dedup harness';
+        var summary = document.createElement('h2');
+        summary.textContent = failures === 0 ? 'Resultado: todos os testes passaram' : 'Resultado: ' + failures + ' teste(s) falharam';
+        summary.style.color = failures === 0 ? 'green' : 'crimson';
+        document.getElementById('log').appendChild(summary);
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            var tel = document.getElementById('tel-link');
+            tel.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+            tel.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true })); // duplo clique real
+
+            setTimeout(function () {
+                check('generate_lead dispara 1x apos duplo clique no telefone (obtido: ' + countEvents('generate_lead') + ')', countEvents('generate_lead') === 1);
+                check('contact_click dispara 1x apos duplo clique (obtido: ' + countEvents('contact_click') + ')', countEvents('contact_click') === 1);
+                check('phone_click dispara 1x apos duplo clique (obtido: ' + countEvents('phone_click') + ')', countEvents('phone_click') === 1);
+
+                window.__gtagCalls = [];
+                document.getElementById('contato-form').dispatchEvent(new SubmitEvent('submit', { bubbles: true, cancelable: true }));
+                check('form_submit dispara 1x no envio (obtido: ' + countEvents('form_submit') + ')', countEvents('form_submit') === 1);
+                check('generate_lead dispara 1x no envio de formulario (obtido: ' + countEvents('generate_lead') + ')', countEvents('generate_lead') === 1);
+
+                window.__gtagCalls = [];
+                var wa = document.getElementById('wa-link');
+                wa.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+                check('um clique em elemento diferente (whatsapp) ainda gera generate_lead (obtido: ' + countEvents('generate_lead') + ')', countEvents('generate_lead') === 1);
+                check('whatsapp_click dispara para o metodo correto (obtido: ' + countEvents('whatsapp_click') + ')', countEvents('whatsapp_click') === 1);
+
+                setTimeout(function () {
+                    window.__gtagCalls = [];
+                    var telAgain = document.getElementById('tel-link');
+                    telAgain.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+                    check('apos a janela de dedup (1200ms), um novo clique real volta a contar (obtido: ' + countEvents('generate_lead') + ')', countEvents('generate_lead') === 1);
+                    finish();
+                }, 1300);
+            }, 50);
+        }, 50);
+    });
+</script>
+</body>
+</html>

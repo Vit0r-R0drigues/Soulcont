@@ -230,6 +230,29 @@ function getPageTrackingContext(element = null) {
     };
 }
 
+const INTERACTION_DEDUP_WINDOW_MS = 1200;
+const recentInteractions = new Map();
+
+function createDedupId() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+// Evita contar a mesma acao de contato duas vezes quando o usuario da
+// duplo clique, ativa o link duas vezes por teclado ou o submit dispara
+// mais de um evento antes da navegacao.
+function shouldSkipDuplicateInteraction(signature) {
+    const now = Date.now();
+    for (const [key, firedAt] of recentInteractions) {
+        if (now - firedAt > INTERACTION_DEDUP_WINDOW_MS) recentInteractions.delete(key);
+    }
+    if (recentInteractions.has(signature)) return true;
+    recentInteractions.set(signature, now);
+    return false;
+}
+
 function initializeContactTracking() {
     if (window.soulcontContactTrackingInitialized) return;
 
@@ -241,10 +264,15 @@ function initializeContactTracking() {
         const contactMethod = getContactMethod(link);
         if (!contactMethod) return;
 
+        const ctaLocation = link.dataset.trackPosition || 'nao_informada';
+        const signature = `contact:${contactMethod}:${link.getAttribute('href')}:${ctaLocation}`;
+        if (shouldSkipDuplicateInteraction(signature)) return;
+
         const eventParameters = {
             contact_method: contactMethod,
-            cta_position: link.dataset.trackPosition || 'nao_informada',
+            cta_location: ctaLocation,
             cta_label: (link.textContent || link.getAttribute('aria-label') || 'contato').trim().slice(0, 100),
+            dedup_id: createDedupId(),
             ...getPageTrackingContext(link)
         };
 
@@ -263,9 +291,14 @@ function initializeContactTracking() {
         const form = event.target;
         if (!(form instanceof HTMLFormElement)) return;
 
+        const formId = form.id || 'formulario_sem_id';
+        const signature = `submit:${formId}:${window.location.pathname}`;
+        if (shouldSkipDuplicateInteraction(signature)) return;
+
         const eventParameters = {
-            form_id: form.id || 'formulario_sem_id',
+            form_id: formId,
             contact_method: 'formulario',
+            dedup_id: createDedupId(),
             ...getPageTrackingContext(form)
         };
 

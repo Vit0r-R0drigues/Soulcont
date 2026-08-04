@@ -58,6 +58,7 @@ NEIGHBORHOODS: list[dict[str, Any]] = [
     {
         "slug": "mooca",
         "name": "Mooca",
+        "title_override": "Contador na Mooca para Empresas Familiares | SoulCont",
         "attendance_mode": "service_area",
         "address": None,
         "page_description": (
@@ -215,6 +216,7 @@ NEIGHBORHOODS: list[dict[str, Any]] = [
     {
         "slug": "tatuape",
         "name": "Tatuapé",
+        "title_override": "Contador no Tatuapé para Clínicas e Consultorias | SoulCont",
         "attendance_mode": "service_area",
         "address": None,
         "page_description": (
@@ -334,6 +336,7 @@ NEIGHBORHOODS: list[dict[str, Any]] = [
     {
         "slug": "vila-mariana",
         "name": "Vila Mariana",
+        "title_override": "Contador na Vila Mariana: Clínicas e Profissionais | SoulCont",
         "attendance_mode": "service_area",
         "address": None,
         "page_description": (
@@ -582,6 +585,7 @@ def render_page(neighborhood: dict[str, Any]) -> str:
     page_json = json.dumps(page_schema(neighborhood), ensure_ascii=False, indent=8)
     faq_json = json.dumps(faq_schema(neighborhood), ensure_ascii=False, indent=8)
     professional = PROFESSIONALS[SP_REGION["professionals"][0]]
+    title = esc(neighborhood.get("title_override", f"Contabilidade {place_phrase(neighborhood)}, São Paulo | SoulCont"))
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -596,11 +600,11 @@ def render_page(neighborhood: dict[str, Any]) -> str:
     <meta property="og:type" content="website">
     <meta property="og:locale" content="pt_BR">
     <meta property="og:site_name" content="SoulCont">
-    <meta property="og:title" content="Contabilidade {place}, São Paulo | SoulCont">
+    <meta property="og:title" content="{title}">
     <meta property="og:description" content="{description}">
     <meta property="og:image" content="{SITE['logo']}">
     <meta property="og:url" content="{url}">
-    <title>Contabilidade {place}, São Paulo | SoulCont</title>
+    <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">

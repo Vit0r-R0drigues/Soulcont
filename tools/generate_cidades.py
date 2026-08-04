@@ -573,6 +573,7 @@ CITIES = [
     {
         "slug": "osasco",
         "name": "Osasco",
+        "title_override": "Contador em Osasco para Troca de Contador | SoulCont",
         "region": "sao-paulo",
         "attendance_mode": "service_area",
         "address": None,
@@ -617,6 +618,7 @@ CITIES = [
     {
         "slug": "barueri",
         "name": "Barueri",
+        "title_override": "Contador em Barueri para Serviços Profissionais | SoulCont",
         "region": "sao-paulo",
         "attendance_mode": "service_area",
         "address": None,
@@ -660,6 +662,7 @@ CITIES = [
     {
         "slug": "santo-andre",
         "name": "Santo André",
+        "title_override": "Contador em Santo André: Abertura e Rotina Fiscal | SoulCont",
         "region": "sao-paulo",
         "attendance_mode": "service_area",
         "address": None,
@@ -782,6 +785,17 @@ def page_description(city: dict) -> str:
 
 def professionals_for(city: dict) -> list[dict]:
     return [PROFESSIONALS[key] for key in city["professionals"]]
+
+
+def page_title(city: dict) -> str:
+    return city.get(
+        "title_override",
+        f"Contador em {city['name']} | Contabilidade consultiva | SoulCont",
+    )
+
+
+def page_og_title(city: dict) -> str:
+    return city.get("title_override", f"Contador em {city['name']} | SoulCont")
 
 
 def address_text(address: dict) -> str:
@@ -970,7 +984,7 @@ def faq_schema(city: dict) -> dict:
 
 
 PAGE_CSS = """
-        html,body{max-width:100%;overflow-x:hidden}img{max-width:100%;height:auto}.detail-hero,.section-panel,.detail-card,.final-cta-panel{min-width:0}.detail-hero h1,.section-heading h2,.final-cta-panel h2{overflow-wrap:break-word}.cta-actions-v2{flex-wrap:wrap}.city-service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}.city-service-grid .detail-card{height:100%}.city-team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px;margin-top:28px}.city-person{display:grid;grid-template-columns:100px minmax(0,1fr);gap:20px;align-items:center;padding:18px;border:1px solid rgba(15,34,51,.1);border-radius:20px;background:#fff;min-width:0}.city-person img{display:block;width:100px;aspect-ratio:3/4;object-fit:cover;border-radius:14px;background:#eef2f4}.city-person strong{display:block;font-family:Syne,sans-serif;color:#0f2233;overflow-wrap:anywhere}.city-person span{display:block;color:#66737d;margin-top:5px;font-size:.93rem}.city-link{color:#2c6b57;font-weight:700}.city-note{margin-top:22px;padding:18px 20px;border-left:4px solid #2c6b57;background:rgba(44,107,87,.07);border-radius:0 14px 14px 0}.city-note p{margin:0}.city-breadcrumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px;color:#66737d;font-size:.9rem}.city-breadcrumb a{color:#2c6b57;font-weight:700;text-decoration:none}.city-breadcrumb span{opacity:.7}@media(max-width:900px){.detail-hero{padding-left:clamp(22px,5vw,42px);padding-right:clamp(22px,5vw,42px)}}@media(max-width:640px){.cta-actions-v2>*{width:100%;justify-content:center;text-align:center}.city-person{grid-template-columns:78px minmax(0,1fr);gap:14px;padding:14px}.city-person img{width:78px}}@media(max-width:390px){.city-person{grid-template-columns:1fr;text-align:center}.city-person img{width:92px;margin:0 auto}.detail-hero h1{font-size:clamp(2rem,11vw,2.7rem)}}
+        html,body{max-width:100%;overflow-x:hidden}img{max-width:100%;height:auto}.detail-hero,.section-panel,.detail-card,.final-cta-panel{min-width:0}.detail-hero h1,.section-heading h2,.final-cta-panel h2{overflow-wrap:break-word}.cta-actions-v2{flex-wrap:wrap}.city-service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}.city-service-grid .detail-card{height:100%}.city-related-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px;margin-top:14px}.city-related-links+.section-heading{margin-top:26px}.city-related-links a{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px;border:1px solid rgba(15,34,51,.1);border-radius:14px;background:#fff;color:#0f2233;font-weight:700;text-decoration:none}.city-related-links a:hover,.city-related-links a:focus-visible{border-color:#d99a3e;color:#2c6b57}.city-team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px;margin-top:28px}.city-person{display:grid;grid-template-columns:100px minmax(0,1fr);gap:20px;align-items:center;padding:18px;border:1px solid rgba(15,34,51,.1);border-radius:20px;background:#fff;min-width:0}.city-person img{display:block;width:100px;aspect-ratio:3/4;object-fit:cover;border-radius:14px;background:#eef2f4}.city-person strong{display:block;font-family:Syne,sans-serif;color:#0f2233;overflow-wrap:anywhere}.city-person span{display:block;color:#66737d;margin-top:5px;font-size:.93rem}.city-link{color:#2c6b57;font-weight:700}.city-note{margin-top:22px;padding:18px 20px;border-left:4px solid #2c6b57;background:rgba(44,107,87,.07);border-radius:0 14px 14px 0}.city-note p{margin:0}.city-breadcrumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px;color:#66737d;font-size:.9rem}.city-breadcrumb a{color:#2c6b57;font-weight:700;text-decoration:none}.city-breadcrumb span{opacity:.7}@media(max-width:900px){.detail-hero{padding-left:clamp(22px,5vw,42px);padding-right:clamp(22px,5vw,42px)}}@media(max-width:640px){.cta-actions-v2>*{width:100%;justify-content:center;text-align:center}.city-person{grid-template-columns:78px minmax(0,1fr);gap:14px;padding:14px}.city-person img{width:78px}}@media(max-width:390px){.city-person{grid-template-columns:1fr;text-align:center}.city-person img{width:92px;margin:0 auto}.detail-hero h1{font-size:clamp(2rem,11vw,2.7rem)}}
 """.strip()
 
 
@@ -985,6 +999,41 @@ def render_professionals(city: dict) -> str:
             "</div></article>"
         )
         for professional in professionals_for(city)
+    )
+
+
+def related_links_section(city: dict) -> str:
+    region = REGIONS[city["region"]]
+    services = region.get("related_services") or []
+    articles = region.get("related_articles") or []
+    if not services and not articles:
+        return ""
+
+    def render_group(heading: str, icon: str, items: list[dict]) -> str:
+        if not items:
+            return ""
+        links = "\n".join(
+            f'                <a href="{esc(item["url"])}"><span>{esc(item["label"])}</span>'
+            '<i class="fi fi-rr-arrow-right"></i></a>'
+            for item in items
+        )
+        return (
+            '<div class="section-heading"><span class="eyebrow-label">'
+            f'<i class="fi fi-rr-{icon}"></i> {heading}</span></div>'
+            f'\n            <div class="city-related-links">\n{links}\n            </div>'
+        )
+
+    blocks = "\n            ".join(
+        part
+        for part in (
+            render_group("Serviços relacionados", "briefcase", services),
+            render_group("Conteúdo relacionado", "document", articles),
+        )
+        if part
+    )
+    return (
+        '\n        <section class="section-block"><div class="section-shell">'
+        f'<div class="section-panel">\n            {blocks}\n        </div></div></section>'
     )
 
 
@@ -1010,6 +1059,8 @@ def render_city(city: dict) -> str:
         if len(city["professionals"]) == 1
         else "Profissionais responsáveis pelo atendimento"
     )
+    title = esc(page_title(city))
+    og_title = esc(page_og_title(city))
     return f'''<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1022,12 +1073,12 @@ def render_city(city: dict) -> str:
     <link rel="canonical" href="{city_url(city)}">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="pt_BR">
-    <meta property="og:title" content="Contador em {name} | SoulCont">
+    <meta property="og:title" content="{og_title}">
     <meta property="og:description" content="{description}">
     <meta property="og:image" content="{SITE['logo']}">
     <meta property="og:url" content="{city_url(city)}">
     <meta name="twitter:card" content="summary_large_image">
-    <title>Contador em {name} | Contabilidade consultiva | SoulCont</title>
+    <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1091,7 +1142,7 @@ def render_city(city: dict) -> str:
                 <article class="detail-card"><span class="card-icon"><i class="fi fi-rr-users"></i></span><h3>Departamento pessoal</h3><p>Admissões, férias, rescisões, folha de pagamento e acompanhamento de encargos.</p></article>
                 <article class="detail-card"><span class="card-icon"><i class="fi fi-rr-coins"></i></span><h3>Consultoria financeira</h3><p>Fluxo de caixa, margem, ponto de equilíbrio e indicadores para apoiar decisões.</p></article>
             </div>
-        </div></div></section>
+        </div></div></section>{related_links_section(city)}
         <section class="section-block"><div class="section-shell"><div class="section-panel">
             <div class="section-heading"><span class="eyebrow-label"><i class="fi fi-rr-compass-alt"></i> Decisões que podemos organizar</span><h2>Próximos passos para empresas de {name}</h2><p>O atendimento consultivo transforma situações recorrentes em análises, responsáveis e prazos.</p></div>
             <ul class="detail-list">
