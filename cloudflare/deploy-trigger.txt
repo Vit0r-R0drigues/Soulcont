@@ -1,0 +1,1 @@
+Trigger the initial isolated Cloudflare static-assets deployment.
