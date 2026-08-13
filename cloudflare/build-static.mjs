@@ -114,15 +114,57 @@ for (const file of assetFiles) {
 
 for (const file of [...selected].sort()) copy(file);
 
-const indexRoutes = walk(output)
-  .filter((file) => path.basename(file).toLowerCase() === "index.html")
-  .map((file) => {
-    const rel = path.relative(output, file).replaceAll(path.sep, "/");
+// Keep GitHub Pages URL behavior while html_handling remains "none".
+// Explicit rules preserve indexed .html URLs and add the extensionless and
+// trailing-slash forms that GitHub Pages currently serves.
+const htmlFiles = walk(output).filter(
+  (file) => path.extname(file).toLowerCase() === ".html",
+);
+
+const routes = [];
+
+for (const file of htmlFiles) {
+  const rel = path.relative(output, file).replaceAll(path.sep, "/");
+  const isIndex = path.basename(rel).toLowerCase() === "index.html";
+
+  if (isIndex) {
     const directory = path.posix.dirname(`/${rel}`);
-    const route = directory === "/" ? "/" : `${directory}/`;
-    return `${route} /${rel} 200`;
-  })
+    if (directory === "/") {
+      routes.push({ from: "/", to: `/${rel}`, code: 200 });
+      continue;
+    }
+
+    routes.push({ from: `${directory}/`, to: `/${rel}`, code: 200 });
+    routes.push({ from: directory, to: `${directory}/`, code: 301 });
+  } else {
+    routes.push({
+      from: `/${rel.replace(/\.html$/i, "")}`,
+      to: `/${rel}`,
+      code: 200,
+    });
+  }
+}
+
+const seen = new Map();
+for (const route of routes) {
+  const existing = seen.get(route.from);
+  if (existing && existing.to !== route.to) {
+    throw new Error(
+      `Route conflict at "${route.from}": "${existing.to}" vs "${route.to}"`,
+    );
+  }
+  seen.set(route.from, route);
+}
+
+const indexRoutes = [...seen.values()]
+  .map((route) => `${route.from} ${route.to} ${route.code}`)
   .sort((a, b) => a.localeCompare(b));
+
+if (indexRoutes.length > 2000) {
+  throw new Error(
+    `_redirects has ${indexRoutes.length} static rules; the limit is 2000`,
+  );
+}
 
 fs.writeFileSync(
   path.join(output, "_redirects"),
