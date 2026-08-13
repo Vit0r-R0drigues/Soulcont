@@ -1,0 +1,11 @@
+{
+  "name": "soulcont-static-test",
+  "compatibility_date": "2026-08-13",
+  "workers_dev": true,
+  "preview_urls": true,
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "none",
+    "not_found_handling": "404-page"
+  }
+}
