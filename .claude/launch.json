@@ -6,6 +6,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8931"],
       "port": 8931
+    },
+    {
+      "name": "content-preview",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8935", "--directory", "C:\\Users\\vitor\\AppData\\Local\\Temp\\claude\\C--Users-vitor-Documents-GitHub-Soulcont\\f239b800-cbab-4e17-a394-0b602a9a440f\\scratchpad"],
+      "port": 8935
     }
   ]
 }
