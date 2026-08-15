@@ -1,24 +1,17 @@
+/* Tabelas vêm de assets/js/tabelas-fiscais-2026.js (fonte única).
+   Não redeclare valores aqui: altere apenas o arquivo central. */
+const _F = globalThis.SoulcontFiscal;
+
 const IRRF_CONFIG_2026 = {
-    deducaoDependente: 189.59,
-    descontoSimplificado: 607.20,
-    reducaoMaxima: 312.89,
-    faixaReducaoAte: 5000.0,
-    faixaReducaoFim: 7350.0,
-    reducaoCoeficienteA: 978.62,
-    reducaoCoeficienteB: 0.133145,
-    faixasIRRF: [
-        { limite: 2428.80, aliquota: 0, deducao: 0 },
-        { limite: 2826.65, aliquota: 0.075, deducao: 182.16 },
-        { limite: 3751.05, aliquota: 0.15, deducao: 394.16 },
-        { limite: 4664.68, aliquota: 0.225, deducao: 675.49 },
-        { limite: Infinity, aliquota: 0.275, deducao: 908.73 }
-    ],
-    faixasINSS: [
-        { limite: 1621.00, aliquota: 0.075 },
-        { limite: 2902.84, aliquota: 0.09 },
-        { limite: 4354.27, aliquota: 0.12 },
-        { limite: 8475.55, aliquota: 0.14 }
-    ]
+    deducaoDependente: _F.DEDUCAO_DEPENDENTE,
+    descontoSimplificado: _F.DESCONTO_SIMPLIFICADO,
+    reducaoMaxima: _F.REDUCAO_MAXIMA,
+    faixaReducaoAte: _F.REDUCAO_FAIXA_ATE,
+    faixaReducaoFim: _F.REDUCAO_FAIXA_FIM,
+    reducaoCoeficienteA: _F.REDUCAO_COEF_A,
+    reducaoCoeficienteB: _F.REDUCAO_COEF_B,
+    faixasIRRF: _F.IRRF_TABELA,
+    faixasINSS: _F.INSS
 };
 
 const STORAGE_KEY = 'vl_irrf_2026_form_v1';

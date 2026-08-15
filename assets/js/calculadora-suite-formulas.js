@@ -1,4 +1,5 @@
 (function () {
+    const _F = globalThis.SoulcontFiscal;
     const suite = window.CalculadoraSuite || {};
     suite.definitions = suite.definitions || {};
 
@@ -18,61 +19,9 @@
         faixaReducaoFim: 7350.0,
         reducaoCoeficienteA: 978.62,
         reducaoCoeficienteB: 0.133145,
-        faixasIRRF: [
-            { limite: 2428.80, aliquota: 0.0, deducao: 0.0 },
-            { limite: 2826.65, aliquota: 0.075, deducao: 182.16 },
-            { limite: 3751.05, aliquota: 0.15, deducao: 394.16 },
-            { limite: 4664.68, aliquota: 0.225, deducao: 675.49 },
-            { limite: Infinity, aliquota: 0.275, deducao: 908.73 }
-        ],
-        faixasINSS: [
-            { limite: 1621.00, aliquota: 0.075 },
-            { limite: 2902.84, aliquota: 0.09 },
-            { limite: 4354.27, aliquota: 0.12 },
-            { limite: 8475.55, aliquota: 0.14 }
-        ],
-        simples: {
-            I: [
-                { limite: 180000, aliquota: 0.04, deducao: 0 },
-                { limite: 360000, aliquota: 0.073, deducao: 5940 },
-                { limite: 720000, aliquota: 0.095, deducao: 13860 },
-                { limite: 1800000, aliquota: 0.107, deducao: 22500 },
-                { limite: 3600000, aliquota: 0.143, deducao: 87300 },
-                { limite: 4800000, aliquota: 0.19, deducao: 378000 }
-            ],
-            II: [
-                { limite: 180000, aliquota: 0.045, deducao: 0 },
-                { limite: 360000, aliquota: 0.078, deducao: 5940 },
-                { limite: 720000, aliquota: 0.1, deducao: 13860 },
-                { limite: 1800000, aliquota: 0.112, deducao: 22500 },
-                { limite: 3600000, aliquota: 0.147, deducao: 85500 },
-                { limite: 4800000, aliquota: 0.3, deducao: 720000 }
-            ],
-            III: [
-                { limite: 180000, aliquota: 0.06, deducao: 0 },
-                { limite: 360000, aliquota: 0.112, deducao: 9360 },
-                { limite: 720000, aliquota: 0.135, deducao: 17640 },
-                { limite: 1800000, aliquota: 0.16, deducao: 35640 },
-                { limite: 3600000, aliquota: 0.21, deducao: 125640 },
-                { limite: 4800000, aliquota: 0.33, deducao: 648000 }
-            ],
-            IV: [
-                { limite: 180000, aliquota: 0.045, deducao: 0 },
-                { limite: 360000, aliquota: 0.09, deducao: 8100 },
-                { limite: 720000, aliquota: 0.102, deducao: 12420 },
-                { limite: 1800000, aliquota: 0.14, deducao: 39780 },
-                { limite: 3600000, aliquota: 0.22, deducao: 183780 },
-                { limite: 4800000, aliquota: 0.33, deducao: 828000 }
-            ],
-            V: [
-                { limite: 180000, aliquota: 0.155, deducao: 0 },
-                { limite: 360000, aliquota: 0.18, deducao: 4500 },
-                { limite: 720000, aliquota: 0.195, deducao: 9900 },
-                { limite: 1800000, aliquota: 0.205, deducao: 17100 },
-                { limite: 3600000, aliquota: 0.23, deducao: 62100 },
-                { limite: 4800000, aliquota: 0.305, deducao: 540000 }
-            ]
-        }
+        faixasIRRF: _F.IRRF_TABELA,
+        faixasINSS: _F.INSS,
+        simples: _F.SIMPLES
     };
 
     function round2(value) {

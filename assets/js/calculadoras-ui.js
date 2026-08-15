@@ -19,7 +19,10 @@
         formatter
     }) {
         if (!element) return;
-        if (prefersReducedMotion) {
+        // Em aba oculta o requestAnimationFrame não dispara, e o valor ficaria
+        // preso no texto anterior (tipicamente R$ 0,00). Nesses casos — e quando
+        // o usuário pede menos animação — grava o resultado final direto.
+        if (prefersReducedMotion || document.hidden) {
             element.textContent = formatter(to);
             return;
         }
