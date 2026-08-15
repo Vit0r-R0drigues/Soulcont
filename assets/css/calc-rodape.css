@@ -1,0 +1,130 @@
+/* Rodapé padrão das calculadoras: vigência, base legal e limpeza de dados.
+   Mobile-first: empilha por padrão e passa a duas colunas a partir de 640px. */
+
+.calc-rodape {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 22px 0 8px;
+    padding: 16px;
+    border: 1px solid var(--calc-border, rgba(200, 168, 107, 0.22));
+    border-radius: 14px;
+    background: var(--calc-card, #fffdfa);
+}
+
+.calc-rodape__info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.calc-rodape__vigencia {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--calc-primary-strong, #0F2233);
+    overflow-wrap: anywhere;
+}
+
+.calc-rodape__ponto {
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--calc-success, #0f766e);
+}
+
+.calc-rodape__base {
+    margin: 0;
+    font-size: 0.83rem;
+    line-height: 1.5;
+    color: var(--calc-muted, #65727d);
+    overflow-wrap: anywhere;
+}
+
+.calc-rodape__acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+}
+
+.calc-rodape__botao {
+    /* 44px de altura mínima: alvo de toque confortável no celular. */
+    min-height: 44px;
+    width: 100%;
+    padding: 11px 18px;
+    border: 1px solid var(--calc-border, rgba(200, 168, 107, 0.35));
+    border-radius: 10px;
+    background: transparent;
+    color: var(--calc-primary, #18354D);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.calc-rodape__botao:hover:not(:disabled),
+.calc-rodape__botao:focus-visible {
+    background: var(--calc-primary, #18354D);
+    border-color: var(--calc-primary, #18354D);
+    color: #fff;
+}
+
+.calc-rodape__botao:focus-visible {
+    outline: 2px solid var(--calc-accent, #C8A86B);
+    outline-offset: 2px;
+}
+
+.calc-rodape__botao:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+.calc-rodape__feedback {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--calc-success, #0f766e);
+    overflow-wrap: anywhere;
+}
+
+.calc-rodape__feedback:empty {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .calc-rodape {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 18px 20px;
+    }
+
+    .calc-rodape__acoes {
+        align-items: flex-end;
+        flex: 0 0 auto;
+    }
+
+    .calc-rodape__botao {
+        width: auto;
+    }
+
+    .calc-rodape__feedback {
+        text-align: right;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .calc-rodape__botao {
+        transition: none;
+    }
+}
