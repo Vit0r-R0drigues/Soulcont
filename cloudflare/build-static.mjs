@@ -31,6 +31,7 @@ const rootFiles = [
   "robots.txt",
   "site.webmanifest",
   "sitemap.xml",
+  ".well-known/security.txt",
 ];
 
 const textExtensions = new Set([
@@ -169,6 +170,59 @@ if (indexRoutes.length > 2000) {
 fs.writeFileSync(
   path.join(output, "_redirects"),
   `${indexRoutes.join("\n")}\n`,
+  "utf8",
+);
+
+// Cabeçalhos de segurança. As origens abaixo refletem exatamente os hosts que o
+// site carrega hoje: Chart.js/Bootstrap (jsDelivr), Font Awesome (cdnjs), AOS
+// (unpkg), forms.app, Google Fonts, ícones Flaticon e o GA4 (só após consentimento).
+// 'unsafe-inline' em script-src é necessário enquanto houver <script> inline e
+// handlers on* nas páginas; ainda assim a diretiva bloqueia qualquer host externo
+// não listado, que é o vetor que importa aqui.
+const csp = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "form-action 'self'",
+  "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://forms.app https://www.googletagmanager.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn-uicons.flaticon.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
+  "font-src 'self' data: https://fonts.gstatic.com https://cdn-uicons.flaticon.com https://cdnjs.cloudflare.com",
+  "img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com",
+  "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com",
+  "frame-src https://forms.app",
+  "manifest-src 'self'",
+  "upgrade-insecure-requests",
+].join("; ");
+
+const headerRules = [
+  "/*",
+  "  Content-Security-Policy: " + csp,
+  "  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload",
+  "  X-Content-Type-Options: nosniff",
+  "  Referrer-Policy: strict-origin-when-cross-origin",
+  "  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()",
+  "  Cross-Origin-Opener-Policy: same-origin",
+  "  X-Frame-Options: DENY",
+  "",
+  // CSS/JS usam ?v= de forma inconsistente (nem todo arquivo tem), então um
+  // cache imutável de 1 ano deixaria correções presas no navegador. Cache curto
+  // com revalidação em background cobre o ganho sem esse risco.
+  "/assets/*",
+  "  Cache-Control: public, max-age=600, stale-while-revalidate=86400",
+  "",
+  // Imagens são versionadas pelo nome do arquivo e podem ter cache longo.
+  "/assets/img/*",
+  "  Cache-Control: public, max-age=2592000",
+  "",
+  "/.well-known/security.txt",
+  "  Content-Type: text/plain; charset=utf-8",
+  "",
+];
+
+fs.writeFileSync(
+  path.join(output, "_headers"),
+  `${headerRules.join("\n")}\n`,
   "utf8",
 );
 

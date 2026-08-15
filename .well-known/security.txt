@@ -1,0 +1,8 @@
+Contact: mailto:contato@soulcont.com
+Expires: 2027-08-15T00:00:00.000Z
+Preferred-Languages: pt-BR, en
+Canonical: https://soulcontt.com.br/.well-known/security.txt
+
+# SoulCont - Contabilidade Digital
+# Encontrou uma vulnerabilidade neste site? Escreva para o e-mail acima.
+# Pedimos que aguarde nosso retorno antes de divulgar publicamente.
