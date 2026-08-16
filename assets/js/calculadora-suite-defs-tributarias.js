@@ -196,7 +196,7 @@
             return '';
         },
         compute(values) {
-            const limiteAnual = 81000;
+            const limiteAnual = globalThis.SoulcontFiscal.MEI.limiteAnual;
             const mesesDecorridos = H.clamp(values.mesesDecorridos, 1, 12);
             const limiteProporcional = (limiteAnual / 12) * mesesDecorridos;
             const mesesRestantes = 12 - mesesDecorridos;
@@ -289,7 +289,7 @@
             const diferencaMensal = simplesMensal - meiMensal;
             const diferencaAnual = diferencaMensal * 12;
             const economiaAnual = Math.abs(diferencaAnual);
-            const ultrapassaMEI = rbt12 > 81000;
+            const ultrapassaMEI = rbt12 > globalThis.SoulcontFiscal.MEI.limiteAnual;
             const regimeMaisEconomico = diferencaMensal > 0 ? 'MEI' : 'Simples';
             const mensagem = ultrapassaMEI
                 ? 'Com este faturamento anual projetado, o limite do MEI pode ser ultrapassado.'

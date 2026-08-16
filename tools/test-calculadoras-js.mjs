@@ -167,6 +167,47 @@ teste('corte do Fator R em 28%', () => {
   quase(fiscal.FATOR_R_CORTE, 0.28, 'corte do Fator R', 1e-9);
 });
 
+/* --- 5. guarda contra o retorno da duplicação ------------------------ */
+teste('nenhum valor fiscal escrito à mão fora da fonte única', () => {
+  // Números que só podem existir em tabelas-fiscais-2026.js. Se aparecerem
+  // em outro arquivo, a duplicação voltou — e com ela o risco de divergência.
+  const proibidos = [
+    '607.2', '189.59', '312.89', '978.62', '0.133145',
+    '8475.55', '1621.00', '2428.80', '2826.65', '3751.05',
+    '4664.68', '908.73', '675.49', '394.16', '182.16', '81000',
+  ];
+  const dir = path.join(RAIZ, 'assets', 'js');
+  const reincidentes = [];
+
+  for (const arquivo of fs.readdirSync(dir)) {
+    if (!arquivo.endsWith('.js') || arquivo === 'tabelas-fiscais-2026.js') continue;
+    const conteudo = fs.readFileSync(path.join(dir, arquivo), 'utf8');
+    for (const valor of proibidos) {
+      if (conteudo.includes(valor)) reincidentes.push(`${arquivo} contém ${valor}`);
+    }
+  }
+
+  if (reincidentes.length) {
+    throw new Error(`valores fiscais duplicados:\n      ${reincidentes.join('\n      ')}`);
+  }
+});
+
+/* --- 6. calculadoras novas ------------------------------------------- */
+teste('Fator R e Simples híbrido estão registrados no hub', () => {
+  const defs = fs.readFileSync(
+    path.join(RAIZ, 'assets/js/calculadora-suite-defs-tributarias.js'), 'utf8');
+  const hub = fs.readFileSync(path.join(RAIZ, 'HTML/ferramentas.html'), 'utf8');
+
+  for (const id of ['fator-r', 'simples-hibrido-ibs-cbs']) {
+    if (!defs.includes(`registerDefinition('${id}'`)) {
+      throw new Error(`definição ausente: ${id}`);
+    }
+    if (!hub.includes(`calc=${id}`)) {
+      throw new Error(`card ausente no hub: ${id}`);
+    }
+  }
+});
+
 /* --- resultado ------------------------------------------------------- */
 console.log(`\n${passou} teste(s) passaram.`);
 if (falhas.length) {

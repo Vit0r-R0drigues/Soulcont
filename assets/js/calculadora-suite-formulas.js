@@ -11,14 +11,16 @@
         };
     };
 
+    /* Todos os parâmetros vêm de assets/js/tabelas-fiscais-2026.js.
+       Nenhum valor fiscal pode ser escrito literalmente aqui. */
     const config = {
-        descontoSimplificado: 607.20,
-        deducaoDependente: 189.59,
-        reducaoMaxima: 312.89,
-        faixaReducaoAte: 5000.0,
-        faixaReducaoFim: 7350.0,
-        reducaoCoeficienteA: 978.62,
-        reducaoCoeficienteB: 0.133145,
+        descontoSimplificado: _F.DESCONTO_SIMPLIFICADO,
+        deducaoDependente: _F.DEDUCAO_DEPENDENTE,
+        reducaoMaxima: _F.REDUCAO_MAXIMA,
+        faixaReducaoAte: _F.REDUCAO_FAIXA_ATE,
+        faixaReducaoFim: _F.REDUCAO_FAIXA_FIM,
+        reducaoCoeficienteA: _F.REDUCAO_COEF_A,
+        reducaoCoeficienteB: _F.REDUCAO_COEF_B,
         faixasIRRF: _F.IRRF_TABELA,
         faixasINSS: _F.INSS,
         simples: _F.SIMPLES
