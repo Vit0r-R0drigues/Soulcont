@@ -196,7 +196,7 @@
             return '';
         },
         compute(values) {
-            const limiteAnual = 81000;
+            const limiteAnual = globalThis.SoulcontFiscal.MEI.limiteAnual;
             const mesesDecorridos = H.clamp(values.mesesDecorridos, 1, 12);
             const limiteProporcional = (limiteAnual / 12) * mesesDecorridos;
             const mesesRestantes = 12 - mesesDecorridos;
@@ -289,7 +289,7 @@
             const diferencaMensal = simplesMensal - meiMensal;
             const diferencaAnual = diferencaMensal * 12;
             const economiaAnual = Math.abs(diferencaAnual);
-            const ultrapassaMEI = rbt12 > 81000;
+            const ultrapassaMEI = rbt12 > globalThis.SoulcontFiscal.MEI.limiteAnual;
             const regimeMaisEconomico = diferencaMensal > 0 ? 'MEI' : 'Simples';
             const mensagem = ultrapassaMEI
                 ? 'Com este faturamento anual projetado, o limite do MEI pode ser ultrapassado.'
@@ -539,6 +539,286 @@
                         H.round2(lucroDistribuivel)
                     ],
                     colors: ['#64748b', '#d46d13', '#0a7dd1', '#0f766e']
+                }
+            };
+        }
+    });
+
+    /* ----------------------------------------------------------------
+       Fator R — a conta que decide entre o Anexo III e o Anexo V para
+       atividades de serviço. Além do percentual, mostra o impacto em
+       reais e quanto de folha falta para alcançar o corte de 28%.
+       Base: LC 123/2006, art. 18, §§ 5º-J e 5º-M.
+       ---------------------------------------------------------------- */
+    suite.registerDefinition('fator-r', {
+        pageTitle: 'Calculadora de Fator R',
+        pageDescription: 'Descubra se sua empresa de serviços se enquadra no Anexo III ou no Anexo V do Simples Nacional e quanto isso representa por mês.',
+        badges: ['Simples Nacional', 'Anexo III x V', 'Prestador de serviço'],
+        calculateLabel: 'Calcular Fator R',
+        fields: [
+            {
+                id: 'folha12',
+                type: 'number',
+                label: 'Folha de pagamento dos últimos 12 meses',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01',
+                help: 'Inclui salários, pró-labore, encargos e FGTS dos últimos 12 meses.'
+            },
+            {
+                id: 'rbt12',
+                type: 'number',
+                label: 'Receita bruta dos últimos 12 meses (RBT12)',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01'
+            },
+            {
+                id: 'receitaMes',
+                type: 'number',
+                label: 'Faturamento do mês atual',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01',
+                help: 'Usado para estimar quanto o anexo muda no DAS deste mês.'
+            }
+        ],
+        example: {
+            folha12: 180000,
+            rbt12: 600000,
+            receitaMes: 50000
+        },
+        validate(values) {
+            if (values.rbt12 <= 0) return 'Informe a receita bruta dos últimos 12 meses.';
+            if (values.folha12 < 0) return 'A folha não pode ser negativa.';
+            return '';
+        },
+        compute(values) {
+            const CORTE = 0.28;
+            const fatorR = values.rbt12 > 0 ? values.folha12 / values.rbt12 : 0;
+            const atingiu = fatorR >= CORTE;
+            const anexo = atingiu ? 'III' : 'V';
+
+            const simIII = H.calcularAliquotaEfetivaSimples('III', values.rbt12);
+            const simV = H.calcularAliquotaEfetivaSimples('V', values.rbt12);
+
+            const dasIII = values.receitaMes * simIII.aliquotaEfetiva;
+            const dasV = values.receitaMes * simV.aliquotaEfetiva;
+            const dasAtual = atingiu ? dasIII : dasV;
+            const diferencaMes = Math.max(0, dasV - dasIII);
+
+            /* Folha necessária para alcançar os 28% mantendo a mesma receita. */
+            const folhaAlvo = values.rbt12 * CORTE;
+            const folhaFaltante = Math.max(0, folhaAlvo - values.folha12);
+
+            const leitura = atingiu
+                ? 'Fator R de ' + H.formatPercent(fatorR * 100) + ': a empresa alcança o corte de 28% e tende ao Anexo III, de carga menor.'
+                : 'Fator R de ' + H.formatPercent(fatorR * 100) + ': abaixo do corte de 28%, a tributação tende ao Anexo V.';
+
+            const caminho = atingiu
+                ? 'Mantenha o acompanhamento mensal: uma queda na folha ou um salto na receita pode derrubar o Fator R e mudar o anexo.'
+                : 'Faltam ' + H.formatCurrency(folhaFaltante) + ' de folha nos 12 meses para alcançar o corte. Avaliar pró-labore e contratações pode mudar o enquadramento — mas a decisão precisa considerar o custo dos encargos.';
+
+            return {
+                highlight: H.metricPercent('Fator R', fatorR * 100),
+                secondaryA: H.metricText('Anexo indicado', 'Anexo ' + anexo),
+                secondaryB: H.metricCurrency('DAS estimado no mês', dasAtual),
+                notes: [
+                    { label: 'Situação', metric: H.metricText('Leitura', leitura) },
+                    { label: 'Diferença entre Anexo V e III no mês', metric: H.metricCurrency('Diferença', diferencaMes) },
+                    { label: 'Diferença projetada em 12 meses', metric: H.metricCurrency('Diferença', diferencaMes * 12) },
+                    { label: 'Próximo passo', metric: H.metricText('Caminho', caminho) }
+                ],
+                steps: [
+                    'Divisão da folha de 12 meses pela receita bruta de 12 meses.',
+                    'Comparação do resultado com o corte de 28% da LC 123/2006.',
+                    'Estimativa do DAS nos Anexos III e V para medir o impacto.'
+                ],
+                details: [
+                    { label: 'Folha de 12 meses', value: H.formatCurrency(values.folha12) },
+                    { label: 'Receita bruta de 12 meses', value: H.formatCurrency(values.rbt12) },
+                    { label: 'Folha necessária para 28%', value: H.formatCurrency(folhaAlvo) },
+                    { label: 'Alíquota efetiva no Anexo III', value: H.formatPercent(simIII.aliquotaEfetiva * 100) },
+                    { label: 'Alíquota efetiva no Anexo V', value: H.formatPercent(simV.aliquotaEfetiva * 100) },
+                    { label: 'DAS no Anexo III', value: H.formatCurrency(dasIII) },
+                    { label: 'DAS no Anexo V', value: H.formatCurrency(dasV) }
+                ],
+                chart: {
+                    labels: ['DAS no Anexo III', 'DAS no Anexo V'],
+                    values: [H.round2(dasIII), H.round2(dasV)],
+                    colors: ['#0f766e', '#d46d13']
+                }
+            };
+        }
+    });
+
+    /* ----------------------------------------------------------------
+       Simples híbrido — IBS/CBS por fora do DAS.
+
+       A LC 214/2025 permite que a empresa continue no Simples para os
+       demais tributos e apure IBS/CBS pelo regime regular. A opção é
+       feita entre 1º e 30 de setembro de 2026, com efeito em 2027.
+
+       Por que a conta importa: quem permanece 100% no DAS transfere ao
+       cliente um crédito de IBS/CBS limitado à parcela desses tributos
+       embutida no próprio DAS. No regime regular, o cliente credita a
+       alíquota cheia. Para quem vende B2B, essa diferença vira desconto
+       exigido pelo comprador — ou perda do contrato.
+
+       Os percentuais de repartição e a alíquota de referência são
+       ESTIMATIVAS e ficam ajustáveis: a regulamentação ainda está em
+       construção e as alíquotas definitivas só valem a partir de 2033.
+       ---------------------------------------------------------------- */
+
+    /* Parcela aproximada do DAS que corresponde aos tributos substituídos
+       por IBS/CBS (ISS/ICMS + PIS/Cofins), conforme a repartição dos
+       anexos da LC 123/2006. Varia por faixa; aqui é uma média do anexo. */
+    const PARCELA_IBSCBS_NO_DAS = { I: 0.46, II: 0.44, III: 0.47, IV: 0.62, V: 0.30 };
+
+    suite.registerDefinition('simples-hibrido-ibs-cbs', {
+        pageTitle: 'Simples híbrido: vale apurar IBS e CBS por fora?',
+        pageDescription: 'Compare permanecer 100% no DAS com apurar IBS/CBS pelo regime regular. A opção vai de 1º a 30 de setembro de 2026 e vale a partir de 2027.',
+        badges: ['Reforma tributária', 'Prazo: setembro/2026', 'Estimativa'],
+        calculateLabel: 'Comparar os dois regimes',
+        fields: [
+            {
+                id: 'receitaMes',
+                type: 'number',
+                label: 'Faturamento mensal',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01'
+            },
+            {
+                id: 'rbt12',
+                type: 'number',
+                label: 'Receita bruta dos últimos 12 meses (RBT12)',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01'
+            },
+            {
+                id: 'anexo',
+                type: 'select',
+                label: 'Anexo do Simples',
+                options: [
+                    { value: 'I', label: 'Anexo I - Comércio' },
+                    { value: 'II', label: 'Anexo II - Indústria' },
+                    { value: 'III', label: 'Anexo III - Serviços' },
+                    { value: 'IV', label: 'Anexo IV - Serviços específicos' },
+                    { value: 'V', label: 'Anexo V - Serviços intelectuais' }
+                ]
+            },
+            {
+                id: 'percentualB2B',
+                type: 'number',
+                label: 'Quanto do faturamento vem de clientes empresa (%)',
+                placeholder: '0 a 100',
+                min: 0,
+                max: 100,
+                step: '1',
+                help: 'Considere só clientes do regime regular, que aproveitam crédito. Venda para consumidor final não entra.'
+            },
+            {
+                id: 'comprasCreditaveis',
+                type: 'number',
+                label: 'Compras mensais de fornecedores do regime regular',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01',
+                help: 'Insumos, mercadorias e serviços que gerariam crédito de IBS/CBS.'
+            },
+            {
+                id: 'aliquotaReferencia',
+                type: 'number',
+                label: 'Alíquota de referência IBS + CBS (%)',
+                placeholder: '26,5',
+                min: 0,
+                max: 40,
+                step: '0.1',
+                help: 'Estimativa oficial para o regime pleno. Ajuste conforme sua atividade e a regulamentação vigente.'
+            }
+        ],
+        example: {
+            receitaMes: 50000,
+            rbt12: 600000,
+            anexo: 'III',
+            percentualB2B: 80,
+            comprasCreditaveis: 6000,
+            aliquotaReferencia: 26.5
+        },
+        validate(values) {
+            if (values.receitaMes <= 0) return 'Informe o faturamento mensal.';
+            if (values.rbt12 <= 0) return 'Informe a receita bruta dos últimos 12 meses.';
+            if (values.percentualB2B < 0 || values.percentualB2B > 100) return 'O percentual de clientes empresa deve ficar entre 0 e 100.';
+            return '';
+        },
+        compute(values) {
+            const aliq = (values.aliquotaReferencia > 0 ? values.aliquotaReferencia : 26.5) / 100;
+            const fatiaB2B = H.clamp(values.percentualB2B, 0, 100) / 100;
+            const receitaB2B = values.receitaMes * fatiaB2B;
+            const parcelaNoDAS = PARCELA_IBSCBS_NO_DAS[values.anexo] || 0.45;
+
+            /* Cenário A — permanecer 100% no DAS */
+            const simples = H.calcularAliquotaEfetivaSimples(values.anexo, values.rbt12);
+            const dasAtual = values.receitaMes * simples.aliquotaEfetiva;
+            const ibsCbsNoDAS = dasAtual * parcelaNoDAS;
+            /* Crédito repassado ao cliente é limitado ao que foi pago no DAS,
+               proporcional à fatia B2B do faturamento. */
+            const creditoClienteHoje = ibsCbsNoDAS * fatiaB2B;
+
+            /* Cenário B — regime híbrido */
+            const dasReduzido = dasAtual - ibsCbsNoDAS;
+            const debitoIBSCBS = values.receitaMes * aliq;
+            const creditoCompras = values.comprasCreditaveis * aliq;
+            const ibsCbsLiquido = Math.max(0, debitoIBSCBS - creditoCompras);
+            const custoHibrido = dasReduzido + ibsCbsLiquido;
+            const creditoClienteHibrido = receitaB2B * aliq;
+
+            /* A diferença de crédito é o que o cliente empresa deixa de
+               aproveitar hoje — na prática, poder de barganha contra você. */
+            const lacunaCredito = Math.max(0, creditoClienteHibrido - creditoClienteHoje);
+            const custoAdicional = custoHibrido - dasAtual;
+            const saldo = lacunaCredito - custoAdicional;
+
+            let veredito;
+            if (fatiaB2B === 0) {
+                veredito = 'Seu faturamento é de consumidor final, que não aproveita crédito. Nesse perfil, permanecer 100% no DAS costuma ser o caminho mais simples e mais barato.';
+            } else if (saldo > 0) {
+                veredito = 'O crédito que seus clientes empresa deixam de aproveitar hoje (' + H.formatCurrency(lacunaCredito) + '/mês) supera o custo estimado de migrar (' + H.formatCurrency(Math.max(0, custoAdicional)) + '/mês). O regime híbrido tende a valer a pena — leve a simulação para análise antes de setembro.';
+            } else {
+                veredito = 'O custo estimado de migrar (' + H.formatCurrency(Math.max(0, custoAdicional)) + '/mês) supera o crédito adicional gerado ao cliente (' + H.formatCurrency(lacunaCredito) + '/mês). Permanecer no DAS unificado tende a ser melhor, salvo exigência contratual de crédito cheio.';
+            }
+
+            return {
+                highlight: H.metricCurrency('Diferença mensal a favor do híbrido', saldo),
+                secondaryA: H.metricCurrency('Custo hoje (DAS unificado)', dasAtual),
+                secondaryB: H.metricCurrency('Custo estimado no híbrido', custoHibrido),
+                notes: [
+                    { label: 'Leitura', metric: H.metricText('Veredito', veredito) },
+                    { label: 'Crédito que o cliente aproveita hoje', metric: H.metricCurrency('Crédito', creditoClienteHoje) },
+                    { label: 'Crédito que o cliente aproveitaria no híbrido', metric: H.metricCurrency('Crédito', creditoClienteHibrido) },
+                    { label: 'Prazo da opção', metric: H.metricText('Prazo', 'De 1º a 30 de setembro de 2026, com efeito a partir de janeiro de 2027.') }
+                ],
+                steps: [
+                    'Apuração do DAS atual e da parcela de IBS/CBS embutida nele.',
+                    'Simulação do regime híbrido: DAS reduzido + IBS/CBS por débito e crédito.',
+                    'Comparação entre o custo adicional e o crédito gerado ao cliente empresa.'
+                ],
+                details: [
+                    { label: 'Faturamento para clientes empresa', value: H.formatCurrency(receitaB2B) },
+                    { label: 'Alíquota efetiva do Simples', value: H.formatPercent(simples.aliquotaEfetiva * 100) },
+                    { label: 'Parcela de IBS/CBS dentro do DAS (estimada)', value: H.formatPercent(parcelaNoDAS * 100) },
+                    { label: 'DAS reduzido no híbrido', value: H.formatCurrency(dasReduzido) },
+                    { label: 'Débito de IBS/CBS', value: H.formatCurrency(debitoIBSCBS) },
+                    { label: 'Crédito sobre compras', value: H.formatCurrency(creditoCompras) },
+                    { label: 'IBS/CBS líquido a recolher', value: H.formatCurrency(ibsCbsLiquido) },
+                    { label: 'Custo adicional mensal do híbrido', value: H.formatCurrency(custoAdicional) }
+                ],
+                chart: {
+                    labels: ['DAS unificado', 'Regime híbrido'],
+                    values: [H.round2(dasAtual), H.round2(custoHibrido)],
+                    colors: ['#0f766e', '#d46d13']
                 }
             };
         }

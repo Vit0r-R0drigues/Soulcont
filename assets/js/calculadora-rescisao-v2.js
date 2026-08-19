@@ -19,31 +19,24 @@
 
 'use strict';
 
+/* Tabelas vêm de assets/js/tabelas-fiscais-2026.js (fonte única).
+   Não redeclare valores aqui: altere apenas o arquivo central. */
+const _F = globalThis.SoulcontFiscal;
+
 /* ================================================================
    1. TABELAS FISCAIS 2026
    ================================================================ */
 
-const INSS_2026 = [
-  { limite: 1621.00,  aliquota: 0.075 },
-  { limite: 2902.84,  aliquota: 0.09  },
-  { limite: 4354.27,  aliquota: 0.12  },
-  { limite: 8475.55,  aliquota: 0.14  }
-];
+const INSS_2026 = _F.INSS;
 
 const IRRF_2026 = {
-  tabela: [
-    { limite: 2428.80,    aliquota: 0,      deducao: 0       },
-    { limite: 2826.65,    aliquota: 0.075,  deducao: 182.16  },
-    { limite: 3751.05,    aliquota: 0.15,   deducao: 394.16  },
-    { limite: 4664.68,    aliquota: 0.225,  deducao: 675.49  },
-    { limite: Infinity,   aliquota: 0.275,  deducao: 908.73  }
-  ],
-  deducaoDependente: 189.59,
-  descontoSimplificado: 607.20,
-  reducao(base) {
-    if (base <= 5000)  return 312.89;
-    if (base <= 7350)  return Math.max(0, 978.62 - (0.133145 * base));
-    return 0;
+  tabela: _F.IRRF_TABELA,
+  deducaoDependente: _F.DEDUCAO_DEPENDENTE,
+  descontoSimplificado: _F.DESCONTO_SIMPLIFICADO,
+  reducao: function (rendimentoBruto) {
+    /* Redutor teórico pelo rendimento bruto; o teto pelo imposto devido
+       é aplicado em calcIRRFpelBase(). */
+    return _F.calcularReducao(rendimentoBruto, Infinity);
   }
 };
 
@@ -199,26 +192,33 @@ function calcINSS(base) {
   return Math.max(0, total);
 }
 
-function calcIRRFpelBase(base) {
+/* O redutor da Lei 15.270/2025 tem como referência o RENDIMENTO BRUTO
+   tributável do pagamento (faixas de R$ 5.000 e R$ 7.350), e não a base de
+   cálculo já líquida de INSS/dependentes. Por isso `rendimentoBruto` é
+   recebido separadamente de `base`. */
+function calcIRRFpelBase(base, rendimentoBruto) {
   const b = Math.max(0, base);
-  const row = IRRF_2026.tabela.find(r => b <= r.limite) || IRRF_2026.tabela[IRRF_2026.tabela.length - 1];
+  const r = Math.max(0, rendimentoBruto === undefined ? base : rendimentoBruto);
+  const row = IRRF_2026.tabela.find(x => b <= x.limite) || IRRF_2026.tabela[IRRF_2026.tabela.length - 1];
   const bruto = Math.max(0, b * row.aliquota - row.deducao);
-  return Math.max(0, bruto - IRRF_2026.reducao(b));
+  return Math.max(0, bruto - Math.min(bruto, IRRF_2026.reducao(r)));
 }
 
 function calcIRRFmensal(bruto, inss, dependentes, usarMelhor) {
   const baseLegal = Math.max(0, bruto - inss - dependentes * IRRF_2026.deducaoDependente);
-  const taxaLegal = calcIRRFpelBase(baseLegal);
+  const taxaLegal = calcIRRFpelBase(baseLegal, bruto);
   if (!usarMelhor) return { imposto: taxaLegal, base: baseLegal, modo: 'deduções legais' };
-  const baseSimpli = Math.max(0, bruto - inss - IRRF_2026.descontoSimplificado);
-  const taxaSimpli = calcIRRFpelBase(baseSimpli);
+  /* O desconto simplificado SUBSTITUI as deduções legais (INSS, dependentes,
+     pensão) — não se soma a elas. Aplica-se o que for mais vantajoso. */
+  const baseSimpli = Math.max(0, bruto - IRRF_2026.descontoSimplificado);
+  const taxaSimpli = calcIRRFpelBase(baseSimpli, bruto);
   if (taxaSimpli < taxaLegal) return { imposto: taxaSimpli, base: baseSimpli, modo: 'desconto simplificado' };
   return { imposto: taxaLegal, base: baseLegal, modo: 'deduções legais' };
 }
 
 function calcIRRF13(bruto13, inss13, dependentes) {
   const base = Math.max(0, bruto13 - inss13 - dependentes * IRRF_2026.deducaoDependente);
-  return { imposto: calcIRRFpelBase(base), base, modo: 'tributação exclusiva do 13º' };
+  return { imposto: calcIRRFpelBase(base, bruto13), base, modo: 'tributação exclusiva do 13º' };
 }
 
 function diasAvisoProporcional(admissao, fim, motivo) {
