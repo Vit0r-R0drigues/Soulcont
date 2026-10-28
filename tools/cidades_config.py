@@ -12,7 +12,7 @@ SITE = {
     "logo": "https://soulcontt.com.br/assets/img/soulcont/favicon-512.png",
     "og_image": "https://soulcontt.com.br/assets/img/soulcont/og-equipe.jpg",
     "same_as": [
-        "https://www.instagram.com/soulcontt/",
+        "https://www.instagram.com/soulcontoficial/",
         "https://www.youtube.com/@contabilidadeempresarial",
     ],
 }

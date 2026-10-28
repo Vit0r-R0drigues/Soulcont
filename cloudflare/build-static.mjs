@@ -131,6 +131,8 @@ for (const file of htmlFiles) {
     const directory = path.posix.dirname(`/${rel}`);
     if (directory === "/") {
       routes.push({ from: "/", to: `/${rel}`, code: 200 });
+      // The home page is canonical at "/"; consolidate the duplicate URL.
+      routes.push({ from: `/${rel}`, to: "/", code: 301 });
       continue;
     }
 

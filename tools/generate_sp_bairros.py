@@ -627,9 +627,9 @@ def render_page(neighborhood: dict[str, Any]) -> str:
 </head>
 <body>
     <header>
-        <div class="logo"><a href="/index.html"><img src="/assets/img/soulcont/wordmark.svg?v=2" alt="Logo SoulCont"></a></div>
+        <div class="logo"><a href="/"><img src="/assets/img/soulcont/wordmark.svg?v=2" alt="Logo SoulCont"></a></div>
         <nav role="navigation" aria-label="Menu principal"><ul class="menu">
-            <li><a href="/index.html"><i class="fi fi-rr-home"></i> Home</a></li>
+            <li><a href="/"><i class="fi fi-rr-home"></i> Home</a></li>
             <li><a href="/HTML/servicos.html"><i class="fi fi-rr-briefcase"></i> Serviços</a></li>
             <li><a href="/HTML/ferramentas.html"><i class="fi fi-rr-calculator"></i> Ferramentas</a></li>
             <li><a href="/HTML/contatos.html"><i class="fi fi-rr-phone-call"></i> Contato</a></li>

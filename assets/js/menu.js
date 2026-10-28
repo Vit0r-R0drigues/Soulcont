@@ -251,7 +251,7 @@ function ensureGlobalAccessibility() {
 function setLogoLink() {
     const logoLink = document.querySelector('header .logo a, .site-header .brand');
     if (logoLink) {
-        logoLink.setAttribute('href', '/index.html');
+        logoLink.setAttribute('href', '/');
     }
 }
 

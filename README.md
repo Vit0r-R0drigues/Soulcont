@@ -146,7 +146,7 @@ Para contribuir com o projeto:
 
 - Email: contato@soulcont.com
 - WhatsApp: (11) 91653-9680
-- Instagram: [@soulcontt](https://www.instagram.com/soulcontt/)
+- Instagram: [@soulcontoficial](https://www.instagram.com/soulcontoficial/)
 - YouTube: [@contabilidadeempresarial](https://www.youtube.com/@contabilidadeempresarial)
 
 ## 📄 Licença
