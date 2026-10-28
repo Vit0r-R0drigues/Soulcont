@@ -482,22 +482,43 @@
 
     suite.registerDefinition('distribuicao-lucros', {
         pageTitle: 'Calculadora de Distribuição de Lucros Disponível',
-        pageDescription: 'Projete o lucro distribuível do mês e a parcela estimada do sócio conforme a participação informada.',
-        badges: ['Sócios', 'Lucros', 'Caixa'],
+        pageDescription: 'Projete o lucro distribuível do mês, a parcela do sócio e a retenção de 10% de IR sobre dividendos acima de R$ 50 mil por mês (Lei 15.270/2025).',
+        badges: ['Sócios', 'Lucros', 'IR sobre dividendos'],
         calculateLabel: 'Calcular distribuição',
         fields: [
             { id: 'faturamentoMensal', type: 'number', label: 'Faturamento do mês', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
             { id: 'custosMensais', type: 'number', label: 'Custos operacionais + pró-labore', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
             { id: 'tributosMensais', type: 'number', label: 'Tributos do mês', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
             { id: 'reservaPercentual', type: 'range', label: 'Percentual para reserva de caixa', min: 0, max: 40, step: 1, value: 15, outputSuffix: '%' },
-            { id: 'participacaoSocio', type: 'range', label: 'Participação do sócio nos lucros', min: 1, max: 100, step: 1, value: 100, outputSuffix: '%' }
+            { id: 'participacaoSocio', type: 'range', label: 'Participação do sócio nos lucros', min: 1, max: 100, step: 1, value: 100, outputSuffix: '%' },
+            {
+                id: 'origemLucro',
+                type: 'select',
+                label: 'De quando são esses lucros?',
+                options: [
+                    { value: 'novo', label: 'Resultado de 2026 em diante' },
+                    { value: 'transicao', label: 'Lucros até 2025, com distribuição aprovada até 31/12/2025' }
+                ],
+                help: 'Lucros apurados até 2025 e aprovados até 31/12/2025 seguem a regra de transição, sem a retenção.'
+            },
+            {
+                id: 'outrosLucrosMes',
+                type: 'number',
+                label: 'Outros lucros pagos a esse sócio pela empresa no mesmo mês (opcional)',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01',
+                help: 'O limite de R$ 50 mil considera tudo o que a empresa paga ao sócio no mês.'
+            }
         ],
         example: {
             faturamentoMensal: 120000,
             custosMensais: 63000,
             tributosMensais: 9800,
             reservaPercentual: 15,
-            participacaoSocio: 50
+            participacaoSocio: 50,
+            origemLucro: 'novo',
+            outrosLucrosMes: 0
         },
         validate(values) {
             if (values.faturamentoMensal <= 0) return 'Informe o faturamento do mês.';
@@ -509,26 +530,44 @@
             const lucroDistribuivel = Math.max(0, lucroAntesReserva - reserva);
             const parcelaSocio = lucroDistribuivel * (H.clamp(values.participacaoSocio, 1, 100) / 100);
             const margemLiquida = values.faturamentoMensal > 0 ? (lucroAntesReserva / values.faturamentoMensal) * 100 : 0;
+            const outrosLucros = Math.max(0, values.outrosLucrosMes || 0);
+            const totalPagoMes = parcelaSocio + outrosLucros;
+            const retencao = H.calcularRetencaoDividendos(totalPagoMes, values.origemLucro);
+            const limite = H.config.dividendos.limiteMensal;
+            const percentual = `${Math.round(H.config.dividendos.aliquotaRetencao * 100)}%`;
+
+            let leituraRetencao;
+            if (values.origemLucro === 'transicao') {
+                leituraRetencao = 'Regra de transição: lucros até 2025 aprovados até 31/12/2025 não têm a retenção de 10%. Guarde a ata ou o documento de aprovação.';
+            } else if (retencao.sujeito) {
+                leituraRetencao = `O total do mês passa de ${H.formatCurrency(limite)}: a empresa retém ${percentual} sobre o valor total pago. O valor retido pode ser compensado na declaração anual do sócio.`;
+            } else {
+                leituraRetencao = `Até ${H.formatCurrency(limite)} por mês da mesma empresa não há retenção na fonte. Rendas altas no ano ainda podem entrar no imposto mínimo da declaração anual.`;
+            }
 
             return {
-                highlight: H.metricCurrency('Parcela mensal estimada do sócio', parcelaSocio),
-                secondaryA: H.metricCurrency('Lucro distribuível total', lucroDistribuivel),
-                secondaryB: H.metricCurrency('Reserva mensal sugerida', reserva),
+                highlight: H.metricCurrency('Valor líquido estimado para o sócio no mês', retencao.liquido),
+                secondaryA: H.metricCurrency(`IR retido na fonte (${percentual})`, retencao.retencao),
+                secondaryB: H.metricCurrency('Lucro distribuível total', lucroDistribuivel),
                 notes: [
-                    { label: 'Lucro antes da reserva', metric: H.metricCurrency('Lucro', lucroAntesReserva) },
+                    { label: 'Parcela do sócio (antes do IR)', metric: H.metricCurrency('Parcela', parcelaSocio) },
+                    { label: 'Total pago ao sócio no mês', metric: H.metricCurrency('Total', totalPagoMes) },
+                    { label: 'Reserva mensal sugerida', metric: H.metricCurrency('Reserva', reserva) },
                     { label: 'Margem líquida após tributos', metric: H.metricPercent('Margem', margemLiquida) },
-                    { label: 'Leitura', metric: H.metricText('Leitura', lucroAntesReserva > 0 ? 'Há espaço para distribuir lucros sem consumir toda a folga do caixa.' : 'Não há lucro mensal para distribuição neste cenário.') }
+                    { label: 'IR sobre dividendos', metric: H.metricText('Leitura', leituraRetencao) }
                 ],
                 steps: [
                     'Subtração de custos e tributos sobre a receita do mês.',
                     'Separação de uma reserva mínima para capital de giro.',
-                    'Rateio da parcela distribuível conforme a participação do sócio.'
+                    'Rateio da parcela distribuível conforme a participação do sócio.',
+                    `Retenção de ${percentual} quando o total pago ao sócio no mês passa de ${H.formatCurrency(limite)}.`
                 ],
                 details: [
                     { label: 'Receita anualizada', value: H.formatCurrency(values.faturamentoMensal * 12) },
                     { label: 'Lucro distribuível anual', value: H.formatCurrency(lucroDistribuivel * 12) },
                     { label: 'Participação do sócio', value: H.formatPercent(values.participacaoSocio) },
-                    { label: 'Parcela anual do sócio', value: H.formatCurrency(parcelaSocio * 12) }
+                    { label: 'Retenção anual estimada', value: H.formatCurrency(retencao.retencao * 12) },
+                    { label: 'Valor líquido anual do sócio', value: H.formatCurrency(retencao.liquido * 12) }
                 ],
                 chart: {
                     labels: ['Custos + pró-labore', 'Tributos', 'Reserva', 'Lucro distribuível'],
@@ -539,6 +578,125 @@
                         H.round2(lucroDistribuivel)
                     ],
                     colors: ['#7d93a8', '#d98c5f', '#c8a86b', '#4f8f7a']
+                }
+            };
+        }
+    });
+    suite.registerDefinition('fator-r', {
+        pageTitle: 'Calculadora de Fator R: Anexo III ou Anexo V',
+        pageDescription: 'Veja se sua empresa de serviços fica no Anexo III ou no V do Simples Nacional e quanto de pró-labore faltaria para chegar aos 28%.',
+        badges: ['Simples Nacional', 'Fator R', 'Pró-labore'],
+        calculateLabel: 'Calcular Fator R',
+        fields: [
+            {
+                id: 'rbt12',
+                type: 'number',
+                label: 'Faturamento dos últimos 12 meses (RBT12)',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01'
+            },
+            {
+                id: 'receitaMes',
+                type: 'number',
+                label: 'Faturamento do mês',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01'
+            },
+            {
+                id: 'folha12',
+                type: 'number',
+                label: 'Folha dos últimos 12 meses',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01',
+                help: 'Some salários, pró-labore, 13º, férias, FGTS e INSS patronal pagos nos últimos 12 meses.'
+            },
+            {
+                id: 'proLaboreAtual',
+                type: 'number',
+                label: 'Pró-labore mensal atual do sócio',
+                placeholder: 'R$ 0,00',
+                min: 0,
+                step: '0.01',
+                help: 'Usado para estimar o INSS e o IRRF de um pró-labore maior.'
+            }
+        ],
+        example: {
+            rbt12: 600000,
+            receitaMes: 50000,
+            folha12: 96000,
+            proLaboreAtual: 3000
+        },
+        validate(values) {
+            if (values.rbt12 <= 0) return 'Informe o faturamento dos últimos 12 meses.';
+            if (values.receitaMes <= 0) return 'Informe o faturamento do mês.';
+            return '';
+        },
+        compute(values) {
+            const minimo = H.config.fatorRMinimo;
+            const fatorR = values.rbt12 > 0 ? values.folha12 / values.rbt12 : 0;
+            const noAnexoIII = fatorR >= minimo;
+            const aliquotaIII = H.calcularAliquotaEfetivaSimples('III', values.rbt12).aliquotaEfetiva;
+            const aliquotaV = H.calcularAliquotaEfetivaSimples('V', values.rbt12).aliquotaEfetiva;
+            const dasIII = values.receitaMes * aliquotaIII;
+            const dasV = values.receitaMes * aliquotaV;
+
+            // Pró-labore extra por mês, mantido por 12 meses, para a folha chegar a 28% do RBT12.
+            const folhaNecessaria = values.rbt12 * minimo;
+            const faltaAnual = Math.max(0, folhaNecessaria - values.folha12);
+            const proLaboreExtra = faltaAnual / 12;
+
+            // No Anexo III a CPP já está no DAS: o custo extra é o INSS e o IRRF do sócio sobre o aumento.
+            const atual = H.calcularProLaboreLiquido(values.proLaboreAtual);
+            const novo = H.calcularProLaboreLiquido(values.proLaboreAtual + proLaboreExtra);
+            const custoExtra = (novo.inssSocio - atual.inssSocio) + (novo.irrf.impostoFinal - atual.irrf.impostoFinal);
+            const reducaoDAS = dasV - dasIII;
+            const economiaLiquida = reducaoDAS - custoExtra;
+
+            const fatorRPercent = fatorR * 100;
+            const minimoPercent = minimo * 100;
+
+            let leitura;
+            if (noAnexoIII) {
+                const folga = values.folha12 - folhaNecessaria;
+                leitura = `Fator R de ${H.formatPercent(fatorRPercent)}: a empresa já fica no Anexo III. A folha está ${H.formatCurrency(folga)} acima do mínimo nos 12 meses; acompanhe mês a mês para não cair abaixo de ${H.formatPercent(minimoPercent)}.`;
+            } else if (economiaLiquida > 0) {
+                leitura = `Subir o pró-labore em ${H.formatCurrency(proLaboreExtra)} por mês tende a compensar: o DAS cai ${H.formatCurrency(reducaoDAS)} e o INSS e o IRRF extras do sócio somam ${H.formatCurrency(custoExtra)}.`;
+            } else {
+                leitura = `Neste cenário, o INSS e o IRRF de um pró-labore maior (${H.formatCurrency(custoExtra)}) superam a redução do DAS (${H.formatCurrency(reducaoDAS)}). Vale revisar com o contador.`;
+            }
+
+            return {
+                highlight: noAnexoIII
+                    ? H.metricText('Anexo do Simples', 'Anexo III (Fator R acima de 28%)')
+                    : H.metricCurrency('Economia mensal estimada no Anexo III', Math.max(0, economiaLiquida)),
+                secondaryA: H.metricPercent('Fator R atual', fatorRPercent),
+                secondaryB: H.metricCurrency('Pró-labore extra por mês para chegar a 28%', proLaboreExtra),
+                notes: [
+                    { label: 'DAS do mês no Anexo III', metric: H.metricCurrency('DAS', dasIII) },
+                    { label: 'DAS do mês no Anexo V', metric: H.metricCurrency('DAS', dasV) },
+                    { label: 'INSS + IRRF extras do sócio', metric: H.metricCurrency('Custo', noAnexoIII ? 0 : custoExtra) },
+                    { label: 'Leitura', metric: H.metricText('Leitura', leitura) }
+                ],
+                steps: [
+                    'Fator R = folha dos últimos 12 meses dividida pelo faturamento dos últimos 12 meses.',
+                    `A partir de ${H.formatPercent(minimoPercent)}, a atividade sujeita ao Fator R é tributada no Anexo III; abaixo disso, no Anexo V.`,
+                    'Pró-labore extra = (28% do RBT12 menos a folha atual) dividido por 12 meses.',
+                    'Custo do aumento = INSS de 11% e IRRF do sócio sobre o pró-labore maior.'
+                ],
+                details: [
+                    { label: 'Alíquota efetiva no Anexo III', value: H.formatPercent(aliquotaIII * 100) },
+                    { label: 'Alíquota efetiva no Anexo V', value: H.formatPercent(aliquotaV * 100) },
+                    { label: 'Folha mínima em 12 meses (28%)', value: H.formatCurrency(folhaNecessaria) },
+                    { label: 'Pró-labore mensal sugerido', value: H.formatCurrency(values.proLaboreAtual + proLaboreExtra) },
+                    { label: 'Aviso', value: 'Vale só para atividades do Simples sujeitas ao Fator R. A folha considerada é a dos 12 meses anteriores, então o efeito do aumento é gradual.' }
+                ],
+                chart: {
+                    labels: ['DAS no Anexo III', 'DAS no Anexo V'],
+                    values: [H.round2(dasIII), H.round2(dasV)],
+                    colors: ['#4f8f7a', '#d98c5f']
                 }
             };
         }

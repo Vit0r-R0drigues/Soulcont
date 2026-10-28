@@ -31,6 +31,15 @@
             { limite: 4354.27, aliquota: 0.12 },
             { limite: 8475.55, aliquota: 0.14 }
         ],
+        // Lei 15.270/2025: retenção de 10% sobre o total de lucros pagos pela
+        // mesma empresa à mesma pessoa física quando passa de R$ 50 mil no mês.
+        dividendos: {
+            limiteMensal: 50000,
+            aliquotaRetencao: 0.10
+        },
+        // Fator R (Simples Nacional): folha de 12 meses / RBT12 a partir de 28%
+        // leva a atividade do Anexo V para o Anexo III.
+        fatorRMinimo: 0.28,
         simples: {
             I: [
                 { limite: 180000, aliquota: 0.04, deducao: 0 },
@@ -294,6 +303,17 @@
         };
     }
 
+    function calcularRetencaoDividendos(totalPagoNoMes, origem = 'novo') {
+        const total = Math.max(0, toNumber(totalPagoNoMes));
+        const sujeito = origem !== 'transicao' && total > config.dividendos.limiteMensal;
+        const retencao = sujeito ? total * config.dividendos.aliquotaRetencao : 0;
+        return {
+            sujeito,
+            retencao: round2(retencao),
+            liquido: round2(total - retencao)
+        };
+    }
+
     function simOuNaoOptions() {
         return [
             { value: 'sim', label: 'Sim' },
@@ -392,6 +412,7 @@
         calcularDecimoTerceiroLiquido,
         obterFaixaSimples,
         calcularAliquotaEfetivaSimples,
+        calcularRetencaoDividendos,
         simOuNaoOptions,
         diagnosticoOptions,
         atividadePresumidoOptions,

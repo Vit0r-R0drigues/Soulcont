@@ -426,6 +426,39 @@ def calcular_pj_vs_clt(
     }
 
 
+DIVIDENDOS_LIMITE_MENSAL = 50000.0
+DIVIDENDOS_ALIQUOTA = 0.10
+FATOR_R_MINIMO = 0.28
+
+
+def calcular_retencao_dividendos(total_pago_mes: float, origem: str = "novo") -> dict:
+    """Lei 15.270/2025: 10% sobre o total pago no mes quando passa de R$ 50 mil."""
+    total = max(0.0, float(total_pago_mes or 0))
+    sujeito = origem != "transicao" and total > DIVIDENDOS_LIMITE_MENSAL
+    retencao = total * DIVIDENDOS_ALIQUOTA if sujeito else 0.0
+    return {"sujeito": sujeito, "retencao": round2(retencao), "liquido": round2(total - retencao)}
+
+
+def calcular_fator_r(rbt12: float, receita_mes: float, folha12: float, prolabore_atual: float) -> dict:
+    fator = folha12 / rbt12 if rbt12 > 0 else 0.0
+    das_iii = receita_mes * calcular_aliquota_efetiva_simples("III", rbt12)["aliquota_efetiva"]
+    das_v = receita_mes * calcular_aliquota_efetiva_simples("V", rbt12)["aliquota_efetiva"]
+    falta_anual = max(0.0, rbt12 * FATOR_R_MINIMO - folha12)
+    prolabore_extra = falta_anual / 12
+    atual = calcular_prolabore_liquido(prolabore_atual)
+    novo = calcular_prolabore_liquido(prolabore_atual + prolabore_extra)
+    custo_extra = (novo["inss"] - atual["inss"]) + (novo["irrf_final"] - atual["irrf_final"])
+    return {
+        "fator_r": fator,
+        "anexo": "III" if fator >= FATOR_R_MINIMO else "V",
+        "das_iii": round2(das_iii),
+        "das_v": round2(das_v),
+        "prolabore_extra": round2(prolabore_extra),
+        "custo_extra": round2(custo_extra),
+        "economia_liquida": round2((das_v - das_iii) - custo_extra),
+    }
+
+
 class CalculadorasFormulaTests(unittest.TestCase):
     def assertMoney(self, actual: float, expected: float, label: str) -> None:
         self.assertAlmostEqual(actual, expected, places=2, msg=label)
@@ -601,6 +634,36 @@ class CalculadorasFormulaTests(unittest.TestCase):
         self.assertMoney(resultado["caixa_pj_anual"], 167640.00, "Caixa anual PJ")
         self.assertMoney(resultado["diferenca_anual"], 56480.30, "Diferenca anual PJ x CLT")
 
+
+    def test_dividendos_ate_50_mil_sem_retencao(self) -> None:
+        resultado = calcular_retencao_dividendos(50000.00)
+        self.assertFalse(resultado["sujeito"])
+        self.assertMoney(resultado["retencao"], 0.00, "Sem retencao ate o limite")
+
+    def test_dividendos_acima_de_50_mil_retem_10_por_cento_do_total(self) -> None:
+        resultado = calcular_retencao_dividendos(55120.00)
+        self.assertTrue(resultado["sujeito"])
+        self.assertMoney(resultado["retencao"], 5512.00, "Retencao de 10% sobre o total")
+        self.assertMoney(resultado["liquido"], 49608.00, "Liquido apos retencao")
+
+    def test_dividendos_regra_de_transicao(self) -> None:
+        resultado = calcular_retencao_dividendos(55120.00, origem="transicao")
+        self.assertFalse(resultado["sujeito"])
+        self.assertMoney(resultado["liquido"], 55120.00, "Transicao sem retencao")
+
+    def test_fator_r_abaixo_de_28_por_cento(self) -> None:
+        resultado = calcular_fator_r(rbt12=600000, receita_mes=50000, folha12=96000, prolabore_atual=3000)
+        self.assertEqual(resultado["anexo"], "V")
+        self.assertMoney(resultado["das_iii"], 5280.00, "DAS Anexo III")
+        self.assertMoney(resultado["das_v"], 8925.00, "DAS Anexo V")
+        self.assertMoney(resultado["prolabore_extra"], 6000.00, "Pro-labore extra mensal")
+        self.assertMoney(resultado["custo_extra"], 1912.19, "INSS + IRRF extras")
+        self.assertMoney(resultado["economia_liquida"], 1732.81, "Economia liquida mensal")
+
+    def test_fator_r_ja_no_anexo_iii(self) -> None:
+        resultado = calcular_fator_r(rbt12=600000, receita_mes=50000, folha12=200000, prolabore_atual=3000)
+        self.assertEqual(resultado["anexo"], "III")
+        self.assertMoney(resultado["prolabore_extra"], 0.00, "Sem pro-labore extra")
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
