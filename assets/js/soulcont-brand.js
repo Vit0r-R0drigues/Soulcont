@@ -23,7 +23,7 @@
                         <figcaption class="soulcont-team-hero__caption">Vitor Rodrigues de Lima<span>Contador responsável · CRC SP353836</span></figcaption>
                     </figure>
                     <figure class="soulcont-team-hero__person">
-                        <img src="/assets/img/soulcont/leonardo-silva-retrato-3x4.webp" alt="Leonardo Silva de Sousa, contador responsável da SoulCont" width="720" height="960">
+                        <img src="/assets/img/soulcont/leonardo-silva-retrato-real-640w.webp" alt="Leonardo Silva de Sousa, contador da SoulCont, no escritório" width="640" height="853">
                         <figcaption class="soulcont-team-hero__caption">Leonardo Silva de Sousa<span>Contador responsável · CRCCE 024206/O5</span></figcaption>
                     </figure>
                 </div>
@@ -39,7 +39,7 @@
 
         profile.insertAdjacentHTML('afterend', `
             <div class="founder-profile soulcont-team-member">
-                <img src="/assets/img/soulcont/leonardo-silva-retrato-3x4.webp" alt="Leonardo Silva de Sousa">
+                <img src="/assets/img/soulcont/leonardo-silva-retrato-real-640w.webp" alt="Leonardo Silva de Sousa no escritório da SoulCont" width="640" height="853" loading="lazy" decoding="async">
                 <div>
                     <strong>Leonardo Silva de Sousa</strong>
                     <span>Contador responsável · Registro profissional: CRCCE 024206/O5</span>
