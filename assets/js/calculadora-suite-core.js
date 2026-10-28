@@ -252,7 +252,7 @@
 
     function renderSteps(steps) {
         if (!el.stepsContainer) return;
-        const list = Array.isArray(steps) && steps.length > 0 ? steps : ['Coleta de dados.', 'Aplicacao das formulas.', 'Leitura do resultado final.'];
+        const list = Array.isArray(steps) && steps.length > 0 ? steps : ['Coleta de dados.', 'Aplicação das fórmulas.', 'Leitura do resultado final.'];
         el.stepsContainer.innerHTML = '';
         list.forEach((stepText, index) => {
             const step = document.createElement('div');
@@ -359,7 +359,7 @@
                 labels: chart.labels,
                 datasets: [{
                     data: chart.values.map((item) => Math.max(0, H.toNumber(item))),
-                    backgroundColor: chart.colors || ['#0a7dd1', '#0f766e', '#d46d13', '#64748b']
+                    backgroundColor: chart.colors || ['#c8a86b', '#4f8f7a', '#d98c5f', '#7d93a8']
                 }]
             },
             options: {
@@ -368,7 +368,7 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: '#334155' }
+                        labels: { color: 'rgba(244, 241, 234, 0.82)' }
                     }
                 }
             }
@@ -446,15 +446,15 @@
         if (el.copyResumo) {
             el.copyResumo.addEventListener('click', async () => {
                 if (!state.lastSummary) {
-                    setCopyFeedback('Gere uma simulacao antes de copiar o resumo.');
+                    setCopyFeedback('Gere uma simulação antes de copiar o resumo.');
                     return;
                 }
 
                 try {
                     await navigator.clipboard.writeText(state.lastSummary);
-                    setCopyFeedback('Resumo copiado. Agora voce pode colar no WhatsApp, e-mail ou proposta.');
+                    setCopyFeedback('Resumo copiado. Agora você pode colar no WhatsApp, e-mail ou proposta.');
                 } catch (error) {
-                    setCopyFeedback('Nao foi possivel copiar automaticamente. Tente novamente.');
+                    setCopyFeedback('Não foi possível copiar automaticamente. Tente novamente.');
                 }
             });
         }
@@ -467,7 +467,24 @@
         });
     }
 
+    // Without a valid ?calc= the page lists every calculator instead of an empty form.
+    function renderCalculatorList() {
+        const list = document.getElementById('emptyList');
+        if (!list || !suite.definitions) return;
+        list.innerHTML = '';
+        Object.values(suite.definitions).forEach((definition) => {
+            const item = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = `calculadora-suite.html?calc=${encodeURIComponent(definition.id)}`;
+            link.textContent = definition.pageTitle || definition.id;
+            item.appendChild(link);
+            list.appendChild(item);
+        });
+    }
+
     function showEmptyState() {
+        document.body.classList.add('suite-is-empty');
+        renderCalculatorList();
         if (el.emptyState) el.emptyState.style.display = 'block';
         if (el.resultSection) el.resultSection.style.display = 'none';
         if (el.dynamicFields) el.dynamicFields.innerHTML = '';

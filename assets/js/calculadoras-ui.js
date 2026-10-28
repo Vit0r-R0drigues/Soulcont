@@ -1,6 +1,13 @@
 (function () {
     const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // Charts sit on dark panels: light labels and subtle grid lines.
+    if (window.Chart && window.Chart.defaults) {
+        window.Chart.defaults.color = 'rgba(244, 241, 234, 0.82)';
+        window.Chart.defaults.borderColor = 'rgba(244, 241, 234, 0.12)';
+        window.Chart.defaults.elements.arc.borderColor = '#14283a';
+    }
+
     function parseMoeda(texto) {
         if (!texto) return 0;
         const normalizado = String(texto)

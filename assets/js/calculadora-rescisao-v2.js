@@ -636,8 +636,8 @@ function renderizar(res) {
           <td><strong>${esc(item.nome)}</strong></td>
           <td><span class="resc-pill ${pCls}">${esc(item.natureza)}</span></td>
           <td class="${cls}" style="white-space:nowrap">${fmtMoeda(item.valor)}<span class="resc-formula">${esc(pTxt)}</span></td>
-          <td><span style="font-size:0.87rem;color:#4a6783;">${esc(item.formula)}</span></td>
-          <td style="font-size:0.86rem;color:#254b6e;">${esc(item.legal)}</td>
+          <td><span style="font-size:0.87rem;color:var(--resc-muted);">${esc(item.formula)}</span></td>
+          <td style="font-size:0.86rem;color:var(--resc-muted);">${esc(item.legal)}</td>
         </tr>`;
     }).join('');
   }

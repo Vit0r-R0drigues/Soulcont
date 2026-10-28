@@ -1,0 +1,499 @@
+/* Dark theme for the calculator pages, loaded last so it matches the rest of
+   the site: navy panels, ivory text, brand serif titles and gold actions. */
+body.calc-modern {
+    --calc-panel: rgba(15, 34, 51, 0.84);
+    --calc-panel-soft: rgba(244, 241, 234, 0.05);
+    --calc-line: rgba(200, 168, 107, 0.16);
+    --calc-line-strong: rgba(200, 168, 107, 0.34);
+    --calc-ivory: #f4f1ea;
+    --calc-soft: rgba(244, 241, 234, 0.82);
+    --calc-muted: rgba(244, 241, 234, 0.64);
+    --calc-gold: #c8a86b;
+    --calc-gold-hover: #d8bc85;
+    --calc-navy: #0f2233;
+    --calc-field: rgba(7, 27, 46, 0.72);
+
+    background:
+        radial-gradient(circle at 12% 10%, rgba(200, 168, 107, 0.12), transparent 24%),
+        radial-gradient(circle at 88% 14%, rgba(24, 53, 77, 0.24), transparent 28%),
+        linear-gradient(180deg, #081420 0%, #0f2233 46%, #111a25 100%);
+    background-attachment: fixed;
+    /* Phones drop the gradient site-wide (mediaquery.css); keep the same
+       solid navy the other pages fall back to. */
+    background-color: var(--cor-fundo, #0f2233);
+    color: var(--calc-ivory);
+}
+
+body.calc-modern .calculadora-page {
+    padding-top: 7rem;
+}
+
+/* Titles use the brand serif, like every other page. */
+body.calc-modern .calculadora-hero h1,
+body.calc-modern .entrada-dados h2,
+body.calc-modern .passo-a-passo h2,
+body.calc-modern .resultados h2 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 700;
+    color: var(--calc-ivory);
+}
+
+body.calc-modern .calculadora-hero h1 {
+    font-size: clamp(1.9rem, 2.4vw + 1rem, 2.8rem);
+}
+
+body.calc-modern .entrada-dados h2,
+body.calc-modern .passo-a-passo h2,
+body.calc-modern .resultados h2 {
+    font-size: clamp(1.4rem, 1vw + 1rem, 1.75rem);
+}
+
+body.calc-modern .calculadora-hero {
+    border: 1px solid var(--calc-line);
+    box-shadow: 0 22px 44px rgba(0, 0, 0, 0.22);
+}
+
+body.calc-modern .calculadora-hero::after {
+    animation: none;
+    display: none;
+}
+
+body.calc-modern .calc-info-badge {
+    background: rgba(200, 168, 107, 0.12);
+    border-color: var(--calc-line-strong);
+    color: var(--calc-ivory);
+}
+
+/* Panels */
+body.calc-modern .entrada-dados,
+body.calc-modern .passo-a-passo,
+body.calc-modern .resultados {
+    background: var(--calc-panel);
+    border: 1px solid var(--calc-line);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+    color: var(--calc-ivory);
+}
+
+/* Form */
+body.calc-modern .form-group label,
+body.calc-modern label {
+    color: var(--calc-soft);
+}
+
+body.calc-modern .form-group input,
+body.calc-modern .form-group select,
+body.calc-modern .form-group textarea,
+body.calc-modern input[type="number"],
+body.calc-modern input[type="text"],
+body.calc-modern input[type="date"],
+body.calc-modern select {
+    background: var(--calc-field);
+    color: var(--calc-ivory);
+    border: 1px solid rgba(200, 168, 107, 0.24);
+    color-scheme: dark;
+}
+
+body.calc-modern input::placeholder {
+    color: rgba(244, 241, 234, 0.45);
+}
+
+body.calc-modern .form-group input:focus,
+body.calc-modern .form-group select:focus,
+body.calc-modern .form-group textarea:focus,
+body.calc-modern input:focus,
+body.calc-modern select:focus {
+    outline: 2px solid rgba(200, 168, 107, 0.4);
+    border-color: var(--calc-gold);
+}
+
+body.calc-modern select option {
+    background: var(--calc-navy);
+    color: var(--calc-ivory);
+}
+
+body.calc-modern .suite-field-help,
+body.calc-modern .form-hint,
+body.calc-modern small {
+    color: var(--calc-muted);
+}
+
+body.calc-modern .form-group i,
+body.calc-modern label i {
+    color: var(--calc-gold);
+}
+
+/* Buttons: gold for the main action, outlined for the secondary one. */
+body.calc-modern .btn-calcular,
+body.calc-modern .calc-cta-button,
+body.calc-modern .btn-detalhes,
+body.calc-modern .resc-btn-primary {
+    background: var(--calc-gold);
+    color: var(--calc-navy);
+    border: 0;
+}
+
+body.calc-modern .btn-calcular:hover,
+body.calc-modern .calc-cta-button:hover,
+body.calc-modern .btn-detalhes:hover,
+body.calc-modern .resc-btn-primary:hover {
+    background: var(--calc-gold-hover);
+    color: var(--calc-navy);
+    filter: none;
+}
+
+body.calc-modern .btn-exemplo,
+body.calc-modern .calc-copy-button,
+body.calc-modern .resc-btn-ghost {
+    background: transparent;
+    color: var(--calc-ivory);
+    border: 1px solid var(--calc-line-strong);
+}
+
+body.calc-modern .btn-exemplo:hover,
+body.calc-modern .calc-copy-button:hover,
+body.calc-modern .resc-btn-ghost:hover {
+    background: rgba(200, 168, 107, 0.1);
+    color: var(--calc-ivory);
+}
+
+/* Steps */
+body.calc-modern .progress-bar {
+    background: rgba(244, 241, 234, 0.08);
+}
+
+body.calc-modern .progress {
+    background: var(--calc-gold);
+}
+
+body.calc-modern .step {
+    background: var(--calc-panel-soft);
+    border-color: var(--calc-line);
+}
+
+body.calc-modern .step-number {
+    background: var(--calc-gold);
+    color: var(--calc-navy);
+}
+
+body.calc-modern .step-content h4 {
+    color: var(--calc-ivory);
+}
+
+body.calc-modern .step-content p {
+    color: var(--calc-muted);
+}
+
+/* Results */
+body.calc-modern .resultado-cards .card {
+    background: var(--calc-panel-soft);
+    border-color: var(--calc-line);
+}
+
+body.calc-modern .resultado-cards .card h3 {
+    color: var(--calc-muted);
+}
+
+body.calc-modern .resultado-cards .card p {
+    color: var(--calc-ivory);
+}
+
+body.calc-modern .resultado-cards .card.destaque {
+    background: rgba(200, 168, 107, 0.14);
+    border: 1px solid var(--calc-line-strong);
+}
+
+body.calc-modern .resultado-cards .card.destaque h3 {
+    color: var(--calc-gold);
+}
+
+body.calc-modern .resultado-cards .card.destaque p {
+    color: var(--calc-ivory);
+}
+
+body.calc-modern .result-note-item,
+body.calc-modern .calc-summary,
+body.calc-modern .suite-detail-item {
+    background: var(--calc-panel-soft);
+    border-color: var(--calc-line);
+    color: var(--calc-soft);
+}
+
+body.calc-modern .result-note-item strong,
+body.calc-modern .suite-detail-item h4 {
+    color: var(--calc-ivory);
+}
+
+body.calc-modern .suite-detail-item p {
+    color: var(--calc-soft);
+}
+
+body.calc-modern .calc-warning {
+    background: rgba(200, 168, 107, 0.08);
+    border-color: var(--calc-line);
+    color: var(--calc-soft);
+}
+
+body.calc-modern .grafico-container {
+    background: var(--calc-panel-soft);
+    border-color: var(--calc-line);
+}
+
+body.calc-modern .detalhes-calculo,
+body.calc-modern .table-container {
+    background: transparent;
+    color: var(--calc-soft);
+}
+
+body.calc-modern .table-container table,
+body.calc-modern table {
+    color: var(--calc-soft);
+}
+
+body.calc-modern .table-container th,
+body.calc-modern table th {
+    background: rgba(200, 168, 107, 0.12);
+    color: var(--calc-ivory);
+}
+
+body.calc-modern .table-container td,
+body.calc-modern table td {
+    border-color: var(--calc-line);
+}
+
+body.calc-modern .valor-positivo {
+    color: #8bf0b5;
+}
+
+body.calc-modern .valor-negativo {
+    color: #ff9b8f;
+}
+
+body.calc-modern .calc-copy-feedback {
+    color: var(--calc-soft);
+}
+
+/* Suite without a chosen calculator: list instead of an empty form. */
+body.calc-modern.suite-is-empty .entrada-dados,
+body.calc-modern.suite-is-empty .passo-a-passo {
+    display: none;
+}
+
+body.calc-modern .suite-empty h2 {
+    margin-top: 0;
+}
+
+body.calc-modern .suite-empty-message {
+    color: var(--calc-soft);
+}
+
+body.calc-modern .suite-empty-list {
+    list-style: none;
+    margin: 1rem 0 1.4rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.6rem;
+}
+
+body.calc-modern .suite-empty-list a {
+    display: block;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--calc-line);
+    border-radius: 12px;
+    background: var(--calc-panel-soft);
+    color: var(--calc-ivory);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+body.calc-modern .suite-empty-list a:hover,
+body.calc-modern .suite-empty-list a:focus-visible {
+    border-color: var(--calc-gold);
+    color: var(--calc-gold);
+}
+
+body.calc-modern .suite-empty-link {
+    display: inline-flex;
+    width: auto;
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    text-decoration: none;
+}
+
+/* Rescisão calculator (own resc-* components). */
+body.calc-modern .resc-page {
+    --resc-primary: #c8a86b;
+    --resc-primary-dark: #f4f1ea;
+    --resc-accent-light: rgba(200, 168, 107, 0.1);
+    --resc-warn: #f3c98b;
+    --resc-warn-bg: rgba(200, 168, 107, 0.1);
+    --resc-success: #8bf0b5;
+    --resc-danger: #ff9b8f;
+    --resc-border: rgba(200, 168, 107, 0.16);
+    --resc-bg: transparent;
+    --resc-card: rgba(15, 34, 51, 0.84);
+    --resc-text: #f4f1ea;
+    --resc-muted: rgba(244, 241, 234, 0.66);
+    --resc-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+    color: var(--resc-text);
+}
+
+body.calc-modern .resc-fieldset,
+body.calc-modern .resc-toggle-row,
+body.calc-modern .resc-note,
+body.calc-modern .resc-pill-debit,
+body.calc-modern .resc-pill-neutral,
+body.calc-modern .resc-legal-item,
+body.calc-modern .resc-accordion,
+body.calc-modern .resc-legal-warning,
+body.calc-modern .resc-suggest-btn,
+body.calc-modern .resc-table,
+body.calc-modern .resc-table thead th,
+body.calc-modern .resc-cta-card,
+body.calc-modern .resc-result-shell {
+    background: rgba(244, 241, 234, 0.05);
+    border-color: var(--resc-border);
+    color: var(--resc-text);
+}
+
+body.calc-modern .resc-field select,
+body.calc-modern .resc-field input {
+    background: var(--calc-field);
+    color: var(--calc-ivory);
+    border-color: rgba(200, 168, 107, 0.24);
+}
+
+body.calc-modern .resc-btn-ghost:hover,
+body.calc-modern .resc-accordion-summary:hover,
+body.calc-modern .resc-table tbody tr:hover td {
+    background: rgba(200, 168, 107, 0.08);
+}
+
+body.calc-modern .resc-table td,
+body.calc-modern .resc-table th {
+    color: var(--resc-text);
+    border-color: var(--resc-border);
+}
+
+body.calc-modern .resc-fieldset-num {
+    background: var(--calc-gold);
+    color: var(--calc-navy);
+}
+
+/* The rescisão stylesheet hard-codes dark blue text on many components;
+   inherit the ivory text instead, then restore the accents. */
+body.calc-modern .resc-page :is(p, li, span, strong, h2, h3, h4, label, td, th, small, summary, dt, dd, legend) {
+    color: inherit;
+}
+
+body.calc-modern .resc-page :is(.resc-section-sub, .resc-scenario-rights, .resc-scenario-title, .resc-toggle-hint, .resc-result-sub, .resc-info-list li) {
+    color: var(--resc-muted);
+}
+
+body.calc-modern .resc-page :is(.resc-scenario-name, .resc-hero-accent, .resc-fieldset-title) {
+    color: var(--calc-gold);
+}
+
+body.calc-modern .resc-page :is(.resc-btn-primary, .resc-fieldset-num, .resc-btn-primary *) {
+    color: var(--calc-navy);
+}
+
+body.calc-modern .resc-btn-secondary {
+    background: transparent;
+    color: var(--calc-ivory);
+    border: 1px solid var(--calc-line-strong);
+}
+
+body.calc-modern .resc-btn-secondary:hover {
+    background: rgba(200, 168, 107, 0.1);
+}
+
+body.calc-modern .resc-info-card,
+body.calc-modern .resc-scenario-card,
+body.calc-modern .resc-form-card {
+    background: var(--resc-card);
+    border-color: var(--resc-border);
+}
+
+body.calc-modern .resc-breadcrumb,
+body.calc-modern .resc-breadcrumb a {
+    color: var(--calc-muted);
+}
+
+body.calc-modern .resc-help-btn {
+    color: var(--calc-gold);
+    background: transparent;
+    border-color: var(--calc-line-strong);
+}
+
+/* Rescisão results */
+body.calc-modern .resc-stat {
+    background: rgba(244, 241, 234, 0.05);
+    border-color: var(--resc-border);
+}
+
+body.calc-modern .resc-stat.resc-stat-highlight {
+    background: rgba(200, 168, 107, 0.16);
+    border: 1px solid var(--calc-line-strong);
+}
+
+body.calc-modern .resc-page .resc-stat-val {
+    color: var(--calc-ivory);
+}
+
+body.calc-modern .resc-page .resc-stat-highlight .resc-stat-key {
+    color: var(--calc-gold);
+}
+
+body.calc-modern .resc-page .resc-pill {
+    background: rgba(139, 240, 181, 0.12);
+    border-color: rgba(139, 240, 181, 0.3);
+    color: #8bf0b5;
+}
+
+body.calc-modern .resc-page .resc-pill-debit {
+    background: rgba(255, 155, 143, 0.12);
+    border-color: rgba(255, 155, 143, 0.3);
+    color: #ff9b8f;
+}
+
+body.calc-modern .resc-page .resc-pill-neutral {
+    background: rgba(244, 241, 234, 0.06);
+    border-color: var(--resc-border);
+    color: var(--calc-soft);
+}
+
+body.calc-modern .resc-page :is(.resc-formula, .resc-legal-item, .resc-premissa-item) {
+    color: var(--calc-soft);
+}
+
+body.calc-modern .resc-page td.resc-money-pos,
+body.calc-modern .resc-page .resc-money-pos {
+    color: #8bf0b5;
+}
+
+body.calc-modern .resc-page td.resc-money-neg,
+body.calc-modern .resc-page .resc-money-neg {
+    color: #ff9b8f;
+}
+
+body.calc-modern .range-markers,
+body.calc-modern .table-container td::before {
+    color: var(--calc-muted);
+}
+
+body.calc-modern #diasVendidosValue,
+body.calc-modern .suite-range-output {
+    color: var(--calc-gold);
+}
+
+body.calc-modern .table-container td {
+    color: var(--calc-soft);
+}
+
+/* Same pulse as the base stylesheet, flashing gold instead of dark blue. */
+@keyframes calcValueFlash {
+    0% { transform: scale(1); }
+    35% { transform: scale(1.035); color: #c8a86b; }
+    100% { transform: scale(1); }
+}

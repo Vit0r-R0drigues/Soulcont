@@ -175,7 +175,7 @@ function atualizarGrafico(dados) {
             labels: ['Férias + 1/3', 'Abono', 'Descontos', 'Líquido'],
             datasets: [{
                 data: [dados.feriasComTerco, dados.abonoTotal, dados.descontos, dados.liquido],
-                backgroundColor: ['#0a7dd1', '#d46d13', '#c2410c', '#0f766e']
+                backgroundColor: ['#c8a86b', '#d98c5f', '#c2410c', '#4f8f7a']
             }]
         },
         options: {
@@ -184,7 +184,7 @@ function atualizarGrafico(dados) {
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { color: '#334155' }
+                    labels: { color: 'rgba(244, 241, 234, 0.82)' }
                 }
             }
         }

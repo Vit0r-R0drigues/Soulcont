@@ -297,7 +297,7 @@
     function simOuNaoOptions() {
         return [
             { value: 'sim', label: 'Sim' },
-            { value: 'nao', label: 'Nao' }
+            { value: 'nao', label: 'Não' }
         ];
     }
 
@@ -311,9 +311,9 @@
 
     function atividadePresumidoOptions() {
         return [
-            { value: 'comercio', label: 'Comercio ou revenda' },
-            { value: 'industria', label: 'Industria' },
-            { value: 'servicos', label: 'Prestacao de servicos' }
+            { value: 'comercio', label: 'Comércio ou revenda' },
+            { value: 'industria', label: 'Indústria' },
+            { value: 'servicos', label: 'Prestação de serviços' }
         ];
     }
 

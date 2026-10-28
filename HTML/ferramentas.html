@@ -21,6 +21,9 @@
         content="Use as ferramentas da SoulCont para comparar cenários e falar com um contador sobre o próximo passo.">
     <meta name="twitter:image" content="https://soulcontt.com.br/assets/img/soulcont/og-soulcont.jpg">
     <title>Ferramentas contábeis e financeiras | SoulCont</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
@@ -30,7 +33,7 @@
     <link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7">
     <link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
     <link rel="stylesheet" href="/assets/css/site-v2.css?v=1.1">
-    <link rel="stylesheet" href="/assets/css/ferramentas-hub.css?v=4.1">
+    <link rel="stylesheet" href="/assets/css/ferramentas-hub.css?v=4.3">
     <link rel="stylesheet" href="/assets/css/motion.css?v=1.0">
     <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.5">
     <script type="application/ld+json">
@@ -174,64 +177,10 @@
             </div>
         </section>
 
-        <section class="hub-overview" aria-label="Panorama rápido do hub">
-            <article class="hub-overview-card">
-                <span id="calcCount" class="hub-overview-value">0</span>
-                <span class="hub-overview-label">calculadoras ativas</span>
-            </article>
-            <article class="hub-overview-card">
-                <span id="linkCount" class="hub-overview-value">0</span>
-                <span class="hub-overview-label">links oficiais</span>
-            </article>
-            <article class="hub-overview-card">
-                <span id="docCount" class="hub-overview-value">0</span>
-                <span class="hub-overview-label">modelos e checklists</span>
-            </article>
-            <article class="hub-overview-card hub-overview-card--wide">
-                <p class="hub-overview-eyebrow">Atalhos mais procurados</p>
-                <div class="hub-pill-links">
-                    <a href="calculadora-suite.html?calc=pj-vs-clt">PJ x CLT</a>
-                    <a href="calculadora-suite.html?calc=simples-vs-lucro-presumido">Simples x Presumido</a>
-                    <a href="calculadora-suite.html?calc=pro-labore-liquido">Pró-labore</a>
-                    <a href="calculadora-suite.html?calc=custo-funcionario">Custo de funcionário</a>
-                </div>
-            </article>
-        </section>
 
-        <section id="orientacoes-ferramentas" class="tools-commercial-band" aria-label="Como usar o hub com apoio consultivo">
-            <article class="insight-card">
-                <h3>Compare cenários antes de decidir</h3>
-                <p>Bom para quem está abrindo empresa, saindo do MEI ou avaliando mudança de regime tributário.</p>
-            </article>
-            <article class="insight-card">
-                <h3>Descubra se há carga tributária acima do necessário</h3>
-                <p>Use as simulações para entender se vale uma revisão de enquadramento ou um diagnóstico tributário.</p>
-            </article>
-            <article class="insight-card">
-                <h3>Quer ajuda para interpretar o resultado?</h3>
-                <p>Depois do cálculo, fale com a SoulCont e receba orientação com base no momento da sua empresa.</p>
-            </article>
-        </section>
 
-        <section class="service-path-grid" aria-label="Caminhos a partir das ferramentas">
-            <article class="service-path-card">
-                <h3>Vai abrir empresa?</h3>
-                <p>Use os comparadores para avaliar cenários e depois fale com a SoulCont para definir o enquadramento mais seguro.</p>
-                <a class="text-link-v2" href="/HTML/abertura-de-empresa.html">Ver abertura de empresa</a>
-            </article>
-            <article class="service-path-card">
-                <h3>Quer revisar a carga tributária?</h3>
-                <p>Combine os simuladores de regime e pró-labore com um diagnóstico tributário da SoulCont.</p>
-                <a class="text-link-v2" href="/HTML/diagnostico-tributario.html">Ver diagnóstico tributário</a>
-            </article>
-            <article class="service-path-card">
-                <h3>Precisa reorganizar a rotina?</h3>
-                <p>Ferramentas de custo, fluxo e folha ajudam a enxergar onde estão os gargalos antes da decisão.</p>
-                <a class="text-link-v2" href="/HTML/contatos.html">Falar com a SoulCont</a>
-            </article>
-        </section>
 
-        <section id="filtros-ferramentas" class="hub-toolbar" aria-label="Busca de ferramentas">
+        <section id="filtros-ferramentas" class="hub-toolbar" aria-label="Buscar ferramentas">
             <div class="hub-search-wrap">
                 <i class="fi fi-rr-search"></i>
                 <input id="toolSearch" class="hub-search-input" type="search"
@@ -239,7 +188,6 @@
             </div>
             <div class="hub-filters" role="tablist" aria-label="Filtro de recursos">
                 <button type="button" class="hub-filter-btn active" data-filter="todos">Todos</button>
-                <button type="button" class="hub-filter-btn" data-filter="favoritos">Favoritos</button>
                 <button type="button" class="hub-filter-btn" data-filter="calculadora">Calculadoras</button>
                 <button type="button" class="hub-filter-btn" data-filter="tributos">Tributos</button>
                 <button type="button" class="hub-filter-btn" data-filter="trabalhista">Trabalhista</button>
@@ -254,11 +202,7 @@
         <section id="calc-section" class="hub-section">
             <div class="hub-section-header">
                 <h2>Calculadoras por Grupo</h2>
-                <p>Tributário, folha, sócios e comparativos de decisão conectados a próximos passos comerciais</p>
-            </div>
-
-            <div class="hub-inline-note">
-                Use o resultado como ponto de partida. Se quiser, a SoulCont interpreta a simulação com você para indicar o melhor enquadramento, a melhor estrutura de retirada ou o ajuste mais urgente da rotina.
+                <p>Tributário, folha, sócios e finanças.</p>
             </div>
 
             <div class="hub-grid">
@@ -267,18 +211,11 @@
                     data-fav-id="calc-pj-vs-clt">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-arrows-repeat"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Comparativo</span>
-                            <span class="hub-badge hub-badge--law">PJ x CLT</span>
-                            <span class="hub-badge hub-badge--new">Novo</span>
-                        </div>
                     </div>
                     <h3>Comparador PJ x CLT</h3>
                     <p>Compara caixa anual, benefícios CLT, FGTS e retirada via PJ para apoiar negociação.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=pj-vs-clt">Abrir</a>
-                        <a class="hub-link hub-link-soft hub-whatsapp-link" href="#" data-wa-text="Olá, acabei de usar o comparador PJ x CLT e quero ajuda para interpretar o resultado.">Interpretar</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
@@ -287,18 +224,11 @@
                     data-fav-id="calc-simples-vs-presumido">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-chart-histogram"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Tributário</span>
-                            <span class="hub-badge hub-badge--law">Simples x Presumido</span>
-                            <span class="hub-badge hub-badge--new">Novo</span>
-                        </div>
                     </div>
                     <h3>Comparador Simples x Lucro Presumido</h3>
                     <p>Confronta DAS e tributos do Presumido para indicar o regime com menor carga principal.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=simples-vs-lucro-presumido">Abrir</a>
-                        <a class="hub-link hub-link-soft hub-whatsapp-link" href="#" data-wa-text="Olá, acabei de usar o comparador Simples x Lucro Presumido e quero ajuda para interpretar o resultado.">Interpretar</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
@@ -307,18 +237,11 @@
                     data-fav-id="calc-pro-labore-liquido">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-users-alt"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Sócios</span>
-                            <span class="hub-badge hub-badge--law">Pró-labore</span>
-                            <span class="hub-badge hub-badge--new">Novo</span>
-                        </div>
                     </div>
                     <h3>Calculadora de Pró-labore</h3>
                     <p>Estima líquido do sócio, INSS, IRRF e custo total da empresa conforme o regime.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=pro-labore-liquido">Abrir</a>
-                        <a class="hub-link hub-link-soft hub-whatsapp-link" href="#" data-wa-text="Olá, acabei de usar a calculadora de pró-labore e quero ajuda para interpretar o resultado.">Interpretar</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
@@ -327,18 +250,11 @@
                     data-fav-id="calc-distribuicao-lucros">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-money-check"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Sócios</span>
-                            <span class="hub-badge hub-badge--law">Lucros</span>
-                            <span class="hub-badge hub-badge--new">Novo</span>
-                        </div>
                     </div>
                     <h3>Distribuição de Lucros</h3>
                     <p>Projeta lucro distribuível, reserva de caixa e a parcela estimada do sócio no mês.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=distribuicao-lucros">Abrir</a>
-                        <a class="hub-link hub-link-soft hub-whatsapp-link" href="#" data-wa-text="Olá, acabei de usar a simulação de distribuição de lucros e quero ajuda para interpretar o resultado.">Interpretar</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
@@ -347,18 +263,11 @@
                     data-fav-id="calc-irrf">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-calculator"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Tributário</span>
-                            <span class="hub-badge hub-badge--law">IRRF 2026</span>
-                        </div>
                     </div>
                     <h3>Calculadora IRRF Mensal</h3>
                     <p>Com tabela IRRF 2026, INSS progressivo atualizado e regra de redução da Lei 15.270/2025.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-irrf.html">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false">
-                            <i class="fi fi-rr-star"></i>
-                        </button>
                     </div>
                 </article>
 
@@ -367,18 +276,11 @@
                     data-fav-id="calc-ferias">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-time-check"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Folha</span>
-                            <span class="hub-badge hub-badge--law">CLT</span>
-                        </div>
                     </div>
                     <h3>Calculadora de Férias</h3>
                     <p>Simula férias com adicional constitucional, abono pecuniário e descontos estimados.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-ferias.html">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false">
-                            <i class="fi fi-rr-star"></i>
-                        </button>
                     </div>
                 </article>
 
@@ -387,210 +289,141 @@
                     data-fav-id="calc-rescisao">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-briefcase"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Desligamento</span>
-                            <span class="hub-badge hub-badge--law">FGTS · INSS · IRRF</span>
-                            <span class="hub-badge" style="background:rgba(212,109,19,0.12);color:#92400e;border-color:#fed7aa;">Atualizado 2026</span>
-                        </div>
                     </div>
                     <h3>Calculadora de Rescisão</h3>
                     <p>7 cenários CLT com aviso proporcional, férias, 13º, INSS e IRRF 2026. Memória de cálculo detalhada e base jurídica por rubrica.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-rescisao.html">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false">
-                            <i class="fi fi-rr-star"></i>
-                        </button>
                     </div>
                 </article>
                 <article class="hub-card" data-kind="calculadora" data-groups="tributos simples nacional" data-search="simples nacional DAS faturamento aliquota efetiva" data-fav-id="calc-simples-nacional">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-receipt"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Tributário</span>
-                            <span class="hub-badge hub-badge--law">Simples</span>
-                        </div>
                     </div>
                     <h3>Simulador Simples Nacional</h3>
                     <p>Estima alíquota efetiva e DAS mensal com base no faturamento de 12 meses.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=simples-nacional">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="tributos inss irrf" data-search="inss irrf estimado pro labore folha desconto" data-fav-id="calc-inss-irrf-estimado">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-chart-histogram"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Tributário</span>
-                            <span class="hub-badge hub-badge--law">INSS + IRRF</span>
-                        </div>
                     </div>
                     <h3>Simulador INSS e IRRF</h3>
                     <p>Apura descontos estimados e líquido mensal para apoiar decisões de folha.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=inss-irrf-estimado">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="tributos mei" data-search="limite mei desenquadramento projecao faturamento" data-fav-id="calc-limite-mei">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-badge-check"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">MEI</span>
-                            <span class="hub-badge hub-badge--law">Limite anual</span>
-                        </div>
                     </div>
                     <h3>Limite MEI e Projeção</h3>
                     <p>Projeta faturamento anual e sinaliza risco de desenquadramento antecipadamente.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=limite-mei">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="tributos mei simples" data-search="comparador mei simples nacional custo tributario" data-fav-id="calc-mei-vs-simples">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-arrows-repeat"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Comparador</span>
-                            <span class="hub-badge hub-badge--law">MEI x Simples</span>
-                        </div>
                     </div>
                     <h3>Comparador MEI x Simples</h3>
                     <p>Compara custo tributário estimado entre regimes para apoiar o enquadramento.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=mei-vs-simples">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="trabalhista folha decimo" data-search="decimo terceiro salario primeira parcela segunda parcela" data-fav-id="calc-decimo-terceiro">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-gift"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Folha</span>
-                            <span class="hub-badge hub-badge--law">13o</span>
-                        </div>
                     </div>
                     <h3>Calculadora de 13o Salário</h3>
                     <p>Simula primeira e segunda parcela com descontos estimados de INSS e IRRF.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=decimo-terceiro">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="trabalhista folha custo" data-search="custo real funcionario encargos beneficios folha" data-fav-id="calc-custo-funcionario">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-users-alt"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Trabalhista</span>
-                            <span class="hub-badge hub-badge--law">Custo de equipe</span>
-                        </div>
                     </div>
                     <h3>Custo Real do Funcionário</h3>
                     <p>Soma salário, encargos e benefícios para mostrar o custo mensal completo.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=custo-funcionario">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
                 <article class="hub-card" data-kind="calculadora" data-groups="financeiro margem" data-search="margem de lucro margem liquida margem bruta" data-fav-id="calc-margem-lucro">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-chart-line-up"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Financeiro</span>
-                            <span class="hub-badge hub-badge--law">Margem</span>
-                        </div>
                     </div>
                     <h3>Calculadora de Margem</h3>
                     <p>Mostra margem bruta e líquida para apoiar precificação e rentabilidade.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=margem-lucro">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="financeiro ponto equilibrio" data-search="ponto de equilibrio break even custo fixo" data-fav-id="calc-ponto-equilibrio">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-target"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Financeiro</span>
-                            <span class="hub-badge hub-badge--law">Break-even</span>
-                        </div>
                     </div>
                     <h3>Ponto de Equilíbrio</h3>
                     <p>Calcula faturamento mínimo para cobrir custos fixos da operação.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=ponto-equilibrio">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="financeiro fluxo caixa" data-search="fluxo de caixa mensal entradas saidas capital giro" data-fav-id="calc-fluxo-caixa">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-money-check"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Financeiro</span>
-                            <span class="hub-badge hub-badge--law">Fluxo de caixa</span>
-                        </div>
                     </div>
                     <h3>Fluxo de Caixa Mensal</h3>
                     <p>Projeta saldo final do mês e sinaliza necessidade de capital de giro.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=fluxo-caixa">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="financeiro diagnostico saude" data-search="diagnostico saude financeira score empresa" data-fav-id="calc-saude-financeira">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-heart-rate"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Financeiro</span>
-                            <span class="hub-badge hub-badge--law">Diagnóstico</span>
-                        </div>
                     </div>
                     <h3>Saúde Financeira Empresarial</h3>
                     <p>Gera score de saúde com indicadores de margem, caixa e risco.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=saude-financeira">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="estrategico imposto" data-search="voce esta pagando imposto a mais comparativo carga tributaria" data-fav-id="calc-imposto-a-mais">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-search-dollar"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Estratégico</span>
-                            <span class="hub-badge hub-badge--law">Imposto a mais</span>
-                        </div>
                     </div>
                     <h3>Você paga imposto a mais?</h3>
                     <p>Compara carga paga com referência simulada para buscar economia anual.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=imposto-a-mais">Abrir</a>
-                        <a class="hub-link hub-link-soft hub-whatsapp-link" href="#" data-wa-text="Olá, acabei de usar a simulação de imposto a mais e quero ajuda para interpretar o resultado.">Interpretar</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
 
                 <article class="hub-card" data-kind="calculadora" data-groups="estrategico organizacao" data-search="diagnostico organizacao financeira empresa interativo" data-fav-id="calc-diagnostico-organizacao">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-check"></i></span>
-                        <div class="hub-badges">
-                            <span class="hub-badge">Estratégico</span>
-                            <span class="hub-badge hub-badge--law">Organização</span>
-                        </div>
                     </div>
                     <h3>Diagnóstico de Organização</h3>
                     <p>Avalia maturidade financeira da empresa com questionário interativo.</p>
                     <div class="hub-card-actions">
                         <a class="hub-link" href="calculadora-suite.html?calc=diagnostico-organizacao">Abrir</a>
-                        <button class="hub-fav-btn" type="button" aria-pressed="false"><i class="fi fi-rr-star"></i></button>
                     </div>
                 </article>
             </div>
@@ -607,7 +440,6 @@
                     data-search="receita federal meu imposto de renda e-cac dctfweb">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-building"></i></span>
-                        <span class="hub-badge">Tributos</span>
                     </div>
                     <h3>Receita Federal</h3>
                     <p>Meu Imposto de Renda, e-CAC e serviços federais para pessoa física e jurídica.</p>
@@ -621,7 +453,6 @@
                     data-search="eSocial folha de pagamento eventos trabalhistas SST">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-users"></i></span>
-                        <span class="hub-badge">Trabalhista</span>
                     </div>
                     <h3>Portal eSocial</h3>
                     <p>Eventos periódicos, SST e manuais para obrigações trabalhistas digitais.</p>
@@ -635,7 +466,6 @@
                     data-search="portal empreendedor mei abertura empresa cnpj">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-briefcase"></i></span>
-                        <span class="hub-badge">Empreendedor</span>
                     </div>
                     <h3>Portal do Empreendedor</h3>
                     <p>Abertura, alteração e regularização de MEI com orientações oficiais.</p>
@@ -658,7 +488,6 @@
                     data-search="checklist imposto de renda documentos declaracao irpf">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-check"></i></span>
-                        <span class="hub-badge">Checklist</span>
                     </div>
                     <h3>Checklist IRPF</h3>
                     <p>Lista imprimível para organizar documentos da declaração de imposto de renda.</p>
@@ -671,7 +500,6 @@
                     data-search="trct termo rescisao contrato trabalho caixa fgts">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-file"></i></span>
-                        <span class="hub-badge">Rescisão</span>
                     </div>
                     <h3>TRCT e guias FGTS</h3>
                     <p>Central de referência para documentos de desligamento e movimentação do FGTS.</p>
@@ -685,7 +513,6 @@
                     data-search="certidao negativa debitos cnd pgfn regularidade fiscal">
                     <div class="hub-card-top">
                         <span class="hub-icon"><i class="fi fi-rr-shield-check"></i></span>
-                        <span class="hub-badge">Fiscal</span>
                     </div>
                     <h3>Certidões e Regularidade</h3>
                     <p>Emissão de certidões e consultas de pendências fiscais nos portais oficiais.</p>
@@ -697,6 +524,23 @@
             </div>
         </section>
 
+        <section class="service-path-grid" aria-label="Caminhos a partir das ferramentas">
+            <article class="service-path-card">
+                <h3>Vai abrir empresa?</h3>
+                <p>Use os comparadores para avaliar cenários e depois fale com a SoulCont para definir o enquadramento mais seguro.</p>
+                <a class="text-link-v2" href="/HTML/abertura-de-empresa.html">Ver abertura de empresa</a>
+            </article>
+            <article class="service-path-card">
+                <h3>Quer revisar a carga tributária?</h3>
+                <p>Combine os simuladores de regime e pró-labore com um diagnóstico tributário da SoulCont.</p>
+                <a class="text-link-v2" href="/HTML/diagnostico-tributario.html">Ver diagnóstico tributário</a>
+            </article>
+            <article class="service-path-card">
+                <h3>Precisa reorganizar a rotina?</h3>
+                <p>Ferramentas de custo, fluxo e folha ajudam a enxergar onde estão os gargalos antes da decisão.</p>
+                <a class="text-link-v2" href="/HTML/contatos.html">Falar com a SoulCont</a>
+            </article>
+        </section>
         <section class="hub-section-cta">
             <h2>Quer interpretar a simulação com segurança?</h2>
             <p>

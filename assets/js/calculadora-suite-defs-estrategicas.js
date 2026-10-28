@@ -4,17 +4,17 @@
     if (!suite.registerDefinition || !H) return;
 
     suite.registerDefinition('imposto-a-mais', {
-        pageTitle: 'Simulador: voce esta pagando imposto a mais?',
-        pageDescription: 'Compare carga tributaria paga com estimativa de referencia para identificar possivel sobrecusto.',
-        badges: ['Estrategico', 'Carga tributaria', 'Oportunidade'],
-        calculateLabel: 'Analisar carga tributaria',
+        pageTitle: 'Simulador: você esta pagando imposto a mais?',
+        pageDescription: 'Compare carga tributária paga com estimativa de referência para identificar possível sobrecusto.',
+        badges: ['Estratégico', 'Carga tributária', 'Oportunidade'],
+        calculateLabel: 'Analisar carga tributária',
         fields: [
-            { id: 'faturamento12m', type: 'number', label: 'Faturamento dos ultimos 12 meses', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'faturamento12m', type: 'number', label: 'Faturamento dos últimos 12 meses', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
             { id: 'impostosPagos12m', type: 'number', label: 'Total de impostos pagos em 12 meses', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
             {
                 id: 'anexoReferencia',
                 type: 'select',
-                label: 'Anexo de referencia para estimativa',
+                label: 'Anexo de referência para estimativa',
                 options: [
                     { value: 'I', label: 'Anexo I' },
                     { value: 'II', label: 'Anexo II' },
@@ -31,7 +31,7 @@
         },
         validate(values) {
             if (values.faturamento12m <= 0) return 'Informe o faturamento de 12 meses.';
-            if (values.impostosPagos12m < 0) return 'Informe um valor valido para impostos pagos.';
+            if (values.impostosPagos12m < 0) return 'Informe um valor válido para impostos pagos.';
             return '';
         },
         compute(values) {
@@ -43,52 +43,52 @@
                 ? values.faturamento12m * (diferencaPontos / 100)
                 : 0;
             const leitura = diferencaPontos > 0
-                ? 'Ha indicio de carga acima da referencia. Vale auditoria tributaria.'
-                : 'Carga em linha com a referencia simulada.';
+                ? 'Há indício de carga acima da referência. Vale auditoria tributária.'
+                : 'Carga em linha com a referência simulada.';
 
             return {
                 highlight: H.metricCurrency('Potencial de economia anual', potencialEconomia),
                 secondaryA: H.metricPercent('Carga paga', cargaPaga),
-                secondaryB: H.metricPercent('Carga de referencia', cargaReferencia),
+                secondaryB: H.metricPercent('Carga de referência', cargaReferencia),
                 notes: [
-                    { label: 'Diferenca em pontos', metric: H.metricPercent('Diferenca', diferencaPontos) },
-                    { label: 'Leitura', metric: H.metricText('Diagnostico', leitura) },
-                    { label: 'Anexo de referencia', metric: H.metricText('Anexo', values.anexoReferencia) }
+                    { label: 'Diferença em pontos', metric: H.metricPercent('Diferenca', diferencaPontos) },
+                    { label: 'Leitura', metric: H.metricText('Diagnóstico', leitura) },
+                    { label: 'Anexo de referência', metric: H.metricText('Anexo', values.anexoReferencia) }
                 ],
                 steps: [
-                    'Calculo da carga efetiva paga sobre faturamento anual.',
-                    'Estimativa de carga de referencia pelo anexo informado.',
-                    'Comparacao para identificar potencial de reducao.'
+                    'Cálculo da carga efetiva paga sobre faturamento anual.',
+                    'Estimativa de carga de referência pelo anexo informado.',
+                    'Comparação para identificar potencial de redução.'
                 ],
                 details: [
                     { label: 'Faturamento 12 meses', value: H.formatCurrency(values.faturamento12m) },
                     { label: 'Impostos pagos 12 meses', value: H.formatCurrency(values.impostosPagos12m) },
-                    { label: 'Faixa de referencia', value: `Ate ${H.formatCurrency(simples.faixa.limite)}` },
-                    { label: 'Aliquota nominal da faixa', value: H.formatPercent(simples.faixa.aliquota * 100) }
+                    { label: 'Faixa de referência', value: `Até ${H.formatCurrency(simples.faixa.limite)}` },
+                    { label: 'Alíquota nominal da faixa', value: H.formatPercent(simples.faixa.aliquota * 100) }
                 ],
                 chart: {
-                    labels: ['Carga paga', 'Carga de referencia'],
+                    labels: ['Carga paga', 'Carga de referência'],
                     values: [H.round2(Math.max(0, cargaPaga)), H.round2(Math.max(0, cargaReferencia))],
-                    colors: ['#d46d13', '#0f766e']
+                    colors: ['#d98c5f', '#4f8f7a']
                 }
             };
         }
     });
 
     suite.registerDefinition('diagnostico-organizacao', {
-        pageTitle: 'Diagnostico: sua empresa esta organizada financeiramente?',
-        pageDescription: 'Questionario interativo para medir nivel de organizacao financeira e orientar proximo passo.',
-        badges: ['Estrategico', 'Diagnostico', 'Maturidade'],
-        calculateLabel: 'Gerar diagnostico de organizacao',
+        pageTitle: 'Diagnóstico: sua empresa esta organizada financeiramente?',
+        pageDescription: 'Questionário interativo para medir nível de organização financeira e orientar próximo passo.',
+        badges: ['Estratégico', 'Diagnóstico', 'Maturidade'],
+        calculateLabel: 'Gerar diagnóstico de organização',
         fields: [
-            { id: 'conciliacao', type: 'select', label: 'Concilia contas bancarias semanalmente?', options: H.diagnosticoOptions() },
+            { id: 'conciliacao', type: 'select', label: 'Concilia contas bancárias semanalmente?', options: H.diagnosticoOptions() },
             { id: 'contas', type: 'select', label: 'Controla contas a pagar e receber em tempo real?', options: H.diagnosticoOptions() },
-            { id: 'separacao', type: 'select', label: 'Separa totalmente financas pessoais e empresariais?', options: H.diagnosticoOptions() },
-            { id: 'orcamento', type: 'select', label: 'Opera com orcamento mensal definido?', options: H.diagnosticoOptions() },
+            { id: 'separacao', type: 'select', label: 'Separa totalmente finanças pessoais e empresariais?', options: H.diagnosticoOptions() },
+            { id: 'orcamento', type: 'select', label: 'Opera com orçamento mensal definido?', options: H.diagnosticoOptions() },
             { id: 'indicadores', type: 'select', label: 'Acompanha margem, custos e caixa em painel?', options: H.diagnosticoOptions() },
-            { id: 'fiscalDia', type: 'select', label: 'Obrigacoes fiscais e trabalhistas estao em dia?', options: H.diagnosticoOptions() },
+            { id: 'fiscalDia', type: 'select', label: 'Obrigações fiscais e trabalhistas estão em dia?', options: H.diagnosticoOptions() },
             { id: 'projecao', type: 'select', label: 'Projeta fluxo de caixa para pelo menos 3 meses?', options: H.diagnosticoOptions() },
-            { id: 'precificacao', type: 'select', label: 'Revisa precificacao periodicamente?', options: H.diagnosticoOptions() }
+            { id: 'precificacao', type: 'select', label: 'Revisa precificação periodicamente?', options: H.diagnosticoOptions() }
         ],
         example: {
             conciliacao: '2',
@@ -120,36 +120,36 @@
             let prioridade = 'Manter rotina e automatizar pontos operacionais.';
             if (score < 55) {
                 nivel = 'Baixo';
-                prioridade = 'Estruturar controles basicos de caixa, fiscal e contas.';
+                prioridade = 'Estruturar controles básicos de caixa, fiscal e contas.';
             } else if (score < 80) {
                 nivel = 'Medio';
-                prioridade = 'Padronizar processos e fortalecer indicadores de decisao.';
+                prioridade = 'Padronizar processos e fortalecer indicadores de decisão.';
             }
 
             return {
-                highlight: H.metricNumber('Score de organizacao', score, ' / 100'),
-                secondaryA: H.metricText('Nivel atual', nivel),
+                highlight: H.metricNumber('Score de organização', score, ' / 100'),
+                secondaryA: H.metricText('Nível atual', nivel),
                 secondaryB: H.metricText('Prioridade', prioridade),
                 notes: [
                     { label: 'Pontuacao total', metric: H.metricNumber('Pontos', total, ' de 16') },
-                    { label: 'Leitura geral', metric: H.metricText('Diagnostico', `${nivel} maturidade financeira`) },
-                    { label: 'Proximo passo', metric: H.metricText('Acao', 'Agendar revisao com especialista para plano de acao.') }
+                    { label: 'Leitura geral', metric: H.metricText('Diagnóstico', `${nivel} maturidade financeira`) },
+                    { label: 'Próximo passo', metric: H.metricText('Ação', 'Agendar revisão com especialista para plano de ação.') }
                 ],
                 steps: [
                     'Coleta de respostas sobre rotina financeira e fiscal.',
-                    'Conversao de respostas em score de maturidade.',
-                    'Definicao de nivel e prioridade de ajuste.'
+                    'Conversão de respostas em score de maturidade.',
+                    'Definição de nível e prioridade de ajuste.'
                 ],
                 details: [
-                    { label: 'Concilia bancario', value: `${values.conciliacao}/2` },
+                    { label: 'Concilia bancário', value: `${values.conciliacao}/2` },
                     { label: 'Controle de contas', value: `${values.contas}/2` },
-                    { label: 'Projecao de caixa', value: `${values.projecao}/2` },
-                    { label: 'Revisao de precificacao', value: `${values.precificacao}/2` }
+                    { label: 'Projeção de caixa', value: `${values.projecao}/2` },
+                    { label: 'Revisão de precificação', value: `${values.precificacao}/2` }
                 ],
                 chart: {
-                    labels: ['Organizacao atual', 'Faixa de evolucao'],
+                    labels: ['Organização atual', 'Faixa de evolução'],
                     values: [score, H.round2(100 - score)],
-                    colors: ['#0a7dd1', '#d46d13']
+                    colors: ['#c8a86b', '#d98c5f']
                 }
             };
         }
@@ -157,12 +157,12 @@
 
     suite.registerDefinition('pj-vs-clt', {
         pageTitle: 'Comparador PJ x CLT',
-        pageDescription: 'Compare o caixa anual estimado como CLT e como PJ para apoiar negociacao de contrato e retirada.',
-        badges: ['Comparativo', 'Contratacao', 'Retirada'],
+        pageDescription: 'Compare o caixa anual estimado como CLT e como PJ para apoiar negociação de contrato e retirada.',
+        badges: ['Comparativo', 'Contratação', 'Retirada'],
         calculateLabel: 'Comparar PJ x CLT',
         fields: [
-            { id: 'salarioCLTBruto', type: 'number', label: 'Salario CLT bruto mensal', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
-            { id: 'beneficiosCLT', type: 'number', label: 'Beneficios CLT mensais', placeholder: 'R$ 0,00', min: 0, step: '0.01', help: 'Use VR, VA, plano de saude, bonus fixos e outros valores recorrentes.' },
+            { id: 'salarioCLTBruto', type: 'number', label: 'Salário CLT bruto mensal', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'beneficiosCLT', type: 'number', label: 'Benefícios CLT mensais', placeholder: 'R$ 0,00', min: 0, step: '0.01', help: 'Use VR, VA, plano de saúde, bônus fixos e outros valores recorrentes.' },
             { id: 'dependentes', type: 'number', label: 'Dependentes para IRRF', min: 0, step: '1' },
             {
                 id: 'regimePJ',
@@ -175,18 +175,18 @@
             },
             { id: 'faturamentoPJMensal', type: 'number', label: 'Receita PJ mensal', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
             { id: 'custosPJMensais', type: 'number', label: 'Custos mensais da PJ', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
-            { id: 'prolaboreMensal', type: 'number', label: 'Pro-labore mensal', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
-            { id: 'rbt12PJ', type: 'number', label: 'Faturamento PJ em 12 meses (para Simples)', placeholder: 'R$ 0,00', min: 0, step: '0.01', help: 'Se nao informar, a calculadora usa 12x a receita mensal.' },
+            { id: 'prolaboreMensal', type: 'number', label: 'Pró-labore mensal', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'rbt12PJ', type: 'number', label: 'Faturamento PJ em 12 meses (para Simples)', placeholder: 'R$ 0,00', min: 0, step: '0.01', help: 'Se não informar, a calculadora usa 12x a receita mensal.' },
             {
                 id: 'anexoPJ',
                 type: 'select',
-                label: 'Anexo do Simples (se aplicavel)',
+                label: 'Anexo do Simples (se aplicável)',
                 options: [
-                    { value: 'I', label: 'Anexo I - Comercio' },
-                    { value: 'II', label: 'Anexo II - Industria' },
-                    { value: 'III', label: 'Anexo III - Servicos' },
-                    { value: 'IV', label: 'Anexo IV - Servicos especificos' },
-                    { value: 'V', label: 'Anexo V - Servicos intelectuais' }
+                    { value: 'I', label: 'Anexo I - Comércio' },
+                    { value: 'II', label: 'Anexo II - Indústria' },
+                    { value: 'III', label: 'Anexo III - Serviços' },
+                    { value: 'IV', label: 'Anexo IV - Serviços específicos' },
+                    { value: 'V', label: 'Anexo V - Serviços intelectuais' }
                 ]
             },
             { id: 'atividadePJ', type: 'select', label: 'Atividade da PJ (para Presumido)', options: H.atividadePresumidoOptions() },
@@ -206,9 +206,9 @@
             aliquotaLocalPJ: 0
         },
         validate(values) {
-            if (values.salarioCLTBruto <= 0) return 'Informe o salario CLT bruto mensal.';
+            if (values.salarioCLTBruto <= 0) return 'Informe o salário CLT bruto mensal.';
             if (values.faturamentoPJMensal <= 0) return 'Informe a receita PJ mensal.';
-            if (values.prolaboreMensal < 0) return 'Informe um pro-labore valido.';
+            if (values.prolaboreMensal < 0) return 'Informe um pró-labore válido.';
             return '';
         },
         compute(values) {
@@ -276,26 +276,26 @@
                 secondaryB: H.metricCurrency('Caixa anual PJ', caixaPJAnual),
                 notes: [
                     { label: 'Pacote CLT com FGTS', metric: H.metricCurrency('CLT + FGTS', pacoteCLTComFGTS) },
-                    { label: 'Diferenca anual considerando FGTS', metric: H.metricCurrency('PJ - CLT + FGTS', diferencaAnualPacote) },
+                    { label: 'Diferença anual considerando FGTS', metric: H.metricCurrency('PJ - CLT + FGTS', diferencaAnualPacote) },
                     { label: 'Leitura do regime PJ', metric: H.metricText('Tributos PJ', `${leituraRegime}: ${detalheTributo}`) }
                 ],
                 steps: [
-                    'Calculo do liquido CLT mensal, 13o e adicional de ferias.',
-                    'Apuracao do caixa PJ apos tributos, custos e pro-labore.',
-                    'Comparacao anual entre os dois formatos de contratacao.'
+                    'Cálculo do líquido CLT mensal, 13º e adicional de férias.',
+                    'Apuração do caixa PJ após tributos, custos e pró-labore.',
+                    'Comparação anual entre os dois formatos de contratação.'
                 ],
                 details: [
-                    { label: 'Liquido CLT mensal', value: H.formatCurrency(cltMensal.liquido) },
-                    { label: 'Beneficios CLT anuais', value: H.formatCurrency(values.beneficiosCLT * 12) },
+                    { label: 'Líquido CLT mensal', value: H.formatCurrency(cltMensal.liquido) },
+                    { label: 'Benefícios CLT anuais', value: H.formatCurrency(values.beneficiosCLT * 12) },
                     { label: 'FGTS anual estimado', value: H.formatCurrency(fgtsAnual) },
-                    { label: 'Caixa anual distribuivel na PJ', value: H.formatCurrency(distribuicaoLucros) },
+                    { label: 'Caixa anual distribuível na PJ', value: H.formatCurrency(distribuicaoLucros) },
                     { label: 'Tributos PJ no ano', value: H.formatCurrency(tributoPJMensal * 12) },
                     { label: 'Custos PJ no ano', value: H.formatCurrency(values.custosPJMensais * 12) }
                 ],
                 chart: {
                     labels: ['Caixa anual CLT', 'Caixa anual PJ', 'FGTS anual'],
                     values: [H.round2(caixaCLTAnual), H.round2(caixaPJAnual), H.round2(fgtsAnual)],
-                    colors: ['#0a7dd1', '#0f766e', '#d46d13']
+                    colors: ['#c8a86b', '#4f8f7a', '#d98c5f']
                 }
             };
         }

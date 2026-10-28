@@ -609,3 +609,105 @@ body.hub-js .hub-card.is-filtered-in {
         animation: none;
     }
 }
+
+/* Dark theme for the tools hub so it matches the rest of the site: dark
+   panels, ivory titles, gold actions. Overrides the light defaults above. */
+body[data-page="tools"] {
+    --hub-surface: rgba(15, 34, 51, 0.84);
+    --hub-border: rgba(200, 168, 107, 0.16);
+    --hub-text: #f4f1ea;
+    --hub-muted: rgba(244, 241, 234, 0.72);
+    --hub-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+}
+
+body[data-page="tools"] .ferramentas-page.hub-page {
+    color: var(--hub-text);
+}
+
+body[data-page="tools"] .hub-section {
+    margin-top: 2.2rem;
+}
+
+body[data-page="tools"] .hub-section-header h2,
+body[data-page="tools"] .hub-card h3,
+body[data-page="tools"] .service-path-card h3 {
+    color: #f4f1ea;
+}
+
+body[data-page="tools"] .hub-section-header h2 {
+    font-family: var(--fonte-destaque);
+    font-size: clamp(1.5rem, 2vw + 0.9rem, 2.1rem);
+}
+
+body[data-page="tools"] .hub-section-header p,
+body[data-page="tools"] .hub-card p,
+body[data-page="tools"] .hub-results-info,
+body[data-page="tools"] .service-path-card p {
+    color: var(--hub-muted);
+}
+
+body[data-page="tools"] .hub-card,
+body[data-page="tools"] .hub-card--featured,
+body[data-page="tools"] .hub-toolbar,
+body[data-page="tools"] .hub-toolbar.is-searching,
+body[data-page="tools"] .service-path-card {
+    background: var(--hub-surface);
+    border: 1px solid var(--hub-border);
+    box-shadow: var(--hub-shadow);
+    color: var(--hub-text);
+}
+
+body[data-page="tools"] .hub-card--featured::before {
+    background: #c8a86b;
+}
+
+body[data-page="tools"] .hub-card:hover {
+    border-color: rgba(200, 168, 107, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.24);
+}
+
+body[data-page="tools"] .hub-icon {
+    background: rgba(200, 168, 107, 0.14);
+    color: #c8a86b;
+}
+
+body[data-page="tools"] .hub-link {
+    color: #0f2233;
+    background: #c8a86b;
+}
+
+body[data-page="tools"] .hub-link:hover {
+    background: #d8bc85;
+    filter: none;
+}
+
+body[data-page="tools"] .hub-search-input {
+    background: rgba(7, 27, 46, 0.7);
+    border-color: rgba(200, 168, 107, 0.24);
+    color: #f4f1ea;
+}
+
+body[data-page="tools"] .hub-search-input::placeholder,
+body[data-page="tools"] .hub-search-wrap i {
+    color: rgba(244, 241, 234, 0.6);
+}
+
+body[data-page="tools"] .hub-filter-btn {
+    background: transparent;
+    border-color: rgba(200, 168, 107, 0.24);
+    color: rgba(244, 241, 234, 0.84);
+}
+
+body[data-page="tools"] .hub-filter-btn.active {
+    background: #c8a86b;
+    color: #0f2233;
+    box-shadow: none;
+}
+
+/* On phones the decorative tax board (aria-hidden) took ~750px before the
+   search; keep the hero short so the tools are reachable right away. */
+@media (max-width: 767px) {
+    body[data-page="tools"] .tax-visual-panel {
+        display: none;
+    }
+}

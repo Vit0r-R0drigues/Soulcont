@@ -4,18 +4,18 @@
     if (!suite.registerDefinition || !H) return;
 
     suite.registerDefinition('decimo-terceiro', {
-        pageTitle: 'Calculadora de 13o Salario',
-        pageDescription: 'Simule 13o salario com meses trabalhados, adiantamento e descontos estimados.',
-        badges: ['Trabalhista', '13o', 'Folha'],
-        calculateLabel: 'Calcular 13o salario',
+        pageTitle: 'Calculadora de 13º Salário',
+        pageDescription: 'Simule 13º salário com meses trabalhados, adiantamento e descontos estimados.',
+        badges: ['Trabalhista', '13º', 'Folha'],
+        calculateLabel: 'Calcular 13º salário',
         fields: [
-            { id: 'salarioBruto', type: 'number', label: 'Salario base mensal', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'salarioBruto', type: 'number', label: 'Salário base mensal', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
             {
                 id: 'mesesTrabalhados',
                 type: 'select',
                 label: 'Meses trabalhados no ano',
                 options: [
-                    { value: '1', label: '1 mes' }, { value: '2', label: '2 meses' }, { value: '3', label: '3 meses' },
+                    { value: '1', label: '1 mês' }, { value: '2', label: '2 meses' }, { value: '3', label: '3 meses' },
                     { value: '4', label: '4 meses' }, { value: '5', label: '5 meses' }, { value: '6', label: '6 meses' },
                     { value: '7', label: '7 meses' }, { value: '8', label: '8 meses' }, { value: '9', label: '9 meses' },
                     { value: '10', label: '10 meses' }, { value: '11', label: '11 meses' }, { value: '12', label: '12 meses' }
@@ -40,7 +40,7 @@
             dependentes: 1
         },
         validate(values) {
-            if (values.salarioBruto <= 0) return 'Informe o salario base para a simulacao do 13o.';
+            if (values.salarioBruto <= 0) return 'Informe o salário base para a simulação do 13º.';
             return '';
         },
         compute(values) {
@@ -52,50 +52,50 @@
             });
 
             return {
-                highlight: H.metricCurrency('2a parcela liquida estimada', decimo.segundaParcelaLiquida),
+                highlight: H.metricCurrency('2a parcela líquida estimada', decimo.segundaParcelaLiquida),
                 secondaryA: H.metricCurrency('1a parcela', decimo.primeiraParcela),
-                secondaryB: H.metricCurrency('13o liquido total', decimo.liquidoTotal),
+                secondaryB: H.metricCurrency('13º líquido total', decimo.liquidoTotal),
                 notes: [
-                    { label: 'INSS no 13o', metric: H.metricCurrency('INSS', decimo.inss) },
-                    { label: 'IRRF no 13o', metric: H.metricCurrency('IRRF', decimo.irrf.impostoFinal) },
-                    { label: 'Valor bruto do 13o', metric: H.metricCurrency('Bruto', decimo.bruto13) }
+                    { label: 'INSS no 13º', metric: H.metricCurrency('INSS', decimo.inss) },
+                    { label: 'IRRF no 13º', metric: H.metricCurrency('IRRF', decimo.irrf.impostoFinal) },
+                    { label: 'Valor bruto do 13º', metric: H.metricCurrency('Bruto', decimo.bruto13) }
                 ],
                 steps: [
-                    'Apuracao do 13o proporcional por avos.',
-                    'Calculo da primeira parcela conforme percentual escolhido.',
-                    'Descontos na segunda parcela e exibicao do liquido.'
+                    'Apuração do 13º proporcional por avos.',
+                    'Cálculo da primeira parcela conforme percentual escolhido.',
+                    'Descontos na segunda parcela e exibição do líquido.'
                 ],
                 details: [
                     { label: 'Avos considerados', value: `${decimo.avos}/12` },
-                    { label: 'Valor bruto do 13o', value: H.formatCurrency(decimo.bruto13) },
+                    { label: 'Valor bruto do 13º', value: H.formatCurrency(decimo.bruto13) },
                     { label: 'Dependentes', value: `${values.dependentes} dependente(s)` },
                     { label: 'Percentual da 1a parcela', value: H.formatPercent(values.percentualAdiantamento) }
                 ],
                 chart: {
-                    labels: ['1a parcela', '2a parcela liquida', 'Descontos'],
+                    labels: ['1a parcela', '2a parcela líquida', 'Descontos'],
                     values: [
                         H.round2(decimo.primeiraParcela),
                         H.round2(decimo.segundaParcelaLiquida),
                         H.round2(decimo.inss + decimo.irrf.impostoFinal)
                     ],
-                    colors: ['#0a7dd1', '#0f766e', '#d46d13']
+                    colors: ['#c8a86b', '#4f8f7a', '#d98c5f']
                 }
             };
         }
     });
 
     suite.registerDefinition('custo-funcionario', {
-        pageTitle: 'Calculadora de Custo Real do Funcionario',
-        pageDescription: 'Calcule custo total mensal de um colaborador com encargos e beneficios.',
-        badges: ['DP', 'Encargos', 'Gestao de equipe'],
+        pageTitle: 'Calculadora de Custo Real do Funcionário',
+        pageDescription: 'Calcule custo total mensal de um colaborador com encargos e benefícios.',
+        badges: ['DP', 'Encargos', 'Gestão de equipe'],
         calculateLabel: 'Calcular custo real',
         fields: [
-            { id: 'salarioBase', type: 'number', label: 'Salario base mensal', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
-            { id: 'beneficios', type: 'number', label: 'Beneficios fixos (VR/VA, auxilios)', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'salarioBase', type: 'number', label: 'Salário base mensal', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'beneficios', type: 'number', label: 'Benefícios fixos (VR/VA, auxílios)', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
             { id: 'valeTransporte', type: 'number', label: 'Custo mensal de vale transporte', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
-            { id: 'planoSaude', type: 'number', label: 'Custo mensal de plano de saude', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
-            { id: 'outrosBeneficios', type: 'number', label: 'Outros custos de beneficios', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
-            { id: 'incluirProvisoes', type: 'checkbox', label: 'Incluir provisoes de 13o + ferias + 1/3', checked: true }
+            { id: 'planoSaude', type: 'number', label: 'Custo mensal de plano de saúde', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'outrosBeneficios', type: 'number', label: 'Outros custos de benefícios', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'incluirProvisoes', type: 'checkbox', label: 'Incluir provisões de 13º + férias + 1/3', checked: true }
         ],
         example: {
             salarioBase: 3800,
@@ -106,7 +106,7 @@
             incluirProvisoes: true
         },
         validate(values) {
-            if (values.salarioBase <= 0) return 'Informe o salario base do funcionario.';
+            if (values.salarioBase <= 0) return 'Informe o salário base do funcionário.';
             return '';
         },
         compute(values) {
@@ -127,30 +127,30 @@
 
             return {
                 highlight: H.metricCurrency('Custo total mensal', custoTotal),
-                secondaryA: H.metricCurrency('Encargos + provisoes', blocoFixosEquipe),
+                secondaryA: H.metricCurrency('Encargos + provisões', blocoFixosEquipe),
                 secondaryB: H.metricCurrency('Custo anual estimado', custoAnual),
                 notes: [
                     { label: 'FGTS estimado', metric: H.metricCurrency('FGTS', fgts) },
-                    { label: 'Beneficios totais', metric: H.metricCurrency('Beneficios', beneficiosTotal) },
-                    { label: 'Provisoes', metric: H.metricCurrency('Provisoes', provisoes) },
-                    { label: 'Indice sobre salario', metric: H.metricPercent('Indice', indiceCusto) }
+                    { label: 'Benefícios totais', metric: H.metricCurrency('Beneficios', beneficiosTotal) },
+                    { label: 'Provisões', metric: H.metricCurrency('Provisoes', provisoes) },
+                    { label: 'Índice sobre salário', metric: H.metricPercent('Indice', indiceCusto) }
                 ],
                 steps: [
-                    'Soma do salario base e encargos patronais.',
-                    'Adicao dos beneficios recorrentes.',
-                    'Inclusao opcional de provisoes anuais mensalizadas.'
+                    'Soma do salário base e encargos patronais.',
+                    'Adição dos benefícios recorrentes.',
+                    'Inclusão opcional de provisões anuais mensalizadas.'
                 ],
                 details: [
                     { label: 'INSS patronal (20%)', value: H.formatCurrency(inssPatronal) },
                     { label: 'RAT + terceiros (6,8%)', value: H.formatCurrency(ratTerceiros) },
-                    { label: 'Salario base', value: H.formatCurrency(values.salarioBase) },
-                    { label: 'Modelo com provisoes', value: values.incluirProvisoes ? 'Sim' : 'Nao' },
-                    { label: 'Custo sobre salario', value: H.formatPercent(indiceCusto) }
+                    { label: 'Salário base', value: H.formatCurrency(values.salarioBase) },
+                    { label: 'Modelo com provisões', value: values.incluirProvisoes ? 'Sim' : 'Nao' },
+                    { label: 'Custo sobre salário', value: H.formatPercent(indiceCusto) }
                 ],
                 chart: {
-                    labels: ['Salario base', 'Encargos', 'Beneficios', 'Provisoes'],
+                    labels: ['Salário base', 'Encargos', 'Beneficios', 'Provisoes'],
                     values: [H.round2(values.salarioBase), H.round2(encargos), H.round2(beneficiosTotal), H.round2(provisoes)],
-                    colors: ['#0a7dd1', '#d46d13', '#0f766e', '#64748b']
+                    colors: ['#c8a86b', '#d98c5f', '#4f8f7a', '#7d93a8']
                 }
             };
         }

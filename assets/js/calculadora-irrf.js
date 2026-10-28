@@ -140,7 +140,7 @@ function atualizarGrafico(rendimentoBruto, inss, irrf, outrasDeducoes) {
             labels: ['Líquido estimado', 'INSS', 'IRRF', 'Outras deduções'],
             datasets: [{
                 data: [liquido, inss, irrf, outrasDeducoes],
-                backgroundColor: ['#0f766e', '#0a7dd1', '#d46d13', '#64748b']
+                backgroundColor: ['#4f8f7a', '#c8a86b', '#d98c5f', '#7d93a8']
             }]
         },
         options: {
@@ -149,7 +149,7 @@ function atualizarGrafico(rendimentoBruto, inss, irrf, outrasDeducoes) {
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { color: '#334155' }
+                    labels: { color: 'rgba(244, 241, 234, 0.82)' }
                 }
             }
         }

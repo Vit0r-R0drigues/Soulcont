@@ -184,7 +184,7 @@ function atualizarGrafico(proventos, descontos, fgtsTotal) {
             labels: ['Proventos', 'Descontos', 'FGTS + multa', 'Líquido'],
             datasets: [{
                 data: [proventos, descontos, fgtsTotal, liquido],
-                backgroundColor: ['#0a7dd1', '#c2410c', '#d46d13', '#0f766e']
+                backgroundColor: ['#c8a86b', '#c2410c', '#d98c5f', '#4f8f7a']
             }]
         },
         options: {
@@ -193,7 +193,7 @@ function atualizarGrafico(proventos, descontos, fgtsTotal) {
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { color: '#334155' }
+                    labels: { color: 'rgba(244, 241, 234, 0.82)' }
                 }
             }
         }
