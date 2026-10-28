@@ -701,4 +701,98 @@
             };
         }
     });
+
+    suite.registerDefinition('imposto-minimo-altas-rendas', {
+        pageTitle: 'Calculadora do Imposto Mínimo para Altas Rendas (IRPFM)',
+        pageDescription: 'Estime se a renda do ano passa de R$ 600 mil e quanto de imposto mínimo pode faltar na declaração, conforme a Lei 15.270/2025.',
+        badges: ['IRPF', 'Altas rendas', 'Dividendos'],
+        calculateLabel: 'Calcular imposto mínimo',
+        fields: [
+            { id: 'rendTributaveis', type: 'number', label: 'Rendimentos tributáveis no ano (salário, pró-labore, aluguéis...)', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'dividendos', type: 'number', label: 'Lucros e dividendos recebidos no ano', placeholder: 'R$ 0,00', min: 0, step: '0.01', help: 'Não inclua lucros até 2025 que seguem a regra de transição.' },
+            { id: 'outrosRendimentos', type: 'number', label: 'Outros rendimentos isentos ou de tributação exclusiva', placeholder: 'R$ 0,00', min: 0, step: '0.01', help: 'Ex.: aplicações financeiras. Não inclua poupança, ganho de capital, herança/doação, LCI, LCA, CRI, CRA e indenizações, que ficam fora da base.' },
+            { id: 'irDevido', type: 'number', label: 'IR devido na declaração pela tabela progressiva', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'irRetidoDividendos', type: 'number', label: 'IR retido de 10% sobre dividendos no ano', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'outroIRPago', type: 'number', label: 'Outro IR já pago sobre os rendimentos da base (fonte ou exclusivo)', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'cargaEmpresa', type: 'number', label: 'Carga efetiva de IRPJ + CSLL da empresa que pagou os dividendos (%) · opcional', min: 0, max: 45, step: '0.1', help: 'IRPJ + CSLL do ano divididos pelo lucro contábil. Usada para o redutor; deixe 0 se não souber.' }
+        ],
+        example: {
+            rendTributaveis: 60000,
+            dividendos: 600000,
+            outrosRendimentos: 140000,
+            irDevido: 6000,
+            irRetidoDividendos: 0,
+            outroIRPago: 0,
+            cargaEmpresa: 0
+        },
+        validate(values) {
+            if ((values.rendTributaveis + values.dividendos + values.outrosRendimentos) <= 0) return 'Informe os rendimentos do ano.';
+            return '';
+        },
+        compute(values) {
+            const limiteInicial = 600000;
+            const limiteTeto = 1200000;
+            const aliquotaPara = (renda) => {
+                if (renda <= limiteInicial) return 0;
+                if (renda >= limiteTeto) return 0.10;
+                return ((renda / 60000) - 10) / 100;
+            };
+
+            const renda = values.rendTributaveis + values.dividendos + values.outrosRendimentos;
+            const aliquota = aliquotaPara(renda);
+            const impostoMinimoBruto = renda * aliquota;
+
+            // Redutor (art. 16-B): quando carga da empresa + alíquota efetiva do mínimo sobre os dividendos passa de 34%.
+            const rendaSemDividendos = renda - values.dividendos;
+            const acrescimoPorDividendos = impostoMinimoBruto - (rendaSemDividendos * aliquotaPara(rendaSemDividendos));
+            const aliquotaEfetivaDividendos = values.dividendos > 0 ? acrescimoPorDividendos / values.dividendos : 0;
+            const cargaEmpresa = H.clamp(values.cargaEmpresa, 0, 45) / 100;
+            const redutor = cargaEmpresa > 0 && values.dividendos > 0
+                ? Math.min(acrescimoPorDividendos, values.dividendos * Math.max(0, (cargaEmpresa + aliquotaEfetivaDividendos) - 0.34))
+                : 0;
+
+            const deducoes = values.irDevido + values.irRetidoDividendos + values.outroIRPago + redutor;
+            const complemento = Math.max(0, impostoMinimoBruto - deducoes);
+            const cargaFinal = renda > 0 ? ((values.irDevido + values.irRetidoDividendos + values.outroIRPago + complemento) / renda) * 100 : 0;
+
+            let leitura;
+            if (aliquota === 0) {
+                leitura = 'A renda do ano não passa de R$ 600 mil: não há imposto mínimo.';
+            } else if (complemento > 0) {
+                leitura = `O IR já pago não alcança o mínimo de ${H.formatPercent(aliquota * 100)} da renda. A diferença entra no saldo da declaração anual.`;
+            } else {
+                leitura = 'O IR já pago e retido cobre o imposto mínimo: não há valor a complementar.';
+            }
+
+            return {
+                highlight: H.metricCurrency('Imposto mínimo a complementar na declaração', complemento),
+                secondaryA: H.metricPercent('Alíquota mínima', aliquota * 100),
+                secondaryB: H.metricCurrency('Renda considerada no ano', renda),
+                notes: [
+                    { label: 'Imposto mínimo antes das deduções', metric: H.metricCurrency('Mínimo', impostoMinimoBruto) },
+                    { label: 'IR já pago e retido', metric: H.metricCurrency('Pago', values.irDevido + values.irRetidoDividendos + values.outroIRPago) },
+                    { label: 'Redutor sobre dividendos', metric: H.metricCurrency('Redutor', redutor) },
+                    { label: 'Carga total de IR sobre a renda', metric: H.metricPercent('Carga', cargaFinal) },
+                    { label: 'Leitura', metric: H.metricText('Leitura', leitura) }
+                ],
+                steps: [
+                    'Soma da renda do ano, incluindo dividendos e rendimentos isentos ou exclusivos que entram na base.',
+                    'Alíquota de 0% em R$ 600 mil subindo até 10% em R$ 1,2 milhão: (renda / 60.000) - 10.',
+                    'Do imposto mínimo saem o IR da tabela, o IR retido sobre dividendos, outros IR já pagos e o redutor.',
+                    'Redutor: dividendos x (carga efetiva da empresa + alíquota efetiva do mínimo sobre os dividendos - 34%).'
+                ],
+                details: [
+                    { label: 'Alíquota efetiva do mínimo sobre os dividendos', value: H.formatPercent(aliquotaEfetivaDividendos * 100) },
+                    { label: 'Carga efetiva informada da empresa', value: H.formatPercent(cargaEmpresa * 100) },
+                    { label: 'Primeira apuração', value: 'Declaração de 2027, sobre a renda de 2026.' },
+                    { label: 'Aviso', value: 'Simulação simplificada. O redutor usa 34% (bancos e seguradoras têm percentuais maiores) e depende das demonstrações da empresa. Confirme com o contador.' }
+                ],
+                chart: {
+                    labels: ['IR da tabela', 'IR retido em dividendos', 'Outro IR pago', 'Complemento'],
+                    values: [H.round2(values.irDevido), H.round2(values.irRetidoDividendos), H.round2(values.outroIRPago), H.round2(complemento)],
+                    colors: ['#7d93a8', '#c8a86b', '#4f8f7a', '#d98c5f']
+                }
+            };
+        }
+    });
 })();

@@ -459,6 +459,54 @@ def calcular_fator_r(rbt12: float, receita_mes: float, folha12: float, prolabore
     }
 
 
+def calcular_custo_funcionario(salario: float, regime: str, rat: float = 2.0, terceiros: float = 5.8,
+                               horas_semana: int = 44, vale_transporte: float = 0.0, beneficios: float = 0.0,
+                               provisoes: bool = True, multa_fgts: bool = False) -> dict:
+    inss = 0.0 if regime == "simples" else 0.20
+    rat_pct = 0.0 if regime == "simples" else rat / 100
+    terceiros_pct = terceiros / 100 if regime == "presumido_real" else 0.0
+    prov = (salario / 12) * 2 + salario / 36 if provisoes else 0.0
+    base = salario + prov
+    fgts = base * 0.08
+    encargos = fgts + base * (inss + rat_pct + terceiros_pct) + (fgts * 0.40 if multa_fgts else 0.0)
+    custo_vt = max(0.0, vale_transporte - min(vale_transporte, salario * 0.06))
+    total = salario + prov + encargos + custo_vt + beneficios
+    encargos_pct = 0.08 + inss + rat_pct + terceiros_pct
+    cobertura = max(0, horas_semana - 40) * 5 * (salario / 200) * 1.5 * (1 + encargos_pct)
+    return {"total": round2(total), "encargos": round2(encargos), "custo_hora": round2(total / (horas_semana * 5)),
+            "cobertura_40h": round2(cobertura)}
+
+
+def calcular_horas_extras(salario: float, jornada: int, horas50: float, horas100: float, horas_noturnas: float,
+                          dias_uteis: int, dias_descanso: int, adicional50: float = 0.5, adicional_noturno: float = 0.2) -> dict:
+    hora = salario / (jornada * 5)
+    he50 = horas50 * hora * (1 + adicional50)
+    he100 = horas100 * hora * 2
+    noturno = horas_noturnas * (60 / 52.5) * hora * adicional_noturno
+    dsr = (he50 + he100 + noturno) / dias_uteis * dias_descanso
+    return {"he50": round2(he50), "he100": round2(he100), "noturno": round2(noturno), "dsr": round2(dsr),
+            "total": round2(he50 + he100 + noturno + dsr)}
+
+
+def aliquota_irpfm(renda: float) -> float:
+    if renda <= 600000:
+        return 0.0
+    if renda >= 1200000:
+        return 0.10
+    return ((renda / 60000) - 10) / 100
+
+
+def calcular_irpfm(tributaveis: float, dividendos: float, outros: float, ir_devido: float,
+                   ir_retido_dividendos: float = 0.0, outro_ir: float = 0.0, carga_empresa: float = 0.0) -> dict:
+    renda = tributaveis + dividendos + outros
+    minimo = renda * aliquota_irpfm(renda)
+    acrescimo = minimo - (renda - dividendos) * aliquota_irpfm(renda - dividendos)
+    efetiva = acrescimo / dividendos if dividendos else 0.0
+    redutor = min(acrescimo, dividendos * max(0.0, carga_empresa / 100 + efetiva - 0.34)) if carga_empresa and dividendos else 0.0
+    complemento = max(0.0, minimo - ir_devido - ir_retido_dividendos - outro_ir - redutor)
+    return {"minimo": round2(minimo), "redutor": round2(redutor), "complemento": round2(complemento)}
+
+
 class CalculadorasFormulaTests(unittest.TestCase):
     def assertMoney(self, actual: float, expected: float, label: str) -> None:
         self.assertAlmostEqual(actual, expected, places=2, msg=label)
@@ -664,6 +712,40 @@ class CalculadorasFormulaTests(unittest.TestCase):
         resultado = calcular_fator_r(rbt12=600000, receita_mes=50000, folha12=200000, prolabore_atual=3000)
         self.assertEqual(resultado["anexo"], "III")
         self.assertMoney(resultado["prolabore_extra"], 0.00, "Sem pro-labore extra")
+
+    def test_custo_funcionario_presumido_6x1(self) -> None:
+        r = calcular_custo_funcionario(3800, "presumido_real", horas_semana=44, vale_transporte=264, beneficios=1120)
+        self.assertMoney(r["encargos"], 1624.92, "Encargos Presumido")
+        self.assertMoney(r["total"], 7319.81, "Custo total mensal")
+        self.assertMoney(r["custo_hora"], 33.27, "Custo por hora 44h")
+        self.assertMoney(r["cobertura_40h"], 774.06, "Horas extras para manter 44h com 40h")
+
+    def test_custo_funcionario_simples_sem_inss_patronal(self) -> None:
+        r = calcular_custo_funcionario(3800, "simples", horas_semana=40, vale_transporte=264, beneficios=1120)
+        self.assertMoney(r["encargos"], 363.11, "Somente FGTS no Simples")
+        self.assertMoney(r["total"], 6058.00, "Custo total Simples")
+        self.assertMoney(r["cobertura_40h"], 0.00, "Sem cobertura em 40h")
+
+    def test_horas_extras_com_noturno_e_dsr(self) -> None:
+        r = calcular_horas_extras(2800, 44, horas50=12, horas100=4, horas_noturnas=20, dias_uteis=25, dias_descanso=5)
+        self.assertMoney(r["he50"], 229.09, "HE 50%")
+        self.assertMoney(r["he100"], 101.82, "HE 100%")
+        self.assertMoney(r["noturno"], 58.18, "Adicional noturno com hora reduzida")
+        self.assertMoney(r["dsr"], 77.82, "Reflexo no DSR")
+        self.assertMoney(r["total"], 466.91, "Total do mes")
+
+    def test_irpfm_aliquota_linear_e_teto(self) -> None:
+        self.assertAlmostEqual(aliquota_irpfm(600000), 0.0)
+        self.assertAlmostEqual(aliquota_irpfm(900000), 0.05)
+        self.assertAlmostEqual(aliquota_irpfm(1500000), 0.10)
+
+    def test_irpfm_complemento_e_redutor(self) -> None:
+        sem = calcular_irpfm(60000, 600000, 140000, ir_devido=6000)
+        self.assertMoney(sem["minimo"], 26666.67, "Imposto minimo bruto")
+        self.assertMoney(sem["complemento"], 20666.67, "Complemento sem redutor")
+        com = calcular_irpfm(60000, 600000, 140000, ir_devido=6000, carga_empresa=32)
+        self.assertMoney(com["redutor"], 14666.67, "Redutor com carga de 32%")
+        self.assertMoney(com["complemento"], 6000.00, "Complemento com redutor")
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
