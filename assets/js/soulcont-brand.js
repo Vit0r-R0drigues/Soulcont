@@ -48,17 +48,6 @@
             </div>`);
     }
 
-    function installSecondWhatsApp() {
-        document.querySelectorAll('.footer-group-v2 .wa-link-inline').forEach((link) => {
-            const list = link.closest('ul');
-            if (!list || list.querySelector('a[href*="5588921791670"]')) return;
-
-            const item = document.createElement('li');
-            item.innerHTML = '<a class="wa-link-inline" href="https://wa.me/5588921791670?text=Ola%2C%20quero%20falar%20com%20a%20SoulCont." target="_blank" rel="noopener noreferrer">WhatsApp Leonardo: (88) 92179-1670</a>';
-            link.closest('li')?.insertAdjacentElement('afterend', item);
-        });
-    }
-
     function initEditorialReveals() {
         const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const candidates = document.querySelectorAll(
@@ -196,7 +185,6 @@
         installWordmark();
         installHomePortraits();
         installLeonardoProfile();
-        installSecondWhatsApp();
         installWhatsAppDock();
         initEditorialReveals();
         initFaqBehavior();

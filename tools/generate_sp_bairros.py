@@ -622,7 +622,7 @@ def render_page(neighborhood: dict[str, Any]) -> str:
     <link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7">
     <link rel="stylesheet" href="/assets/css/site-v2.css?v=1.1">
     <link rel="stylesheet" href="/assets/css/motion.css?v=1.0">
-    <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.4">
+    <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.5">
     <link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
     <style>{PAGE_CSS}</style>
     <script type="application/ld+json">
@@ -701,16 +701,39 @@ def render_page(neighborhood: dict[str, Any]) -> str:
             <div class="cta-actions-v2"><a href="{whatsapp_href}" class="btn-v2 btn-v2-primary" target="_blank" rel="noopener noreferrer" data-direct-whatsapp="true" data-track-position="final_cta">Falar no WhatsApp</a><a href="tel:{PHONE_E164}" class="btn-v2 btn-v2-secondary" data-track-position="final_cta">Ligar para {PHONE_DISPLAY}</a></div>
         </div></div></section>
     </main>
-    <footer class="site-footer-v2"><div class="footer-panel-v2"><div class="footer-grid-v2">
-        <div class="footer-brand-v2"><strong>SoulCont</strong><p>Contabilidade consultiva com atendimento on-line em São Paulo e encontros externos mediante agendamento.</p></div>
-        <div class="footer-group-v2"><h2>Navegação</h2><ul><li><a href="/cidades/sao-paulo/">São Paulo</a></li><li><a href="/HTML/servicos.html">Serviços</a></li><li><a href="/BLOG/">Conteúdos</a></li></ul></div>
-        <div class="footer-group-v2"><h2>Contato</h2><ul><li><a href="tel:{PHONE_E164}">{PHONE_DISPLAY}</a></li><li><a href="mailto:{SITE['email']}">{SITE['email']}</a></li></ul></div>
-    </div><div class="footer-meta-v2"><p>&copy; <span id="current-year">2026</span> SoulCont.</p><p>{esc(professional['name'])} · {esc(professional['registration'])}</p></div></div></footer>
+    <footer class="site-footer-v2 footer-lean">
+        <div class="footer-panel-v2">
+            <div class="footer-lean__top">
+                <div class="footer-lean__brand">
+                    <a href="/" class="soulcont-wordmark" aria-label="SoulCont - página inicial"><span>SOUL</span><strong>CONT</strong></a>
+                    <p>Contabilidade consultiva para empresas e profissionais.</p>
+                </div>
+                <div class="footer-lean__contact">
+                    <a class="footer-lean__wa" href="https://wa.me/5588921791670?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20SoulCont%20e%20quero%20conversar%20sobre%20minha%20empresa." target="_blank" rel="noopener noreferrer" data-direct-whatsapp="true" data-track-position="footer">WhatsApp Ceará · (88) 92179-1670</a>
+                    <a class="footer-lean__wa" href="https://wa.me/5511916539680?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20SoulCont%20e%20quero%20conversar%20sobre%20minha%20empresa." target="_blank" rel="noopener noreferrer" data-direct-whatsapp="true" data-track-position="footer">WhatsApp São Paulo · (11) 91653-9680</a>
+                    <a class="footer-lean__mail" href="mailto:contato@soulcont.com">contato@soulcont.com</a>
+                </div>
+            </div>
+            <nav class="footer-lean__links" aria-label="Links do rodapé">
+                <a href="/HTML/servicos.html">Serviços</a>
+                <a href="/HTML/abertura-de-empresa.html">Abrir empresa</a>
+                <a href="/HTML/troca-de-contador.html">Trocar de contador</a>
+                <a href="/HTML/ferramentas.html">Ferramentas</a>
+                <a href="/BLOG/index.html">Blog</a>
+                <a href="/cidades/">Cidades atendidas</a>
+                <a href="/HTML/sobre.html">Sobre</a>
+            </nav>
+            <div class="footer-meta-v2 footer-lean__legal">
+                <p>Vitor Rodrigues de Lima · CRC SP353836 · Leonardo Silva de Sousa · CRCCE 024206/O5</p>
+                <p>&copy; <span id="current-year">2026</span> SoulCont · CNPJ 63.937.299/0001-25 · <a href="/HTML/politica-de-privacidade.html">Privacidade</a></p>
+            </div>
+        </div>
+    </footer>
     <script src="/assets/js/menu.js?v=4.1" defer></script>
     <script src="/assets/js/footer.js?v=3.7" defer></script>
     <script src="/assets/js/motion.js?v=1.0" defer></script>
     <script src="/assets/js/main.js?v=1.0" defer></script>
-    <script src="/assets/js/soulcont-brand.js?v=1.2" defer></script>
+    <script src="/assets/js/soulcont-brand.js?v=1.3" defer></script>
     <script src="/assets/js/cookies.js?v=4.1" defer></script>
 </body>
 </html>

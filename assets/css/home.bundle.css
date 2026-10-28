@@ -3038,12 +3038,7 @@ body.internal-page::before {
     padding: 30px;
 }
 
-.footer-grid-v2 {
-    display: grid;
-    grid-template-columns: minmax(0, 1.18fr) minmax(180px, 0.74fr) minmax(240px, 0.92fr);
-    gap: 24px;
-    align-items: start;
-}
+
 
 .footer-brand-v2::before {
     content: none;
@@ -3079,21 +3074,11 @@ body.internal-page::before {
     word-break: break-word;
 }
 
-.footer-group-v2 ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: 10px;
-}
 
-.footer-group-v2 a {
-    text-decoration: none;
-}
 
-.footer-group-v2 a:hover {
-    color: var(--cor-texto-1);
-}
+
+
+
 
 .footer-meta-v2 {
     margin-top: 22px;
@@ -3110,45 +3095,6 @@ body.internal-page::before {
     margin: 0;
 }
 
-.wa-link-inline {
-    color: #8bf0b5;
-}
-
-.footer-contact-options {
-    display: grid;
-    gap: 8px;
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(200, 168, 107, 0.18);
-}
-
-.footer-contact-options p {
-    margin: 0 0 2px;
-    color: var(--color-gold-soft);
-    font-size: 0.84rem;
-    font-weight: 700;
-}
-
-.footer-contact-options a {
-    display: flex;
-    align-items: center;
-    min-height: 44px;
-    padding: 8px 12px;
-    border: 1px solid rgba(200, 168, 107, 0.26);
-    border-radius: 12px;
-    background: rgba(244, 241, 234, 0.06);
-    color: var(--color-gold-soft);
-    font-size: 0.9rem;
-    font-weight: 700;
-    line-height: 1.35;
-}
-
-.footer-contact-options a:hover,
-.footer-contact-options a:focus-visible {
-    border-color: var(--color-gold);
-    background: rgba(200, 168, 107, 0.14);
-    color: var(--color-cream);
-}
 
 
 
@@ -3170,10 +3116,16 @@ body.internal-page::before {
 
 
 
-.body-copy-emphasis {
-    color: var(--cor-texto-1);
-    font-weight: 700;
-}
+
+
+
+
+
+
+
+
+
+
 
 .reviews-panel {
     overflow: hidden;
@@ -6551,6 +6503,8 @@ body.has-cookie-banner .wa-dock {
 @media print {
     .wa-dock {
         display: none;
+    }
+}
 
 /* Home hierarchy and portrait harmony — 2026-10-28 */
 body.home-page .hero-main {
@@ -6747,5 +6701,97 @@ body.home-page .process-card {
         width: auto;
         min-width: 0;
         scroll-snap-align: none;
+    }
+}
+
+/* Lean footer: one contact block, one row of links and a short legal line. */
+.footer-lean .footer-panel-v2 {
+    padding: 28px;
+}
+
+.footer-lean__top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px 32px;
+}
+
+.footer-lean__brand .soulcont-wordmark {
+    display: inline-flex;
+    margin-bottom: 8px;
+    text-decoration: none;
+}
+
+.footer-lean__brand p {
+    margin: 0;
+    color: var(--soul-ui-text-soft, rgba(244, 241, 234, 0.78));
+}
+
+.footer-lean__contact {
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+}
+
+.footer-lean__wa {
+    color: #8bf0b5;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.footer-lean__mail {
+    color: var(--soul-ui-text-soft, rgba(244, 241, 234, 0.78));
+    text-decoration: none;
+}
+
+.footer-lean__wa:hover,
+.footer-lean__mail:hover,
+.footer-lean__links a:hover,
+.footer-lean__legal a:hover {
+    color: var(--soul-ivory);
+}
+
+.footer-lean__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--soul-ui-line, rgba(244, 241, 234, 0.12));
+}
+
+.footer-lean__links a {
+    color: var(--soul-ui-text-soft, rgba(244, 241, 234, 0.78));
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.footer-lean__legal {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.85rem;
+}
+
+.footer-lean__legal a {
+    color: inherit;
+}
+
+@media (max-width: 640px) {
+    .footer-lean .footer-panel-v2 {
+        padding: 22px 18px;
+    }
+
+    .footer-lean__links {
+        gap: 10px 16px;
+    }
+
+    .footer-lean__links a {
+        font-size: 0.9rem;
+    }
+
+    /* Room for the fixed WhatsApp dock so it never covers the legal line. */
+    .site-footer-v2.footer-lean {
+        padding-bottom: 88px;
     }
 }
