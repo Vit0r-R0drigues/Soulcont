@@ -10,7 +10,7 @@ SITE = {
     "email": "contato@soulcont.com",
     "tax_id": "63.937.299/0001-25",
     "logo": "https://soulcontt.com.br/assets/img/soulcont/favicon-512.png",
-    "og_image": "https://soulcontt.com.br/assets/img/soulcont/og-equipe.jpg",
+    "og_image": "https://soulcontt.com.br/assets/img/soulcont/og-soulcont.jpg",
     "same_as": [
         "https://www.instagram.com/soulcontt/",
         "https://www.youtube.com/@contabilidadeempresarial",

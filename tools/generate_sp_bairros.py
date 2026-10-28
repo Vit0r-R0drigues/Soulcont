@@ -772,9 +772,9 @@ def main() -> None:
     hub = DEFAULT_OUTPUT / "index.html"
     if hub.exists():
         content = hub.read_text(encoding="utf-8")
-        content = content.replace("/assets/img/soulcont/og.png", "/assets/img/soulcont/og-equipe.jpg")
+        content = content.replace("/assets/img/soulcont/og.png", "/assets/img/soulcont/og-soulcont.jpg")
         content = content.replace(
-            '"logo":"https://soulcontt.com.br/assets/img/soulcont/og-equipe.jpg"',
+            '"logo":"https://soulcontt.com.br/assets/img/soulcont/og-soulcont.jpg"',
             '"logo":"https://soulcontt.com.br/assets/img/soulcont/favicon-512.png"',
         )
         hub.write_text(content, encoding="utf-8", newline="\n")
