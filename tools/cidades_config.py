@@ -9,7 +9,8 @@ SITE = {
     "base_url": "https://soulcontt.com.br",
     "email": "contato@soulcont.com",
     "tax_id": "63.937.299/0001-25",
-    "logo": "https://soulcontt.com.br/assets/img/soulcont/og.png",
+    "logo": "https://soulcontt.com.br/assets/img/soulcont/favicon-512.png",
+    "og_image": "https://soulcontt.com.br/assets/img/soulcont/og-equipe.jpg",
     "same_as": [
         "https://www.instagram.com/soulcontt/",
         "https://www.youtube.com/@contabilidadeempresarial",
@@ -28,7 +29,7 @@ PROFESSIONALS = {
         "name": "Leonardo Silva de Sousa",
         "job_title": "Contador responsável",
         "registration": "CRCCE 024206/O5",
-        "image": "/assets/img/soulcont/leonardo-silva-retrato-3x4.webp",
+        "image": "/assets/img/soulcont/leonardo-silva-retrato-real-640w.webp",
     },
 }
 

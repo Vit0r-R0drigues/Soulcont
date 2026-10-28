@@ -6920,3 +6920,4 @@ details[open] > summary {
         grid-auto-columns: minmax(258px, 90%);
     }
 }
+.soulcont-real-team__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:center}.soulcont-real-team__grid>img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:24px}.soulcont-real-team__names{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px}.soulcont-real-team__names li{display:flex;flex-wrap:wrap;gap:8px 16px;padding:12px 0;border-bottom:1px solid rgba(15,34,51,.12)}.soulcont-real-team__names span{color:#66737d}@media(max-width:768px){.soulcont-real-team__grid{grid-template-columns:1fr}}

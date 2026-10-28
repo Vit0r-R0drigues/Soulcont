@@ -493,7 +493,7 @@ def page_schema(neighborhood: dict[str, Any]) -> dict[str, Any]:
         "email": SITE["email"],
         "taxID": SITE["tax_id"],
         "logo": SITE["logo"],
-        "image": SITE["logo"],
+        "image": SITE["og_image"],
         "areaServed": place,
         "provider": {
             "@type": "Organization",
@@ -602,7 +602,7 @@ def render_page(neighborhood: dict[str, Any]) -> str:
     <meta property="og:site_name" content="SoulCont">
     <meta property="og:title" content="{title}">
     <meta property="og:description" content="{description}">
-    <meta property="og:image" content="{SITE['logo']}">
+    <meta property="og:image" content="{SITE['og_image']}">
     <meta property="og:url" content="{url}">
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -769,6 +769,15 @@ def generate_pages(output_root: Path = DEFAULT_OUTPUT) -> list[Path]:
 
 def main() -> None:
     generated = generate_pages()
+    hub = DEFAULT_OUTPUT / "index.html"
+    if hub.exists():
+        content = hub.read_text(encoding="utf-8")
+        content = content.replace("/assets/img/soulcont/og.png", "/assets/img/soulcont/og-equipe.jpg")
+        content = content.replace(
+            '"logo":"https://soulcontt.com.br/assets/img/soulcont/og-equipe.jpg"',
+            '"logo":"https://soulcontt.com.br/assets/img/soulcont/favicon-512.png"',
+        )
+        hub.write_text(content, encoding="utf-8", newline="\n")
     print(f"Generated {len(generated)} São Paulo neighborhood pages")
 
 

@@ -906,7 +906,7 @@ def page_schema(city: dict) -> dict:
         "name": SITE["name"],
         "url": url,
         "logo": SITE["logo"],
-        "image": SITE["logo"],
+        "image": SITE["og_image"],
         "description": page_description(city),
         "telephone": city["phone_e164"],
         "email": SITE["email"],
@@ -988,12 +988,20 @@ PAGE_CSS = """
 """.strip()
 
 
+def professional_image_variant(image: str, width: int) -> str:
+    stem = image.removesuffix("-640w.webp").removesuffix(".webp")
+    return f"{stem}-{width}w.webp"
+
+
 def render_professionals(city: dict) -> str:
     return "\n".join(
         (
-            f'                <article class="city-person"><img src="{esc(professional["image"])}" '
+            f'                <article class="city-person"><img src="{esc(professional_image_variant(professional["image"], 320))}" '
+            f'srcset="{esc(professional_image_variant(professional["image"], 320))} 320w, '
+            f'{esc(professional_image_variant(professional["image"], 640))} 640w" '
+            'sizes="(max-width: 390px) 92px, (max-width: 640px) 78px, 100px" '
             f'alt="{esc(professional["name"])}, {esc(professional["job_title"])} da SoulCont" '
-            'width="1200" height="1600" loading="lazy"><div>'
+            'width="320" height="427" loading="lazy" decoding="async"><div>'
             f'<strong>{esc(professional["name"])}</strong>'
             f'<span>{esc(professional["job_title"])}<br>{esc(professional["registration"])}</span>'
             "</div></article>"
@@ -1075,7 +1083,7 @@ def render_city(city: dict) -> str:
     <meta property="og:locale" content="pt_BR">
     <meta property="og:title" content="{og_title}">
     <meta property="og:description" content="{description}">
-    <meta property="og:image" content="{SITE['logo']}">
+    <meta property="og:image" content="{SITE['og_image']}">
     <meta property="og:url" content="{city_url(city)}">
     <meta name="twitter:card" content="summary_large_image">
     <title>{title}</title>
@@ -1234,7 +1242,7 @@ def render_hub() -> str:
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0F2233">
     <meta name="description" content="Conheça as cidades atendidas pela SoulCont. Contabilidade consultiva com atendimento presencial, externo ou on-line conforme a região.">
     <meta name="robots" content="index, follow"><meta name="author" content="SoulCont"><link rel="canonical" href="https://soulcontt.com.br/cidades/">
-    <meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Cidades atendidas | SoulCont"><meta property="og:description" content="Contabilidade consultiva com formas de atendimento transparentes para cada região."><meta property="og:image" content="https://soulcontt.com.br/assets/img/soulcont/og.png"><meta property="og:url" content="https://soulcontt.com.br/cidades/">
+    <meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Cidades atendidas | SoulCont"><meta property="og:description" content="Contabilidade consultiva com formas de atendimento transparentes para cada região."><meta property="og:image" content="https://soulcontt.com.br/assets/img/soulcont/og-equipe.jpg"><meta property="og:url" content="https://soulcontt.com.br/cidades/">
     <title>Cidades atendidas | Contabilidade consultiva | SoulCont</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link rel="icon" href="/assets/img/soulcont/favicon.svg?v=2" type="image/svg+xml"><link rel="stylesheet" href="/assets/css/main.css?v=3.7"><link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7"><link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0"><link rel="stylesheet" href="/assets/css/motion.css?v=1.0"><link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.3"><link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
@@ -1262,11 +1270,15 @@ def render_hub() -> str:
 def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     for city in CITIES:
+        if city["slug"] == "sao-paulo":
+            # The São Paulo hub is a bespoke page with neighborhood links and schema.
+            # It is maintained alongside the neighborhood generator.
+            continue
         target = OUTPUT / city["slug"] / "index.html"
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(render_city(city), encoding="utf-8", newline="\n")
     (OUTPUT / "index.html").write_text(render_hub(), encoding="utf-8", newline="\n")
-    print(f"Generated hub and {len(CITIES)} city pages in {OUTPUT}")
+    print(f"Generated hub and {len(CITIES) - 1} city pages in {OUTPUT}; preserved the São Paulo hub")
 
 
 if __name__ == "__main__":

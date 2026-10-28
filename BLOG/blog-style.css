@@ -67,7 +67,7 @@ body {
 
 /* --- Página Principal do Blog (index.html) --- */
 .blog-hero {
-    background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url(../IMAGENS/FT-HOME.png) no-repeat center center/cover;
+    background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url(../assets/img/FT-HOME.png) no-repeat center center/cover;
     color: white;
     text-align: center;
     padding: 4rem 2rem;
