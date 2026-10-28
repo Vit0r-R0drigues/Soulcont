@@ -23,7 +23,7 @@ PROFESSIONALS = {
         "name": "Vitor Rodrigues de Lima",
         "job_title": "Contador responsável",
         "registration": "CRC SP353836",
-        "image": "/assets/img/soulcont/vitor-rodrigues-retrato-3x4.webp",
+        "image": "/assets/img/soulcont/vitor-rodrigues-retrato-3x4.webp?v=2",
     },
     "leonardo": {
         "name": "Leonardo Silva de Sousa",

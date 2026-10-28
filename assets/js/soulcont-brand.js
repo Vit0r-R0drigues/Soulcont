@@ -19,7 +19,7 @@
                 <span class="soulcont-team-hero__label">Pessoas por trás dos números</span>
                 <div class="soulcont-team-hero__photos">
                     <figure class="soulcont-team-hero__person">
-                        <img src="/assets/img/soulcont/vitor-rodrigues-perfil-3x4.webp" alt="Vitor Rodrigues de Lima, contador responsável da SoulCont" width="720" height="960">
+                        <img src="/assets/img/soulcont/vitor-rodrigues-perfil-3x4.webp?v=2" alt="Vitor Rodrigues de Lima, contador responsável da SoulCont" width="720" height="960">
                         <figcaption class="soulcont-team-hero__caption">Vitor Rodrigues de Lima<span>Contador responsável · CRC SP353836</span></figcaption>
                     </figure>
                     <figure class="soulcont-team-hero__person">
