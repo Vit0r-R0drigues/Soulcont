@@ -2,6 +2,16 @@
 
 Este é o repositório oficial do website da SoulCont, um escritório de contabilidade digital especializado em soluções empresariais completas.
 
+## Adicionar uma foto ao site
+
+Guarde a foto original fora do repositório. Instale as dependências com `npm ci` e rode, por exemplo:
+
+```powershell
+node tools/optimize-images.mjs "C:\caminho\para\foto.JPG" equipe-atendimento 3:2
+```
+
+O comando corrige a orientação da câmera, gera WebP em `assets/img/soulcont/` nas larguras úteis de 320, 640, 960 e 1600 px, imprime o HTML responsivo e avisa se algum arquivo superar a meta inicial de 45 KB para retratos ou 90 KB para paisagens. Revise o recorte e substitua `DESCREVA A FOTO` por uma descrição factual. Imagens da primeira tela não devem ter `loading="lazy"`; use `fetchpriority="high"` somente para a imagem principal após medir seu carregamento. Não copie os originais para `assets/`.
+
 ## 📚 Estrutura do Projeto
 
 ```

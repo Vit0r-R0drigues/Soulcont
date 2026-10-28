@@ -20,6 +20,7 @@ const publicRoots = [
   "BLOG",
   "cidades",
   "HTML",
+  "INSTAGRAM",
   "landingpages",
   "servicos",
 ];
@@ -105,11 +106,10 @@ for (const file of assetFiles) {
   const rel = relative(file);
   const basename = path.basename(file);
   const encodedBasename = encodeURIComponent(basename);
-  const isSoulcontAsset = rel.startsWith("assets/img/soulcont/");
   const isReferenced =
     searchableText.includes(basename) || searchableText.includes(encodedBasename);
 
-  if (isSoulcontAsset || isReferenced) selected.add(rel);
+  if (isReferenced) selected.add(rel);
 }
 
 for (const file of [...selected].sort()) copy(file);
