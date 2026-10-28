@@ -990,8 +990,10 @@ PAGE_CSS = """
 
 
 def professional_image_variant(image: str, width: int) -> str:
-    stem = image.removesuffix("-640w.webp").removesuffix(".webp")
-    return f"{stem}-{width}w.webp"
+    # Keep a cache-busting query (e.g. "?v=2") after the variant suffix.
+    path, separator, query = image.partition("?")
+    stem = path.removesuffix("-640w.webp").removesuffix(".webp")
+    return f"{stem}-{width}w.webp{separator}{query}"
 
 
 def render_professionals(city: dict) -> str:
