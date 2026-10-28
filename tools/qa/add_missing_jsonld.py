@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE_URL = "https://soulcontt.com.br"
-LOGO = f"{BASE_URL}/assets/img/soulcont/og.png"
+LOGO = f"{BASE_URL}/assets/img/soulcont/favicon-512.png"
 ORG_ID = f"{BASE_URL}/#organization"
 
 SITEMAP = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
