@@ -4,7 +4,7 @@
     if (!suite.registerDefinition || !H) return;
 
     suite.registerDefinition('imposto-a-mais', {
-        pageTitle: 'Simulador: você esta pagando imposto a mais?',
+        pageTitle: 'Simulador: você está pagando imposto a mais?',
         pageDescription: 'Compare carga tributária paga com estimativa de referência para identificar possível sobrecusto.',
         badges: ['Estratégico', 'Carga tributária', 'Oportunidade'],
         calculateLabel: 'Analisar carga tributária',
@@ -76,7 +76,7 @@
     });
 
     suite.registerDefinition('diagnostico-organizacao', {
-        pageTitle: 'Diagnóstico: sua empresa esta organizada financeiramente?',
+        pageTitle: 'Diagnóstico: sua empresa está organizada financeiramente?',
         pageDescription: 'Questionário interativo para medir nível de organização financeira e orientar próximo passo.',
         badges: ['Estratégico', 'Diagnóstico', 'Maturidade'],
         calculateLabel: 'Gerar diagnóstico de organização',
