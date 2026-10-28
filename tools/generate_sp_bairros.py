@@ -620,7 +620,7 @@ def render_page(neighborhood: dict[str, Any]) -> str:
     <link rel="apple-touch-icon" href="/assets/img/soulcont/apple-touch-icon.png" sizes="180x180">
     <link rel="stylesheet" href="/assets/css/main.css?v=3.7">
     <link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7">
-    <link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0">
+    <link rel="stylesheet" href="/assets/css/site-v2.css?v=1.1">
     <link rel="stylesheet" href="/assets/css/motion.css?v=1.0">
     <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.4">
     <link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
