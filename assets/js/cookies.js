@@ -282,9 +282,10 @@ function initializeContactTracking() {
             whatsapp: 'whatsapp_click'
         }[contactMethod];
 
+        // Um clique abre o canal de contato, mas ainda nao e um lead: o
+        // generate_lead fica reservado ao envio do formulario.
         trackAnalyticsEvent('contact_click', eventParameters);
         if (methodEventName) trackAnalyticsEvent(methodEventName, eventParameters);
-        trackAnalyticsEvent('generate_lead', eventParameters);
     }, true);
 
     document.addEventListener('submit', (event) => {

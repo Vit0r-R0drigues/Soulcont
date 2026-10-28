@@ -106,6 +106,83 @@
         });
     }
 
+    const WHATSAPP_CONTACTS = {
+        ce: { number: '5588921791670', label: 'Ceará', phone: '(88) 92179-1670' },
+        sp: { number: '5511916539680', label: 'São Paulo', phone: '(11) 91653-9680' }
+    };
+
+    const WHATSAPP_ICON = '<svg class="wa-dock__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.8-1.3A9.5 9.5 0 1 0 12 2.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8.6 7.6c.3-.6.6-.6.9-.6h.6c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .6l-.6.8c-.1.2-.1.4 0 .6.7 1.2 1.6 2.1 2.8 2.7.2.1.4.1.6-.1l.8-.9c.2-.2.4-.2.6-.1l1.9.9c.3.1.4.3.4.5 0 .5-.2 1.3-.8 1.7-.6.4-1.4.6-2.4.3a10.6 10.6 0 0 1-6.1-5.4c-.5-1-.4-2.3.2-2.9Z" fill="currentColor"/></svg>';
+
+    function buildWhatsAppUrl(contact) {
+        const text = `Olá! Vim pelo site da SoulCont e quero conversar sobre minha empresa.\n\nPágina: ${document.title}`;
+        return `https://wa.me/${contact.number}?text=${encodeURIComponent(text)}`;
+    }
+
+    function buildWhatsAppLink(contact, label) {
+        const link = document.createElement('a');
+        link.href = buildWhatsAppUrl(contact);
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.dataset.directWhatsapp = 'true';
+        link.dataset.trackPosition = 'whatsapp_dock';
+        link.innerHTML = label;
+        return link;
+    }
+
+    // Fixed WhatsApp access on every page: direct to the regional number when the
+    // page declares one (data-whatsapp-region), otherwise an inline choice between
+    // Ceará and São Paulo instead of sending the visitor to the contact page.
+    function installWhatsAppDock() {
+        if (document.querySelector('.wa-dock')) return;
+        document.querySelectorAll('.whatsapp-float').forEach((legacy) => legacy.remove());
+
+        const region = WHATSAPP_CONTACTS[document.body.dataset.whatsappRegion];
+        const dock = document.createElement('div');
+        dock.className = 'wa-dock';
+
+        if (region) {
+            const direct = buildWhatsAppLink(region, `${WHATSAPP_ICON}<span>Falar no WhatsApp</span>`);
+            direct.className = 'wa-dock__button';
+            dock.appendChild(direct);
+            document.body.appendChild(dock);
+            return;
+        }
+
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'wa-dock__button';
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-controls', 'wa-dock-panel');
+        toggle.innerHTML = `${WHATSAPP_ICON}<span>Falar no WhatsApp</span>`;
+
+        const panel = document.createElement('div');
+        panel.className = 'wa-dock__panel';
+        panel.id = 'wa-dock-panel';
+        panel.hidden = true;
+        panel.innerHTML = '<p class="wa-dock__title">Escolha o atendimento</p>';
+        Object.values(WHATSAPP_CONTACTS).forEach((contact) => {
+            const option = buildWhatsAppLink(contact, `<strong>${contact.label}</strong><span>${contact.phone}</span>`);
+            option.className = 'wa-dock__option';
+            panel.appendChild(option);
+        });
+
+        const setOpen = (open) => {
+            panel.hidden = !open;
+            toggle.setAttribute('aria-expanded', String(open));
+        };
+
+        toggle.addEventListener('click', () => setOpen(panel.hidden));
+        document.addEventListener('click', (event) => {
+            if (!dock.contains(event.target)) setOpen(false);
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') setOpen(false);
+        });
+
+        dock.append(panel, toggle);
+        document.body.appendChild(dock);
+    }
+
     function initHeaderState() {
         const header = document.querySelector('header');
         if (!header) return;
@@ -120,6 +197,7 @@
         installHomePortraits();
         installLeonardoProfile();
         installSecondWhatsApp();
+        installWhatsAppDock();
         initEditorialReveals();
         initFaqBehavior();
         initHeaderState();

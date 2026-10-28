@@ -8,7 +8,7 @@
 <h1>Harness de mensuracao GA4 (assets/js/cookies.js)</h1>
 <p>Abra este arquivo direto no navegador (file:// ou via preview local). Ele carrega o
 <code>cookies.js</code> real, simula interacoes e verifica se cada acao real gera no maximo
-um <code>generate_lead</code>, sem depender de rede nem do GA4 de producao.</p>
+um evento de contato, que cliques nao geram <code>generate_lead</code> (reservado ao formulario), sem depender de rede nem do GA4 de producao.</p>
 <div id="log"></div>
 
 <a id="tel-link" href="tel:+5511999999999" data-track-position="hero">Ligar agora</a>
@@ -62,7 +62,7 @@ um <code>generate_lead</code>, sem depender de rede nem do GA4 de producao.</p>
             tel.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true })); // duplo clique real
 
             setTimeout(function () {
-                check('generate_lead dispara 1x apos duplo clique no telefone (obtido: ' + countEvents('generate_lead') + ')', countEvents('generate_lead') === 1);
+                check('clique no telefone nao gera generate_lead (obtido: ' + countEvents('generate_lead') + ')', countEvents('generate_lead') === 0);
                 check('contact_click dispara 1x apos duplo clique (obtido: ' + countEvents('contact_click') + ')', countEvents('contact_click') === 1);
                 check('phone_click dispara 1x apos duplo clique (obtido: ' + countEvents('phone_click') + ')', countEvents('phone_click') === 1);
 
@@ -74,14 +74,14 @@ um <code>generate_lead</code>, sem depender de rede nem do GA4 de producao.</p>
                 window.__gtagCalls = [];
                 var wa = document.getElementById('wa-link');
                 wa.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-                check('um clique em elemento diferente (whatsapp) ainda gera generate_lead (obtido: ' + countEvents('generate_lead') + ')', countEvents('generate_lead') === 1);
+                check('clique no whatsapp gera 1 contact_click e nenhum generate_lead (obtido: ' + countEvents('contact_click') + '/' + countEvents('generate_lead') + ')', countEvents('contact_click') === 1 && countEvents('generate_lead') === 0);
                 check('whatsapp_click dispara para o metodo correto (obtido: ' + countEvents('whatsapp_click') + ')', countEvents('whatsapp_click') === 1);
 
                 setTimeout(function () {
                     window.__gtagCalls = [];
                     var telAgain = document.getElementById('tel-link');
                     telAgain.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-                    check('apos a janela de dedup (1200ms), um novo clique real volta a contar (obtido: ' + countEvents('generate_lead') + ')', countEvents('generate_lead') === 1);
+                    check('apos a janela de dedup (1200ms), um novo clique real volta a contar (obtido: ' + countEvents('contact_click') + ')', countEvents('contact_click') === 1);
                     finish();
                 }, 1300);
             }, 50);

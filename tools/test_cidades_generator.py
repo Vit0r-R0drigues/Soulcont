@@ -86,7 +86,7 @@ class CityRendererTests(unittest.TestCase):
         source = render_city(sample_city())
 
         self.assertIn("/assets/css/cookies.css?v=4.0", source)
-        self.assertIn("/assets/js/cookies.js?v=4.0", source)
+        self.assertIn("/assets/js/cookies.js?v=4.1", source)
 
     def test_schema_has_page_specific_id_and_omits_hidden_address(self) -> None:
         city = sample_city()

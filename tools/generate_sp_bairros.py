@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+from urllib.parse import quote
 import json
 from pathlib import Path
 from typing import Any
@@ -13,6 +14,11 @@ DEFAULT_OUTPUT = ROOT / "cidades" / "sao-paulo"
 SP_REGION = REGIONS["sao-paulo"]
 PHONE_E164 = SP_REGION["phone_e164"]
 PHONE_DISPLAY = SP_REGION["phone_display"]
+
+
+def whatsapp_url(place: str) -> str:
+    text = f"Olá! Vim pela página de {place} no site da SoulCont e quero conversar sobre minha empresa."
+    return f"https://wa.me/{PHONE_E164.lstrip('+')}?text={quote(text)}"
 
 
 NEIGHBORHOODS: list[dict[str, Any]] = [
@@ -579,6 +585,7 @@ def related_links(slug: str) -> str:
 def render_page(neighborhood: dict[str, Any]) -> str:
     name = esc(neighborhood["name"])
     place = esc(place_phrase(neighborhood))
+    whatsapp_href = esc(whatsapp_url(f'{neighborhood["name"]} (São Paulo)'))
     possessive = esc(possessive_phrase(neighborhood))
     url = canonical_url(neighborhood)
     description = esc(neighborhood["page_description"])
@@ -615,7 +622,7 @@ def render_page(neighborhood: dict[str, Any]) -> str:
     <link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7">
     <link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0">
     <link rel="stylesheet" href="/assets/css/motion.css?v=1.0">
-    <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.3">
+    <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.4">
     <link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
     <style>{PAGE_CSS}</style>
     <script type="application/ld+json">
@@ -625,7 +632,7 @@ def render_page(neighborhood: dict[str, Any]) -> str:
 {faq_json}
     </script>
 </head>
-<body>
+<body data-whatsapp-region="sp">
     <header>
         <div class="logo"><a href="/"><img src="/assets/img/soulcont/wordmark.svg?v=2" alt="Logo SoulCont"></a></div>
         <nav role="navigation" aria-label="Menu principal"><ul class="menu">
@@ -643,7 +650,7 @@ def render_page(neighborhood: dict[str, Any]) -> str:
                 <span class="eyebrow-label"><i class="fi fi-rr-marker"></i> Área de atendimento em São Paulo</span>
                 <h1>Contador para empresas {place}, em São Paulo</h1>
                 <p>A SoulCont atende empresas {possessive} on-line, com contato direto com o contador e análise do momento real do negócio.</p>
-                <div class="cta-actions-v2"><a href="tel:{PHONE_E164}" class="btn-v2 btn-v2-primary">Ligar para a SoulCont</a><a href="#como-ajudamos" class="btn-v2 btn-v2-secondary">Ver como podemos ajudar</a></div>
+                <div class="cta-actions-v2"><a href="{whatsapp_href}" class="btn-v2 btn-v2-primary" target="_blank" rel="noopener noreferrer" data-direct-whatsapp="true" data-track-position="hero">Falar no WhatsApp</a><a href="tel:{PHONE_E164}" class="btn-v2 btn-v2-secondary" data-track-position="hero">Ligar para {PHONE_DISPLAY}</a></div>
                 <p class="hero-responsible-line">Atendimento conduzido por {esc(professional['name'])} · {esc(professional['registration'])}</p>
             </div>
         </section>
@@ -691,7 +698,7 @@ def render_page(neighborhood: dict[str, Any]) -> str:
             <span class="eyebrow-label"><i class="fi fi-rr-headset"></i> Próximo passo</span>
             <h2>Quer organizar a contabilidade da sua empresa {place}?</h2>
             <p>Converse com a SoulCont e explique o momento do negócio. A análise começa pelo contexto da empresa.</p>
-            <div class="cta-actions-v2"><a href="tel:{PHONE_E164}" class="btn-v2 btn-v2-primary">Ligar para {PHONE_DISPLAY}</a><a href="/HTML/contatos.html" class="btn-v2 btn-v2-secondary">Outras formas de contato</a></div>
+            <div class="cta-actions-v2"><a href="{whatsapp_href}" class="btn-v2 btn-v2-primary" target="_blank" rel="noopener noreferrer" data-direct-whatsapp="true" data-track-position="final_cta">Falar no WhatsApp</a><a href="tel:{PHONE_E164}" class="btn-v2 btn-v2-secondary" data-track-position="final_cta">Ligar para {PHONE_DISPLAY}</a></div>
         </div></div></section>
     </main>
     <footer class="site-footer-v2"><div class="footer-panel-v2"><div class="footer-grid-v2">
@@ -703,8 +710,8 @@ def render_page(neighborhood: dict[str, Any]) -> str:
     <script src="/assets/js/footer.js?v=3.7" defer></script>
     <script src="/assets/js/motion.js?v=1.0" defer></script>
     <script src="/assets/js/main.js?v=1.0" defer></script>
-    <script src="/assets/js/soulcont-brand.js?v=1.0" defer></script>
-    <script src="/assets/js/cookies.js?v=4.0" defer></script>
+    <script src="/assets/js/soulcont-brand.js?v=1.2" defer></script>
+    <script src="/assets/js/cookies.js?v=4.1" defer></script>
 </body>
 </html>
 """

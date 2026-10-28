@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+from urllib.parse import quote
 import json
 from pathlib import Path
 
@@ -1045,6 +1046,14 @@ def related_links_section(city: dict) -> str:
     )
 
 
+WHATSAPP_REGION_CODES = {"ceara": "ce", "sao-paulo": "sp"}
+
+
+def whatsapp_url(phone_e164: str, place: str) -> str:
+    text = f"Olá! Vim pela página de {place} no site da SoulCont e quero conversar sobre minha empresa."
+    return f"https://wa.me/{phone_e164.lstrip('+')}?text={quote(text)}"
+
+
 def render_city(city: dict) -> str:
     name = esc(city["name"])
     slug = city["slug"]
@@ -1057,6 +1066,8 @@ def render_city(city: dict) -> str:
     description = esc(page_description(city))
     phone_e164 = esc(city["phone_e164"])
     phone_display = esc(city["phone_display"])
+    whatsapp_href = esc(whatsapp_url(city["phone_e164"], city["name"]))
+    whatsapp_region = WHATSAPP_REGION_CODES.get(city["region"], "")
     state_name = esc(city["state_name"])
     professional_summary = " · ".join(
         f"{professional['name']} · {professional['registration']}"
@@ -1097,7 +1108,7 @@ def render_city(city: dict) -> str:
     <link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7">
     <link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0">
     <link rel="stylesheet" href="/assets/css/motion.css?v=1.0">
-    <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.3">
+    <link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.4">
     <link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
     <style>{PAGE_CSS}</style>
     <script type="application/ld+json">
@@ -1107,7 +1118,7 @@ def render_city(city: dict) -> str:
 {json_script(faq_schema(city))}
     </script>
 </head>
-<body>
+<body data-whatsapp-region="{whatsapp_region}">
     <header>
         <div class="logo"><a href="/"><img src="/assets/img/soulcont/wordmark.svg?v=2" alt="Logo SoulCont"></a></div>
         <nav role="navigation" aria-label="Menu principal"><ul class="menu">
@@ -1125,7 +1136,7 @@ def render_city(city: dict) -> str:
                 <span class="eyebrow-label"><i class="fi fi-rr-marker"></i> Contabilidade em {name}, {state_name}</span>
                 <h1>Contador em {name} para decisões empresariais mais claras e seguras</h1>
                 <p>{hero_text}</p>
-                <div class="cta-actions-v2"><a href="tel:{phone_e164}" class="btn-v2 btn-v2-primary">Ligar para a SoulCont</a><a href="#servicos" class="btn-v2 btn-v2-secondary">Ver como podemos ajudar</a></div>
+                <div class="cta-actions-v2"><a href="{whatsapp_href}" class="btn-v2 btn-v2-primary" target="_blank" rel="noopener noreferrer" data-direct-whatsapp="true" data-track-position="hero">Falar no WhatsApp</a><a href="tel:{phone_e164}" class="btn-v2 btn-v2-secondary" data-track-position="hero">Ligar para {phone_display}</a></div>
                 <p class="hero-responsible-line">Atendimento conduzido por {esc(professional_summary)}</p>
             </div>
         </section>
@@ -1179,7 +1190,7 @@ def render_city(city: dict) -> str:
         </div></div></section>
         <section class="section-block"><div class="section-shell"><div class="final-cta-panel">
             <span class="eyebrow-label"><i class="fi fi-rr-headset"></i> Próximo passo</span><h2>Precisa de um contador para sua empresa em {name}?</h2><p>Converse com a SoulCont e explique o momento atual do negócio. A primeira orientação começa pelo seu contexto.</p>
-            <div class="cta-actions-v2"><a href="tel:{phone_e164}" class="btn-v2 btn-v2-primary">Ligar para {phone_display}</a><a href="/HTML/contatos.html" class="btn-v2 btn-v2-secondary">Outras formas de contato</a></div>
+            <div class="cta-actions-v2"><a href="{whatsapp_href}" class="btn-v2 btn-v2-primary" target="_blank" rel="noopener noreferrer" data-direct-whatsapp="true" data-track-position="final_cta">Falar no WhatsApp</a><a href="tel:{phone_e164}" class="btn-v2 btn-v2-secondary" data-track-position="final_cta">Ligar para {phone_display}</a></div>
         </div></div></section>
     </main>
     <footer class="site-footer-v2"><div class="footer-panel-v2"><div class="footer-grid-v2">
@@ -1187,8 +1198,8 @@ def render_city(city: dict) -> str:
         <div class="footer-group-v2"><h3>Navegação</h3><ul><li><a href="/cidades/">Cidades atendidas</a></li><li><a href="/HTML/servicos.html">Serviços</a></li><li><a href="/HTML/ferramentas.html">Ferramentas</a></li><li><a href="/BLOG/">Conteúdos</a></li></ul></div>
         <div class="footer-group-v2"><h3>Contato</h3><ul><li><a href="tel:{phone_e164}">{phone_display}</a></li><li><a href="mailto:{SITE['email']}">{SITE['email']}</a></li><li><a href="/HTML/contatos.html">Página de contato</a></li></ul></div>
     </div><div class="footer-meta-v2"><p>&copy; <span id="current-year">2026</span> SoulCont.</p><p>{esc(professional_summary)}</p></div></div></footer>
-    <script src="/assets/js/menu.js?v=4.1" defer></script><script src="/assets/js/footer.js?v=3.7" defer></script><script src="/assets/js/motion.js?v=1.0" defer></script><script src="/assets/js/main.js?v=1.0" defer></script><script src="/assets/js/soulcont-brand.js?v=1.0" defer></script>
-    <script src="/assets/js/cookies.js?v=4.0" defer></script>
+    <script src="/assets/js/menu.js?v=4.1" defer></script><script src="/assets/js/footer.js?v=3.7" defer></script><script src="/assets/js/motion.js?v=1.0" defer></script><script src="/assets/js/main.js?v=1.0" defer></script><script src="/assets/js/soulcont-brand.js?v=1.2" defer></script>
+    <script src="/assets/js/cookies.js?v=4.1" defer></script>
 </body>
 </html>
 '''
@@ -1245,7 +1256,7 @@ def render_hub() -> str:
     <meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Cidades atendidas | SoulCont"><meta property="og:description" content="Contabilidade consultiva com formas de atendimento transparentes para cada região."><meta property="og:image" content="https://soulcontt.com.br/assets/img/soulcont/og-equipe.jpg"><meta property="og:url" content="https://soulcontt.com.br/cidades/">
     <title>Cidades atendidas | Contabilidade consultiva | SoulCont</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
-    <link rel="icon" href="/assets/img/soulcont/favicon.svg?v=2" type="image/svg+xml"><link rel="stylesheet" href="/assets/css/main.css?v=3.7"><link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7"><link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0"><link rel="stylesheet" href="/assets/css/motion.css?v=1.0"><link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.3"><link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
+    <link rel="icon" href="/assets/img/soulcont/favicon.svg?v=2" type="image/svg+xml"><link rel="stylesheet" href="/assets/css/main.css?v=3.7"><link rel="stylesheet" href="/assets/css/mediaquery.css?v=3.7"><link rel="stylesheet" href="/assets/css/site-v2.css?v=1.0"><link rel="stylesheet" href="/assets/css/motion.css?v=1.0"><link rel="stylesheet" href="/assets/css/soulcont-brand.css?v=1.4"><link rel="stylesheet" href="/assets/css/cookies.css?v=4.0">
     <style>html,body{{max-width:100%;overflow-x:hidden}}.city-region+.city-region{{margin-top:36px}}.city-region>h3{{margin:0 0 16px;color:#0f2233;font-family:Syne,sans-serif}}.cities-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px}}.cities-grid .detail-card{{height:100%;display:flex;flex-direction:column}}.cities-grid .text-link-v2{{margin-top:auto;padding-top:18px}}.hub-note{{margin-top:24px;padding:20px;border-left:4px solid #2c6b57;background:rgba(44,107,87,.07);border-radius:0 14px 14px 0}}.hub-note p{{margin:0}}@media(max-width:640px){{.cta-actions-v2>*{{width:100%;justify-content:center;text-align:center}}}}</style>
     <script type="application/ld+json">
 {json_script(item_list)}
@@ -1261,7 +1272,7 @@ def render_hub() -> str:
         <section class="section-block"><div class="section-shell"><div class="final-cta-panel"><span class="eyebrow-label"><i class="fi fi-rr-headset"></i> Atendimento consultivo</span><h2>Sua cidade não está na lista?</h2><p>A SoulCont pode avaliar atendimento on-line para empresas de outras localidades. O primeiro passo é entender a atividade e a necessidade do negócio.</p><div class="cta-actions-v2"><a href="/HTML/contatos.html" class="btn-v2 btn-v2-primary">Consultar atendimento</a></div></div></div></section>
     </main>
     <footer class="site-footer-v2"><div class="footer-panel-v2"><div class="footer-grid-v2"><div class="footer-brand-v2"><strong>SoulCont</strong><p>Contabilidade consultiva com atendimento humano e processos digitais.</p></div><div class="footer-group-v2"><h3>Navegação</h3><ul><li><a href="/HTML/servicos.html">Serviços</a></li><li><a href="/HTML/ferramentas.html">Ferramentas</a></li><li><a href="/BLOG/">Conteúdos</a></li></ul></div><div class="footer-group-v2"><h3>Contato</h3><ul>{regional_contacts}<li><a href="mailto:{SITE['email']}">{SITE['email']}</a></li><li><a href="/HTML/contatos.html">Página de contato</a></li></ul></div></div><div class="footer-meta-v2"><p>&copy; <span id="current-year">2026</span> SoulCont.</p><p>Vitor Rodrigues de Lima · CRC SP353836<br>Leonardo Silva de Sousa · CRCCE 024206/O5</p></div></div></footer>
-    <script src="/assets/js/menu.js?v=4.1" defer></script><script src="/assets/js/footer.js?v=3.7" defer></script><script src="/assets/js/motion.js?v=1.0" defer></script><script src="/assets/js/main.js?v=1.0" defer></script><script src="/assets/js/soulcont-brand.js?v=1.0" defer></script><script src="/assets/js/cookies.js?v=4.0" defer></script>
+    <script src="/assets/js/menu.js?v=4.1" defer></script><script src="/assets/js/footer.js?v=3.7" defer></script><script src="/assets/js/motion.js?v=1.0" defer></script><script src="/assets/js/main.js?v=1.0" defer></script><script src="/assets/js/soulcont-brand.js?v=1.2" defer></script><script src="/assets/js/cookies.js?v=4.1" defer></script>
 </body>
 </html>
 '''
