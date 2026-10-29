@@ -795,4 +795,113 @@
             };
         }
     });
+
+    suite.registerDefinition('simples-ibs-cbs', {
+        pageTitle: 'Simples Nacional 2027: IBS/CBS por dentro ou por fora do DAS',
+        pageDescription: 'Compare o imposto da empresa e o crédito que seus clientes aproveitam ao recolher IBS e CBS dentro do DAS ou pelo regime regular, a partir de 2027.',
+        badges: ['Reforma tributária', 'Simples Nacional', 'CBS 2027'],
+        calculateLabel: 'Comparar opções',
+        fields: [
+            { id: 'receitaMes', type: 'number', label: 'Faturamento do mês', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            { id: 'rbt12', type: 'number', label: 'Faturamento dos últimos 12 meses (RBT12)', placeholder: 'R$ 0,00', min: 0, step: '0.01' },
+            {
+                id: 'anexo',
+                type: 'select',
+                label: 'Anexo do Simples',
+                options: [
+                    { value: 'III', label: 'Anexo III - Serviços' },
+                    { value: 'V', label: 'Anexo V - Serviços intelectuais' },
+                    { value: 'IV', label: 'Anexo IV - Serviços específicos' },
+                    { value: 'I', label: 'Anexo I - Comércio' },
+                    { value: 'II', label: 'Anexo II - Indústria' }
+                ]
+            },
+            { id: 'parteCBSnoDAS', type: 'number', label: 'Parte do DAS que hoje é PIS + Cofins (%)', min: 0, max: 40, step: '0.01', value: 15.6, help: 'Veja a tabela de repartição do seu anexo e faixa. Em 2027 essa parte vira CBS dentro do DAS.' },
+            { id: 'vendasEmpresas', type: 'range', label: 'Vendas para empresas que aproveitam crédito', min: 0, max: 100, step: 5, value: 70, outputSuffix: '%' },
+            { id: 'comprasComCredito', type: 'number', label: 'Compras e despesas do mês com IBS/CBS a creditar', placeholder: 'R$ 0,00', min: 0, step: '0.01', help: 'Só conta no regime regular (por fora).' },
+            { id: 'aliquotaCBS', type: 'number', label: 'Alíquota da CBS (%)', min: 0, max: 20, step: '0.01', value: 11.3, help: 'Referência calculada pelo TCU para 2027. O Senado pode alterar até 15/12/2026.' },
+            { id: 'aliquotaIBS', type: 'number', label: 'Alíquota do IBS (%)', min: 0, max: 20, step: '0.01', value: 0.1, help: 'Em 2027 o IBS ainda está na fase de teste (0,1%).' }
+        ],
+        example: {
+            receitaMes: 60000,
+            rbt12: 600000,
+            anexo: 'III',
+            parteCBSnoDAS: 15.6,
+            vendasEmpresas: 70,
+            comprasComCredito: 8000,
+            aliquotaCBS: 11.3,
+            aliquotaIBS: 0.1
+        },
+        validate(values) {
+            if (values.receitaMes <= 0) return 'Informe o faturamento do mês.';
+            if (values.rbt12 <= 0) return 'Informe o faturamento dos últimos 12 meses.';
+            return '';
+        },
+        compute(values) {
+            const aliquotaSimples = H.calcularAliquotaEfetivaSimples(values.anexo, values.rbt12).aliquotaEfetiva;
+            const das = values.receitaMes * aliquotaSimples;
+            const parteCBS = H.clamp(values.parteCBSnoDAS, 0, 40) / 100;
+            const cbsDentroDAS = das * parteCBS;
+            const partB2B = H.clamp(values.vendasEmpresas, 0, 100) / 100;
+            const aliquotaIVA = (H.clamp(values.aliquotaCBS, 0, 20) + H.clamp(values.aliquotaIBS, 0, 20)) / 100;
+
+            // Por dentro: tudo no DAS; o cliente só credita a parcela de CBS/IBS embutida no DAS.
+            const impostoDentro = das;
+            const creditoClienteDentro = cbsDentroDAS * partB2B;
+
+            // Por fora (regime regular): DAS sem a parcela de CBS/IBS, mais débito sobre as vendas menos crédito nas compras.
+            const dasSemCBS = das - cbsDentroDAS;
+            const debito = values.receitaMes * aliquotaIVA;
+            const credito = values.comprasComCredito * aliquotaIVA;
+            const saldoIVA = Math.max(0, debito - credito);
+            const saldoCredor = Math.max(0, credito - debito);
+            const impostoFora = dasSemCBS + saldoIVA;
+            const creditoClienteFora = debito * partB2B;
+
+            const impostoAMais = impostoFora - impostoDentro;
+            const creditoAMais = creditoClienteFora - creditoClienteDentro;
+            const balanco = creditoAMais - impostoAMais;
+
+            let leitura;
+            if (partB2B === 0) {
+                leitura = 'Sem vendas para empresas, o crédito não tem valor para os clientes: recolher por dentro do DAS tende a ser melhor.';
+            } else if (balanco > 0) {
+                leitura = `Por fora, seus clientes empresas aproveitam ${H.formatCurrency(creditoAMais)} a mais de crédito por mês, mais do que o imposto extra da empresa (${H.formatCurrency(Math.max(0, impostoAMais))}). Isso pode tornar seu preço mais competitivo para empresas.`;
+            } else {
+                leitura = `Por fora, o imposto extra (${H.formatCurrency(impostoAMais)}) supera o crédito a mais dos clientes (${H.formatCurrency(creditoAMais)}). Recolher por dentro do DAS tende a ser melhor.`;
+            }
+
+            return {
+                highlight: H.metricCurrency(impostoAMais >= 0 ? 'Imposto a mais por mês ao recolher por fora' : 'Imposto a menos por mês ao recolher por fora', Math.abs(impostoAMais)),
+                secondaryA: H.metricCurrency('Crédito a mais para clientes empresas', creditoAMais),
+                secondaryB: H.metricCurrency('Saldo para a cadeia (crédito - imposto extra)', balanco),
+                notes: [
+                    { label: 'Por dentro: DAS do mês', metric: H.metricCurrency('DAS', impostoDentro) },
+                    { label: 'Por fora: DAS sem CBS/IBS + IBS/CBS a pagar', metric: H.metricCurrency('Total', impostoFora) },
+                    { label: 'Crédito do cliente por dentro / por fora', metric: H.metricText('Crédito', `${H.formatCurrency(creditoClienteDentro)} / ${H.formatCurrency(creditoClienteFora)}`) },
+                    { label: 'Leitura', metric: H.metricText('Leitura', leitura) }
+                ],
+                steps: [
+                    'DAS pelo anexo e faixa; a parte de PIS/Cofins vira CBS dentro do DAS em 2027.',
+                    'Por dentro: o cliente credita só a CBS/IBS embutida no DAS.',
+                    'Por fora: DAS sem essa parte, mais CBS/IBS sobre as vendas, menos crédito nas compras.',
+                    'Por fora: o cliente credita toda a CBS/IBS destacada na nota.'
+                ],
+                details: [
+                    { label: 'Alíquota efetiva do Simples', value: H.formatPercent(aliquotaSimples * 100) },
+                    { label: 'CBS/IBS dentro do DAS', value: H.formatCurrency(cbsDentroDAS) },
+                    { label: 'Débito de CBS/IBS por fora', value: H.formatCurrency(debito) },
+                    { label: 'Crédito nas compras', value: H.formatCurrency(credito) },
+                    { label: 'Saldo credor a levar para o mês seguinte', value: H.formatCurrency(saldoCredor) },
+                    { label: 'Prazos', value: 'A opção é semestral (setembro e março). A primeira janela para 2027 terminou em 30/10/2026; a próxima, em março de 2027, vale para o 2º semestre.' },
+                    { label: 'Aviso', value: 'Simulação gerencial com preço de venda igual nos dois cenários. Não inclui split payment, regimes diferenciados nem alíquotas reduzidas.' }
+                ],
+                chart: {
+                    labels: ['Imposto por dentro', 'Imposto por fora', 'Crédito do cliente por dentro', 'Crédito do cliente por fora'],
+                    values: [H.round2(impostoDentro), H.round2(impostoFora), H.round2(creditoClienteDentro), H.round2(creditoClienteFora)],
+                    colors: ['#7d93a8', '#d98c5f', '#4f8f7a', '#c8a86b']
+                }
+            };
+        }
+    });
 })();

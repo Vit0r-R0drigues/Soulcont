@@ -507,6 +507,18 @@ def calcular_irpfm(tributaveis: float, dividendos: float, outros: float, ir_devi
     return {"minimo": round2(minimo), "redutor": round2(redutor), "complemento": round2(complemento)}
 
 
+def calcular_simples_ibs_cbs(receita: float, rbt12: float, anexo: str, parte_cbs: float, b2b: float,
+                             compras: float, cbs: float = 11.3, ibs: float = 0.1) -> dict:
+    das = receita * calcular_aliquota_efetiva_simples(anexo, rbt12)["aliquota_efetiva"]
+    cbs_dentro = das * parte_cbs / 100
+    iva = (cbs + ibs) / 100
+    fora = (das - cbs_dentro) + max(0.0, receita * iva - compras * iva)
+    credito_dentro = cbs_dentro * b2b / 100
+    credito_fora = receita * iva * b2b / 100
+    return {"das": round2(das), "imposto_fora": round2(fora), "imposto_a_mais": round2(fora - das),
+            "credito_a_mais": round2(credito_fora - credito_dentro)}
+
+
 class CalculadorasFormulaTests(unittest.TestCase):
     def assertMoney(self, actual: float, expected: float, label: str) -> None:
         self.assertAlmostEqual(actual, expected, places=2, msg=label)
@@ -746,6 +758,13 @@ class CalculadorasFormulaTests(unittest.TestCase):
         com = calcular_irpfm(60000, 600000, 140000, ir_devido=6000, carga_empresa=32)
         self.assertMoney(com["redutor"], 14666.67, "Redutor com carga de 32%")
         self.assertMoney(com["complemento"], 6000.00, "Complemento com redutor")
+
+    def test_simples_ibs_cbs_por_dentro_e_por_fora(self) -> None:
+        r = calcular_simples_ibs_cbs(60000, 600000, "III", parte_cbs=15.6, b2b=70, compras=8000)
+        self.assertMoney(r["das"], 6336.00, "DAS por dentro")
+        self.assertMoney(r["imposto_fora"], 11275.58, "Imposto por fora")
+        self.assertMoney(r["imposto_a_mais"], 4939.58, "Imposto a mais por fora")
+        self.assertMoney(r["credito_a_mais"], 4096.11, "Credito a mais para clientes")
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
