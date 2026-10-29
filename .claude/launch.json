@@ -8,6 +8,12 @@
       "port": 8931
     },
     {
+      "name": "conversao-preview",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8941", "--directory", "C:\\Users\\vitor\\OneDrive\\Documentos\\GitHub\\Soulcont\\.claude\\worktrees\\conversao"],
+      "port": 8941
+    },
+    {
       "name": "content-preview",
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8935", "--directory", "C:\\Users\\vitor\\AppData\\Local\\Temp\\claude\\C--Users-vitor-Documents-GitHub-Soulcont\\f239b800-cbab-4e17-a394-0b602a9a440f\\scratchpad"],

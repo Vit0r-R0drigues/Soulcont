@@ -5,3 +5,7 @@ __pycache__/
 .wrangler/
 dist/
 .cursor/plans/análise_design_e_ux_site_vl_bed5a0ad.plan.md
+artifacts/site-analysis-2026-08-20/06-home-mobile-first-screen.png
+*.png
+artifacts/site-analysis-2026-08-20/REPORT.md
+prompt-codex-analise-imagens.md
